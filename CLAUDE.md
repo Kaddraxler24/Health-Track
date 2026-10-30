@@ -21,7 +21,7 @@ Deux versions vivent en parallèle et doivent **toujours** être livrées ensemb
 
 1. Modifier la source (`sante_tracker_desktop.html`, jointe par l'utilisateur).
 2. Générer l'appli : `python3 tools/build_app.py <source.html> <tmp>/perso_html.json`
-   (icônes inchangées sauf nouveau logo : `node tools/build_icons.js`).
+   (icônes : `node tools/build_icons.js` si le logo `tools/logo.js` change).
 3. Tester (Playwright) **les deux** versions : la source en `file://`, et l'appli servie en local
    (`python3 -m http.server`) — appli vierge sans données perso, import de `mes_donnees.json`, mobile 390 px.
 4. Committer/pousser `index.html` + `sw.js` (et fichiers modifiés) sur `main` → l'appli installée se met à jour seule.
