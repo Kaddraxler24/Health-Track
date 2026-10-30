@@ -1,7 +1,7 @@
-// Suivi Santé — service worker (version 95dbbbdc2c)
+// Health K' — service worker (version 10445b5c44)
 // Réseau d'abord : chaque ouverture en ligne charge la dernière version publiée ;
 // hors connexion, la dernière version téléchargée est utilisée.
-const CACHE = 'suivi-sante-95dbbbdc2c';
+const CACHE = 'suivi-sante-10445b5c44';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png', './favicon-32.png', './favicon.svg'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));

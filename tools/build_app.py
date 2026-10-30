@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Construit la version publique (sans données personnelles) de Suivi Santé.
+"""Construit la version publique (sans données personnelles) de Health K'.
 
 Usage : python3 tools/build_app.py <source.html> <perso_html.json>
   source.html     : la version perso (sante_tracker_desktop.html, AVEC données)
@@ -88,7 +88,7 @@ OUT.mkdir(parents=True, exist_ok=True)
 (OUT / 'index.html').write_text(s, encoding='utf-8')
 
 ver = hashlib.sha1(s.encode()).hexdigest()[:10]
-(OUT / 'sw.js').write_text(f'''// Suivi Santé — service worker (version {ver})
+(OUT / 'sw.js').write_text(f'''// Health K' — service worker (version {ver})
 // Réseau d'abord : chaque ouverture en ligne charge la dernière version publiée ;
 // hors connexion, la dernière version téléchargée est utilisée.
 const CACHE = 'suivi-sante-{ver}';
@@ -121,7 +121,7 @@ self.addEventListener('fetch', e => {{
 
 (OUT / 'manifest.webmanifest').write_text(json.dumps({
     "id": "./",   # identité fixe de l'appli installée
-    "name": "Suivi Santé", "short_name": "Suivi Santé", "lang": "fr",
+    "name": "Health K'", "short_name": "Health K'", "lang": "fr",
     "start_url": "./", "scope": "./", "display": "standalone", "orientation": "portrait",
     "background_color": "#1c1f2e", "theme_color": "#1c1f2e",
     "icons": [

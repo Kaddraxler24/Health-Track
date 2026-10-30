@@ -8,7 +8,7 @@ await p.goto('file://'+require('path').resolve(srcPath),{waitUntil:'domcontentlo
 const D=await p.evaluate(()=>{ const x=JSON.parse(JSON.stringify(D)); x._persoJs=PERSO_HTML; return x; });
 const perso=JSON.parse(fs.readFileSync(persoPath,'utf8'));
 D.perso={...perso,...D._persoJs}; delete D._persoJs;
-D._export={app:'Suivi Santé',date:new Date().toISOString()};
+D._export={app:"Health K'",date:new Date().toISOString()};
 fs.writeFileSync(outPath,JSON.stringify(D,null,1));
 console.log('données :',Object.entries(D).map(([k,v])=>k+'='+(Array.isArray(v)?v.length:typeof v)).join(' '));
 await b.close();})();

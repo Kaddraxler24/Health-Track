@@ -1,4 +1,4 @@
-# Suivi Santé
+# Health K' (ex-Suivi Santé)
 
 Application web installable (PWA) de suivi santé : scores BASDAI, biologie, poids et composition corporelle, traitement, consultations.
 

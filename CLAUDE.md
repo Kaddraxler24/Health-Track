@@ -1,4 +1,4 @@
-# Suivi Santé — consignes de maintenance
+# Health K' (ex-Suivi Santé) — consignes de maintenance
 
 Deux versions vivent en parallèle et doivent **toujours** être livrées ensemble à chaque modification :
 

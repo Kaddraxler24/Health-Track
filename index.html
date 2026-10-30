@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Suivi Santé — SpA · Crohn · IMRALDI</title>
+<title>Health K'</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -93,7 +93,7 @@ body::before { content:''; position:fixed; inset:0; background: radial-gradient(
   flex-shrink: 0;
 }
 .brand-text { flex: 1; min-width: 0; }
-.brand-name { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: .3px; }
+.brand-name { font-size: 15px; font-weight: 700; color: #fff; letter-spacing: .3px; }
 .brand-sub { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 1px; }
 
 .nav-group { padding: 16px 12px 4px; }
@@ -873,7 +873,6 @@ tbody tr:hover td { background: var(--bg3); }
 #splash.hide { opacity: 0; visibility: hidden; }
 #splash svg { width: 112px; height: 112px; filter: drop-shadow(0 8px 24px rgba(231,76,60,.35)); animation: splashPop .5s cubic-bezier(.2,.8,.3,1.2); }
 #splash .splash-name { color: #fff; font: 700 20px/1 var(--sans); letter-spacing: .3px; }
-#splash .splash-sub { color: rgba(255,255,255,.45); font: 500 12px/1 var(--sans); letter-spacing: 1px; text-transform: uppercase; margin-top: -8px; }
 @keyframes splashPop { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 </style>
 <link rel="manifest" href="manifest.webmanifest">
@@ -889,7 +888,7 @@ tbody tr:hover td { background: var(--bg3); }
 <div id="splash" aria-hidden="true"><svg viewBox="0 0 38 38"><defs><linearGradient id="lgSplash" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ef5b4a"/><stop offset="1" stop-color="#b8322a"/></linearGradient></defs>
 <path d="M19 2.6 32.9 10.6v16.8L19 35.4 5.1 27.4V10.6Z" fill="url(#lgSplash)" stroke="url(#lgSplash)" stroke-width="2.4" stroke-linejoin="round"/>
 <path d="M19 28.2c-4.8-3.2-8.4-6.4-8.4-10.4 0-2.7 2-4.7 4.4-4.7 1.7 0 3.1.9 4 2.4.9-1.5 2.3-2.4 4-2.4 2.4 0 4.4 2 4.4 4.7 0 4-3.6 7.2-8.4 10.4Z" fill="none" stroke="#fff" stroke-width="2.1" stroke-linejoin="round"/>
-<path d="M8.4 19.4h5l1.6-3.4 2.4 6.6 2.2-4.8 1.2 1.6h8.8" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="splash-name">Suivi Santé</div><div class="splash-sub">SpA · Crohn · IMRALDI</div></div>
+<path d="M8.4 19.4h5l1.6-3.4 2.4 6.6 2.2-4.8 1.2 1.6h8.8" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="splash-name">Health K'</div></div>
 <script>
 // Écran d'ouverture : seulement dans l'appli installée (pas dans un navigateur classique)
 var _splashT = performance.now();
@@ -916,8 +915,7 @@ function hideSplash() {
     </svg>
     </div>
     <div class="brand-text">
-      <div class="brand-name">Suivi Santé</div>
-      <div class="brand-sub">SpA · Crohn · IMRALDI</div>
+      <div class="brand-name">Health K'</div>
     </div>
   </div>
 
@@ -1003,7 +1001,7 @@ function hideSplash() {
 
 <!-- TOPBAR -->
 <div class="topbar">
-  <div class="topbar-logo" onclick="nav('dashboard');setBottomNav('dashboard')" title="Suivi Santé — accueil">
+  <div class="topbar-logo" onclick="nav('dashboard');setBottomNav('dashboard')" title="Health K' — accueil">
     <svg width="34" height="34" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs><linearGradient id="lgTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ef5b4a"/><stop offset="1" stop-color="#b8322a"/></linearGradient></defs>
       <path d="M19 2.6 32.9 10.6v16.8L19 35.4 5.1 27.4V10.6Z" fill="url(#lgTop)" stroke="url(#lgTop)" stroke-width="2.4" stroke-linejoin="round"/>
@@ -1063,7 +1061,7 @@ function hideSplash() {
     </div>
   </div>
   <div id="welcome-banner" class="card" style="display:none;border-color:rgba(39,174,96,0.4);background:rgba(39,174,96,0.06);">
-    <div style="font-size:15px;font-weight:700;margin-bottom:6px;">Bienvenue dans Suivi Santé</div>
+    <div style="font-size:15px;font-weight:700;margin-bottom:6px;">Bienvenue dans Health K'</div>
     <div style="font-size:13px;color:var(--t2);margin-bottom:12px;">Pour retrouver ton suivi, importe ton fichier de données (<strong>mes_donnees.json</strong> ou une sauvegarde exportée). Tes données restent uniquement sur ce téléphone.</div>
     <button class="btn btn-primary btn-sm" onclick="importData()"><svg class=ic><use href=#i-folder></use></svg> Importer mes données</button>
   </div>
@@ -3610,7 +3608,7 @@ function makePdf(J, title, subtitle) {
       const n = doc.getNumberOfPages(), stamp = new Date().toLocaleDateString('fr-FR') + ' ' + new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
       for (let i = 1; i <= n; i++) {
         doc.setPage(i); doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(150,145,140);
-        doc.text(pdfTxt(`Suivi Santé — généré le ${stamp} — document personnel, ne remplace pas un avis médical`), M, PH - 8);
+        doc.text(pdfTxt(`Health K' — généré le ${stamp} — document personnel, ne remplace pas un avis médical`), M, PH - 8);
         doc.text(`${i} / ${n}`, PW - M, PH - 8, { align: 'right' });
       }
       doc.save(file);
