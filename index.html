@@ -2748,10 +2748,36 @@ function nav(id) {
     setBottomNav(mobileMap[id] || 'more');
     closeSidebar();
   }
+  syncBackGuard();
 }
 
-function openModal(id) { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+// ═══ BOUTON RETOUR DU TÉLÉPHONE ═══
+// Une seule entrée d'historique « garde » existe tant qu'on est hors de l'Accueil ou qu'une fenêtre / le menu est ouvert.
+// Retour : ferme la fenêtre ou le menu ouvert, sinon revient à l'Accueil ; depuis l'Accueil, le retour suivant ferme l'appli.
+let _backSkip = 0;
+function currentPageId() { const p = document.querySelector('.page.active'); return p ? p.id.replace('page-', '') : 'dashboard'; }
+function overlayOpen() { return !!document.querySelector('.modal-overlay.open') || !!document.querySelector('.sidebar.open'); }
+function syncBackGuard() {
+  if (_backSkip) return;                                   // un retour automatique est en cours : on resynchronise après
+  const has = !!(history.state && history.state.suiviGuard);
+  const need = currentPageId() !== 'dashboard' || overlayOpen();
+  if (need && !has) history.pushState({ suiviGuard: 1 }, '');
+  else if (!need && has) { _backSkip++; history.back(); }
+}
+window.addEventListener('popstate', () => {
+  if (_backSkip) { _backSkip--; syncBackGuard(); return; }
+  if (overlayOpen()) {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
+    closeSidebar();
+  } else if (currentPageId() !== 'dashboard') {
+    nav('dashboard');
+    window.scrollTo(0, 0);
+  }
+  syncBackGuard();
+});
+
+function openModal(id) { document.getElementById(id).classList.add('open'); syncBackGuard(); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); syncBackGuard(); }
 
 // ═══ TOAST ═══
 function toast(msg, type='success') {
@@ -6795,11 +6821,13 @@ function checkMobileUI() {
 function toggleSidebar() {
   document.querySelector('.sidebar')?.classList.toggle('open');
   document.getElementById('sidebar-overlay')?.classList.toggle('open');
+  syncBackGuard();
 }
 
 function closeSidebar() {
   document.querySelector('.sidebar')?.classList.remove('open');
   document.getElementById('sidebar-overlay')?.classList.remove('open');
+  if (typeof syncBackGuard === 'function') syncBackGuard();
 }
 
 function setBottomNav(id) {
@@ -6811,6 +6839,7 @@ function setBottomNav(id) {
 
 
 checkMobileUI();
+syncBackGuard();
 
 // ═══ IMPORT PDF / IMAGE BIOLOGIE — OCR AUTO ═══
 
