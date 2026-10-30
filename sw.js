@@ -1,7 +1,7 @@
-// Suivi Santé — service worker (version fb57541e1c)
+// Suivi Santé — service worker (version b48f02cc19)
 // Réseau d'abord : chaque ouverture en ligne charge la dernière version publiée ;
 // hors connexion, la dernière version téléchargée est utilisée.
-const CACHE = 'suivi-sante-fb57541e1c';
+const CACHE = 'suivi-sante-b48f02cc19';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
