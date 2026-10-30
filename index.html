@@ -122,8 +122,9 @@ body::before { content:''; position:fixed; inset:0; background: radial-gradient(
 }
 .nav-link:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.88); }
 .nav-link.active { background: linear-gradient(90deg,rgba(192,57,43,0.35),rgba(192,57,43,0.15)); color: #fff; border-left: 2px solid #e74c3c; margin-left: -2px; padding-left: 12px; }
-.nav-link.active .nav-icon svg { stroke: #f1948a; }
-.nav-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+.nav-link.active .nav-icon { color: #f5a59b; }
+.nv { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; display: block; }
+.nav-icon { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .nav-badge {
   margin-left: auto;
   background: var(--a2);
@@ -826,8 +827,8 @@ tbody tr:hover td { background: var(--bg3); }
     align-items: center;
     gap: 3px;
     cursor: pointer;
-    color: rgba(255,255,255,.4);
-    font-size: 9px;
+    color: rgba(255,255,255,.55);
+    font-size: 9.5px;
     font-weight: 600;
     letter-spacing: .03em;
     padding: 6px 4px;
@@ -837,8 +838,9 @@ tbody tr:hover td { background: var(--bg3); }
     flex: 1;
     white-space: nowrap;
   }
-  .bottom-nav-item svg { width: 20px; height: 20px; }
-  .bottom-nav-item.active { color: #fff; background: rgba(255,255,255,.08); }
+  .bottom-nav-item .nv { width: 22px; height: 22px; padding: 4px 12px; box-sizing: content-box; border-radius: 999px; transition: background .2s, color .2s; }
+  .bottom-nav-item.active { color: #fff; }
+  .bottom-nav-item.active .nv { background: linear-gradient(135deg, #c0392b, #e74c3c); color: #fff; box-shadow: 0 2px 8px rgba(231,76,60,.35); }
   .bottom-nav-item:hover { color: rgba(255,255,255,.75); }
 
   /* ── Timeline ── */
@@ -864,6 +866,15 @@ tbody tr:hover td { background: var(--bg3); }
   .btn-sm { font-size: 11px; padding: 5px 10px; }
   .form-row-4 { grid-template-columns: 1fr; }
 }
+
+/* ═══ ÉCRAN D'OUVERTURE ═══ */
+#splash { position: fixed; inset: 0; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+  background: radial-gradient(circle at 50% 38%, #2a2f4d 0%, #1c1f2e 62%); transition: opacity .35s ease, visibility .35s; }
+#splash.hide { opacity: 0; visibility: hidden; }
+#splash svg { width: 112px; height: 112px; filter: drop-shadow(0 8px 24px rgba(231,76,60,.35)); animation: splashPop .5s cubic-bezier(.2,.8,.3,1.2); }
+#splash .splash-name { color: #fff; font: 700 20px/1 var(--sans); letter-spacing: .3px; }
+#splash .splash-sub { color: rgba(255,255,255,.45); font: 500 12px/1 var(--sans); letter-spacing: 1px; text-transform: uppercase; margin-top: -8px; }
+@keyframes splashPop { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 </style>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#1c1f2e">
@@ -875,8 +886,22 @@ tbody tr:hover td { background: var(--bg3); }
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 </head>
 <body>
+<div id="splash" aria-hidden="true"><svg viewBox="0 0 38 38"><defs><linearGradient id="lgSplash" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ef5b4a"/><stop offset="1" stop-color="#b8322a"/></linearGradient></defs>
+<path d="M19 2.6 32.9 10.6v16.8L19 35.4 5.1 27.4V10.6Z" fill="url(#lgSplash)" stroke="url(#lgSplash)" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M19 28.2c-4.8-3.2-8.4-6.4-8.4-10.4 0-2.7 2-4.7 4.4-4.7 1.7 0 3.1.9 4 2.4.9-1.5 2.3-2.4 4-2.4 2.4 0 4.4 2 4.4 4.7 0 4-3.6 7.2-8.4 10.4Z" fill="none" stroke="#fff" stroke-width="2.1" stroke-linejoin="round"/>
+<path d="M8.4 19.4h5l1.6-3.4 2.4 6.6 2.2-4.8 1.2 1.6h8.8" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="splash-name">Suivi Santé</div><div class="splash-sub">SpA · Crohn · IMRALDI</div></div>
+<script>
+// Écran d'ouverture : seulement dans l'appli installée (pas dans un navigateur classique)
+(function(){ var sa = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone;
+  if (!sa) document.getElementById('splash').remove(); })();
+setTimeout(hideSplash, 3000);   // sécurité : jamais bloqué sur l'écran d'ouverture
+function hideSplash() {
+  var el = document.getElementById('splash'); if (!el) return;
+  setTimeout(function(){ el.classList.add('hide'); setTimeout(function(){ el.remove(); }, 400); }, Math.max(0, 700 - performance.now()));
+}
+</script>
 <!-- ═══ ICÔNES (sprite SVG) ═══ -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9L9.6 3.9A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-alert-octagon" viewBox="0 0 24 24"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></symbol><symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/></symbol><symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol><symbol id="i-shift" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3.5"/></symbol><symbol id="i-bone" viewBox="0 0 24 24"><path d="M17 10c.7-.7 1.7 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .8.7 1.8 0 2.5l-7 7c-.7.7-1.7 0-2.5 0a2.5 2.5 0 0 0 0 5c.3 0 .5.2.5.5a2.5 2.5 0 1 0 5 0c0-.8-.7-1.8 0-2.5Z"/></symbol><symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 10v4M6 6v12M10 3v18M14 8v8M18 5v14M22 10v4"/></symbol><symbol id="i-microscope" viewBox="0 0 24 24"><path d="M6 18h8M3 22h18M14 22a7 7 0 1 0 0-14h-1M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></symbol><symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 9V3"/><path d="M7 15h10"/></symbol><symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2.7s6 6.3 6 11.3a6 6 0 0 1-12 0c0-5 6-11.3 6-11.3z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-stetho" viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></symbol></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9L9.6 3.9A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-alert-octagon" viewBox="0 0 24 24"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></symbol><symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/></symbol><symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol><symbol id="i-shift" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3.5"/></symbol><symbol id="i-bone" viewBox="0 0 24 24"><path d="M17 10c.7-.7 1.7 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .8.7 1.8 0 2.5l-7 7c-.7.7-1.7 0-2.5 0a2.5 2.5 0 0 0 0 5c.3 0 .5.2.5.5a2.5 2.5 0 1 0 5 0c0-.8-.7-1.8 0-2.5Z"/></symbol><symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 10v4M6 6v12M10 3v18M14 8v8M18 5v14M22 10v4"/></symbol><symbol id="i-microscope" viewBox="0 0 24 24"><path d="M6 18h8M3 22h18M14 22a7 7 0 1 0 0-14h-1M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></symbol><symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 9V3"/><path d="M7 15h10"/></symbol><symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2.7s6 6.3 6 11.3a6 6 0 0 1-12 0c0-5 6-11.3 6-11.3z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-stetho" viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></symbol><symbol id="n-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="9" rx="2"/><rect x="13.5" y="3" width="7.5" height="5.5" rx="2"/><rect x="13.5" y="11.5" width="7.5" height="9.5" rx="2"/><rect x="3" y="15" width="7.5" height="6" rx="2"/></symbol><symbol id="n-eval" viewBox="0 0 24 24"><rect x="4.5" y="4" width="15" height="17.5" rx="2.5"/><path d="M9 4V3.2c0-.7.5-1.2 1.2-1.2h3.6c.7 0 1.2.5 1.2 1.2V4"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/><circle cx="12.5" cy="10.5" r="1.3" fill="currentColor"/><circle cx="10" cy="14" r="1.3" fill="currentColor"/></symbol><symbol id="n-chart" viewBox="0 0 24 24"><path d="M3.5 3.5v15a2 2 0 0 0 2 2h15"/><path d="m7.5 14.5 3.5-4.5 3 3 5.5-6.5"/><circle cx="19.5" cy="6.5" r="1.4" fill="currentColor"/></symbol><symbol id="n-scale" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M7.5 10.5a6 6 0 0 1 9 0"/><path d="m12 11 1.6-2.4"/><path d="M9 16.5h6"/></symbol><symbol id="n-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="n-flask" viewBox="0 0 24 24"><path d="M9.5 2.5v6.8L4.3 18.4A2.2 2.2 0 0 0 6.2 21.5h11.6a2.2 2.2 0 0 0 1.9-3.1L14.5 9.3V2.5"/><path d="M8 2.5h8"/><path d="M6.6 15h10.8"/></symbol><symbol id="n-scan" viewBox="0 0 24 24"><path d="M3 7.5V5.5a2.5 2.5 0 0 1 2.5-2.5h2M16.5 3h2A2.5 2.5 0 0 1 21 5.5v2M21 16.5v2a2.5 2.5 0 0 1-2.5 2.5h-2M7.5 21h-2A2.5 2.5 0 0 1 3 18.5v-2"/><path d="M12 7v10M9 9.5c1 .6 2 .9 3 .9s2-.3 3-.9M9 14.5c1-.6 2-.9 3-.9s2 .3 3 .9"/></symbol><symbol id="n-stetho" viewBox="0 0 24 24"><path d="M5 2.5H4a1.5 1.5 0 0 0-1.5 1.5v5a5.5 5.5 0 0 0 11 0V4A1.5 1.5 0 0 0 12 2.5h-1"/><path d="M8 14.5v1a5.5 5.5 0 0 0 11 0V12"/><circle cx="19" cy="10" r="2"/></symbol><symbol id="n-file" viewBox="0 0 24 24"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5"/><path d="M12 18.2c-2-1.3-3.4-2.6-3.4-4.2 0-1.1.8-1.9 1.8-1.9.7 0 1.3.4 1.6 1 .3-.6.9-1 1.6-1 1 0 1.8.8 1.8 1.9 0 1.6-1.4 2.9-3.4 4.2Z"/></symbol><symbol id="n-pulse" viewBox="0 0 24 24"><path d="M2.5 12h4l2.5-6 4 13 3-9 1.5 2h4"/></symbol><symbol id="n-shield" viewBox="0 0 24 24"><path d="M12 21.5s7.5-3.4 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 6.1 7.5 9.5 7.5 9.5Z"/><path d="M12 8v4.5M12 16h.01"/></symbol><symbol id="n-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="19" cy="12" r="1.7" fill="currentColor"/></symbol></defs></svg>
 
 <!-- ═══════════ SIDEBAR ═══════════ -->
 <aside class="sidebar">
@@ -898,7 +923,7 @@ tbody tr:hover td { background: var(--bg3); }
   <div class="nav-group">
     <div class="nav-group-label">Tableau de bord</div>
     <div class="nav-link active" onclick="nav('dashboard')">
-      <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
+      <span class="nav-icon"><svg class="nv"><use href="#n-dash"/></svg></span>
       Vue d'ensemble
     </div>
   </div>
@@ -906,15 +931,15 @@ tbody tr:hover td { background: var(--bg3); }
   <div class="nav-group">
     <div class="nav-group-label">Évaluation</div>
     <div class="nav-link" onclick="nav('daily')">
-      <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span>
+      <span class="nav-icon"><svg class="nv"><use href="#n-eval"/></svg></span>
       Évaluation BASDAI
     </div>
     <div class="nav-link" onclick="nav('scores')">
-      <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+      <span class="nav-icon"><svg class="nv"><use href="#n-chart"/></svg></span>
       Historique BASDAI
     </div>
     <div class="nav-link" onclick="nav('weight')">
-      <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="12" x2="15" y2="14"/></svg></span>
+      <span class="nav-icon"><svg class="nv"><use href="#n-scale"/></svg></span>
       Poids & IMC
     </div>
   </div>
@@ -922,23 +947,23 @@ tbody tr:hover td { background: var(--bg3); }
   <div class="nav-group">
     <div class="nav-group-label">Dossier médical</div>
     <div class="nav-link" onclick="nav('treatments')">
-      <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/><line x1="12" y1="13" x2="12" y2="17"/><line x1="10" y1="15" x2="14" y2="15"/></svg></span>
+      <span class="nav-icon"><svg class="nv"><use href="#n-syringe"/></svg></span>
       Traitements
     </div>
     <div class="nav-link" onclick="nav('biology')">
-      <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 6H8L9 3z"/><path d="M8 9c0 7 2 10 4 12 2-2 4-5 4-12"/></svg></span>
+      <span class="nav-icon"><svg class="nv"><use href="#n-flask"/></svg></span>
       Biologie
     </div>
     <div class="nav-link" onclick="nav('imaging')">
-      <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><circle cx="12" cy="13" r="3"/><path d="M2 6l2-4h16l2 4"/></svg></span>
+      <span class="nav-icon"><svg class="nv"><use href="#n-scan"/></svg></span>
       Imagerie & Examens
     </div>
     <div class="nav-link" onclick="nav('consultations')">
-      <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+      <span class="nav-icon"><svg class="nv"><use href="#n-stetho"/></svg></span>
       Consultations
     </div>
     <div class="nav-link" onclick="nav('history')">
-      <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span>
+      <span class="nav-icon"><svg class="nv"><use href="#n-file"/></svg></span>
       Historique médical
     </div>
   </div>
@@ -946,11 +971,11 @@ tbody tr:hover td { background: var(--bg3); }
   <div class="nav-group">
     <div class="nav-group-label">Sécurité</div>
     <div class="nav-link" onclick="nav('symptoms')">
-      <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+      <span class="nav-icon"><svg class="nv"><use href="#n-pulse"/></svg></span>
       Symptômes
     </div>
     <div class="nav-link" onclick="nav('alerts')">
-      <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+      <span class="nav-icon"><svg class="nv"><use href="#n-shield"/></svg></span>
       Alertes infection
     </div>
   </div>
@@ -998,27 +1023,27 @@ tbody tr:hover td { background: var(--bg3); }
 <!-- BOTTOM NAV (mobile) -->
 <div class="bottom-nav" id="bottom-nav">
   <div class="bottom-nav-item active" id="bn-dashboard" onclick="nav('dashboard');setBottomNav('dashboard')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    <svg class="nv"><use href="#n-dash"/></svg>
     Accueil
   </div>
   <div class="bottom-nav-item" id="bn-daily" onclick="nav('daily');setBottomNav('daily')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    <svg class="nv"><use href="#n-eval"/></svg>
     BASDAI
   </div>
   <div class="bottom-nav-item" id="bn-treatments" onclick="nav('treatments');setBottomNav('treatments')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></svg>
+    <svg class="nv"><use href="#n-syringe"/></svg>
     Traitements
   </div>
   <div class="bottom-nav-item" id="bn-biology" onclick="nav('biology');setBottomNav('biology')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l1 6H8L9 3z"/><path d="M8 9c0 7 2 10 4 12 2-2 4-5 4-12"/></svg>
+    <svg class="nv"><use href="#n-flask"/></svg>
     Biologie
   </div>
   <div class="bottom-nav-item" id="bn-weight" onclick="nav('weight');setBottomNav('weight')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    <svg class="nv"><use href="#n-scale"/></svg>
     Poids
   </div>
   <div class="bottom-nav-item" id="bn-more" onclick="toggleSidebar()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>
+    <svg class="nv"><use href="#n-more"/></svg>
     Plus
   </div>
 </div>
@@ -6840,6 +6865,7 @@ function setBottomNav(id) {
 
 checkMobileUI();
 syncBackGuard();
+hideSplash();
 
 // ═══ IMPORT PDF / IMAGE BIOLOGIE — OCR AUTO ═══
 

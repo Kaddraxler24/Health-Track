@@ -119,7 +119,7 @@ self.addEventListener('fetch', e => {{
 (OUT / 'manifest.webmanifest').write_text(json.dumps({
     "name": "Suivi Santé", "short_name": "Suivi Santé", "lang": "fr",
     "start_url": "./", "scope": "./", "display": "standalone", "orientation": "portrait",
-    "background_color": "#f7f5f0", "theme_color": "#1c1f2e",
+    "background_color": "#1c1f2e", "theme_color": "#1c1f2e",
     "icons": [
         {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
         {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
