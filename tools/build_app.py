@@ -55,14 +55,17 @@ for key in perso:
     assert n == 1, key
 
 # ── 3. PWA : manifeste, icônes, service worker ──
-HEAD = '''<link rel="manifest" href="manifest.webmanifest">
+# Version des icônes (selon leur contenu) : une nouvelle adresse force le téléphone à les retélécharger
+ICON_V = hashlib.sha1(b''.join((OUT / f).read_bytes() for f in
+          ['icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png'])).hexdigest()[:8]
+HEAD = f'''<link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#1c1f2e">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v={ICON_V}">
 </head>'''
 assert s.count('</head>') == 1
 s = s.replace('</head>', HEAD, 1)
@@ -117,13 +120,14 @@ self.addEventListener('fetch', e => {{
 ''', encoding='utf-8')
 
 (OUT / 'manifest.webmanifest').write_text(json.dumps({
+    "id": "./",   # identité fixe de l'appli installée
     "name": "Suivi Santé", "short_name": "Suivi Santé", "lang": "fr",
     "start_url": "./", "scope": "./", "display": "standalone", "orientation": "portrait",
     "background_color": "#1c1f2e", "theme_color": "#1c1f2e",
     "icons": [
-        {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
-        {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
-        {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
+        {"src": f"icon-192.png?v={ICON_V}", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+        {"src": f"icon-512.png?v={ICON_V}", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+        {"src": f"icon-maskable-512.png?v={ICON_V}", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
     ],
 }, ensure_ascii=False, indent=2), encoding='utf-8')
 
