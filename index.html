@@ -1461,8 +1461,15 @@ tbody tr:hover td { background: var(--bg3); }
         <span style="display:flex;align-items:center;gap:4px;color:var(--a3);"><span style="width:10px;height:10px;border-radius:50%;background:var(--a3);display:inline-block;"></span>Contrôlé &lt;4</span>
         <span style="display:flex;align-items:center;gap:4px;color:var(--a4);"><span style="width:10px;height:10px;border-radius:50%;background:var(--a4);display:inline-block;"></span>Actif 4–6</span>
         <span style="display:flex;align-items:center;gap:4px;color:var(--a2);"><span style="width:10px;height:10px;border-radius:50%;background:var(--a2);display:inline-block;"></span>Très actif &gt;6</span>
-        <span style="color:var(--t3);" id="scores-range-label"></span>
       </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:12px;">
+      <button class="btn btn-secondary btn-sm sp-chip" data-p="30" onclick="setScorePeriod(30)">30 j</button>
+      <button class="btn btn-secondary btn-sm sp-chip" data-p="90" onclick="setScorePeriod(90)">3 mois</button>
+      <button class="btn btn-secondary btn-sm sp-chip" data-p="180" onclick="setScorePeriod(180)">6 mois</button>
+      <button class="btn btn-secondary btn-sm sp-chip" data-p="all" onclick="setScorePeriod('all')">Tout</button>
+      <span style="font-size:11px;color:var(--t2);" id="scores-range-label"></span>
+      <button class="btn btn-primary btn-sm" style="margin-left:auto;" onclick="exportBasdaiPdf()" title="Exporter la période en PDF">📄 PDF</button>
     </div>
     <div class="chart-scroll-wrap">
       <canvas id="basdai-canvas" style="width:100%;height:220px;display:block;" height="220"></canvas>
@@ -1609,7 +1616,10 @@ tbody tr:hover td { background: var(--bg3); }
   <div class="card">
     <div class="card-header">
       <div class="card-title"><span class="card-title-dot" style="background:var(--a5)"></span>Historique des injections</div>
-      <button class="btn btn-primary btn-sm" onclick="openInjDone()">+ Injection faite</button>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <button class="btn btn-secondary btn-sm" onclick="exportTreatmentPdf()" title="Exporter l'historique du traitement en PDF">📄 PDF</button>
+        <button class="btn btn-primary btn-sm" onclick="openInjDone()">+ Injection faite</button>
+      </div>
     </div>
     <div id="t-inj-log"></div>
   </div>
@@ -3403,6 +3413,264 @@ function renderDash() {
 }
 
 // ═══ SCORES — Filter + Sort + Edit + Delete ═══
+
+// ═══ PÉRIODE BASDAI ═══
+function scorePeriod() {
+  return { from: document.getElementById('sf-from')?.value || '', to: document.getElementById('sf-to')?.value || '' };
+}
+function setScorePeriod(p) {
+  const f = document.getElementById('sf-from'), t = document.getElementById('sf-to');
+  if (p === 'all') { f.value = ''; t.value = ''; }
+  else { const d = new Date(); d.setHours(0,0,0,0); t.value = toISODay(d); d.setDate(d.getDate() - p + 1); f.value = toISODay(d); }
+  renderScores();
+}
+function markScorePeriodChips() {
+  const { from, to } = scorePeriod();
+  const today = toISODay(new Date());
+  document.querySelectorAll('.sp-chip').forEach(b => {
+    const p = b.dataset.p; let on;
+    if (p === 'all') on = !from && !to;
+    else { const d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate() - (+p) + 1); on = to === today && from === toISODay(d); }
+    b.classList.toggle('btn-primary', on); b.classList.toggle('btn-secondary', !on);
+  });
+}
+
+// ═══ EXPORT PDF ═══
+const JSPDF_URL = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+async function getJsPDF() {
+  if (!(window.jspdf && window.jspdf.jsPDF)) {
+    toast('⏳ Préparation du PDF…', 'success');
+    try { await loadScript(JSPDF_URL); }
+    catch (e) { throw new Error('module PDF indisponible — connecte-toi à internet pour le 1ᵉʳ export'); }
+  }
+  return window.jspdf.jsPDF;
+}
+// Les polices standard du PDF ne couvrent que l'alphabet latin : on remplace le reste
+function pdfTxt(v) {
+  return String(v ?? '').replace(/[−–—]/g, '-').replace(/→/g, '->').replace(/←/g, '<-').replace(/↗/g, '(hausse)').replace(/↘/g, '(baisse)')
+    .replace(/≥/g, '>=').replace(/≤/g, '<=').replace(/ʳᵉ/g, 're').replace(/ᵉ/g, 'e').replace(/ʳ/g, 'r').replace(/[‘’]/g, "'").replace(/[“”«»]/g, '"')
+    .replace(/…/g, '...').replace(/[  ]/g, ' ').replace(/✓|✅/g, 'OK').replace(/[^\x09\x0A\x0D\x20-\x7E\xA0-\xFF]/g, '').trim();
+}
+const fmtFR = (iso, opt) => iso ? parseDay(iso).toLocaleDateString('fr-FR', opt || {}) : '-';
+
+function makePdf(J, title, subtitle) {
+  const doc = new J({ unit: 'mm', format: 'a4' });
+  const PW = 210, PH = 297, M = 14, CW = PW - 2*M;
+  let y = 0;
+  const ink = [28,31,46], red = [192,57,43], grey = [110,104,98], light = [244,241,234];
+  const P = {
+    doc, M, CW,
+    get y() { return y; }, set y(v) { y = v; },
+    ensure(h) { if (y + h > PH - 16) { doc.addPage(); y = M + 4; return true; } return false; },
+    header() {
+      doc.setFillColor(...ink); doc.rect(0, 0, PW, 26, 'F');
+      doc.setFillColor(...red); doc.rect(0, 26, PW, 1.2, 'F');
+      doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(16); doc.text(pdfTxt(title), M, 13);
+      doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.setTextColor(200,200,210); doc.text(pdfTxt(subtitle), M, 20);
+      y = 36;
+    },
+    h2(t) {
+      P.ensure(16); y += 3;
+      doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.setTextColor(...ink); doc.text(pdfTxt(t), M, y);
+      y += 2; doc.setDrawColor(...red); doc.setLineWidth(0.7); doc.line(M, y, M + 16, y); y += 6;
+    },
+    p(t, size = 9.5, color = grey) {
+      doc.setFont('helvetica','normal'); doc.setFontSize(size); doc.setTextColor(...color);
+      const lines = doc.splitTextToSize(pdfTxt(t), CW);
+      lines.forEach(l => { P.ensure(5); doc.text(l, M, y); y += size * 0.45; });
+      y += 2;
+    },
+    kpis(items) {             // [{label, value, color}]
+      const n = items.length, gap = 3, w = (CW - gap*(n-1)) / n, h = 18;
+      P.ensure(h + 4);
+      items.forEach((it, i) => {
+        const x = M + i*(w+gap);
+        doc.setFillColor(...light); doc.roundedRect(x, y, w, h, 2, 2, 'F');
+        doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(...grey); doc.text(pdfTxt(it.label).toUpperCase(), x + 3, y + 5.5);
+        doc.setFont('helvetica','bold'); doc.setFontSize(13); doc.setTextColor(...(it.color || ink)); doc.text(pdfTxt(it.value), x + 3, y + 13.5);
+      });
+      y += h + 5;
+    },
+    table(cols, rows, opt = {}) {  // cols: [{h, w, align}] (w en fraction) ; rows: [[cells]] ; opt.cellStyle(ri, ci) -> {color, bold, fill}
+      const fs = opt.fontSize || 8.5, lh = fs * 0.42, pad = 1.8;
+      const widths = cols.map(c => c.w * CW);
+      const drawHead = () => {
+        doc.setFillColor(...ink); doc.rect(M, y, CW, 7, 'F');
+        doc.setFont('helvetica','bold'); doc.setFontSize(fs); doc.setTextColor(255,255,255);
+        let x = M; cols.forEach((c, i) => { doc.text(pdfTxt(c.h), c.align === 'right' ? x + widths[i] - pad : x + pad, y + 4.8, { align: c.align === 'right' ? 'right' : 'left' }); x += widths[i]; });
+        y += 7;
+      };
+      P.ensure(16); drawHead();
+      rows.forEach((r, ri) => {
+        const cells = r.map((c, i) => doc.splitTextToSize(pdfTxt(c), widths[i] - 2*pad));
+        const h = Math.max(...cells.map(c => c.length)) * lh + 2*pad + 1;
+        if (P.ensure(h)) drawHead();
+        if (ri % 2) { doc.setFillColor(250,248,244); doc.rect(M, y, CW, h, 'F'); }
+        let x = M;
+        cells.forEach((lines, ci) => {
+          const st = (opt.cellStyle && opt.cellStyle(ri, ci)) || {};
+          if (st.fill) { doc.setFillColor(...st.fill); doc.rect(x + 0.6, y + 0.6, widths[ci] - 1.2, h - 1.2, 'F'); }
+          doc.setFont('helvetica', st.bold ? 'bold' : 'normal'); doc.setFontSize(fs); doc.setTextColor(...(st.color || [40,40,40]));
+          const al = cols[ci].align === 'right' ? 'right' : 'left';
+          lines.forEach((l, li) => doc.text(l, al === 'right' ? x + widths[ci] - pad : x + pad, y + pad + lh * (li + 1) - 0.4, { align: al }));
+          x += widths[ci];
+        });
+        doc.setDrawColor(228,224,216); doc.setLineWidth(0.2); doc.line(M, y + h, M + CW, y + h);
+        y += h;
+      });
+      y += 5;
+    },
+    image(url, w, h) { P.ensure(h + 2); doc.addImage(url, 'PNG', M, y, w, h); y += h + 4; },
+    finish(file) {
+      const n = doc.getNumberOfPages(), stamp = new Date().toLocaleDateString('fr-FR') + ' ' + new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+      for (let i = 1; i <= n; i++) {
+        doc.setPage(i); doc.setFont('helvetica','normal'); doc.setFontSize(7.5); doc.setTextColor(150,145,140);
+        doc.text(pdfTxt(`Suivi Santé — généré le ${stamp} — document personnel, ne remplace pas un avis médical`), M, PH - 8);
+        doc.text(`${i} / ${n}`, PW - M, PH - 8, { align: 'right' });
+      }
+      doc.save(file);
+    }
+  };
+  P.header();
+  return P;
+}
+
+const BASDAI_COL = v => v < 4 ? [39,174,96] : v <= 6 ? [230,126,34] : [192,57,43];
+const BASDAI_FILL = v => v < 4 ? [221,243,229] : v <= 6 ? [252,234,214] : [248,221,218];
+
+// Courbe dédiée au PDF : échelle de temps réelle, zones colorées
+function basdaiChartImage(entries) {
+  const W = 1600, H = 620, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, W, H);
+  const L = 80, R = 70, T = 40, B = 70, cw = W - L - R, ch = H - T - B;
+  const toY = v => T + ch - v / 10 * ch;
+  [[0,4,'rgba(39,174,96,0.10)'],[4,6,'rgba(230,126,34,0.12)'],[6,10,'rgba(192,57,43,0.10)']].forEach(([a,b,col]) => { g.fillStyle = col; g.fillRect(L, toY(b), cw, toY(a) - toY(b)); });
+  g.font = '24px Helvetica, Arial, sans-serif'; g.textAlign = 'right'; g.fillStyle = '#8a837b';
+  for (let v = 0; v <= 10; v += 2) { g.strokeStyle = v === 4 || v === 6 ? 'rgba(0,0,0,0.25)' : 'rgba(0,0,0,0.07)'; g.setLineDash(v === 4 || v === 6 ? [10,8] : []); g.lineWidth = 2;
+    g.beginPath(); g.moveTo(L, toY(v)); g.lineTo(W - R, toY(v)); g.stroke(); g.fillText(v, L - 14, toY(v) + 8); }
+  g.setLineDash([]);
+  const ts = entries.map(e => parseDay(e.date).getTime()), t0 = Math.min(...ts), t1 = Math.max(...ts);
+  const toX = t => t1 === t0 ? L + cw / 2 : L + (t - t0) / (t1 - t0) * cw;
+  // dates sur l'axe
+  g.textAlign = 'center'; g.fillStyle = '#6b6560'; g.font = '22px Helvetica, Arial, sans-serif';
+  const nT = Math.min(8, entries.length), seen = new Set();
+  for (let i = 0; i < nT; i++) {
+    const t = nT === 1 ? t0 : t0 + (t1 - t0) * i / (nT - 1);
+    const lab = new Date(t).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: '2-digit' });
+    if (seen.has(lab)) continue; seen.add(lab);
+    g.fillText(lab, toX(t), H - B + 38);
+  }
+  // ligne + points
+  g.strokeStyle = '#1c1f2e'; g.lineWidth = 4; g.lineJoin = 'round'; g.beginPath();
+  entries.forEach((e, i) => { const x = toX(ts[i]), y = toY(e.basdai); i ? g.lineTo(x, y) : g.moveTo(x, y); }); g.stroke();
+  entries.forEach((e, i) => { const x = toX(ts[i]), y = toY(e.basdai);
+    g.beginPath(); g.arc(x, y, 11, 0, Math.PI * 2); g.fillStyle = 'rgb(' + BASDAI_COL(e.basdai).join(',') + ')'; g.fill(); g.lineWidth = 4; g.strokeStyle = '#fff'; g.stroke();
+    if (entries.length <= 25) { g.fillStyle = '#1c1f2e'; g.font = 'bold 22px Helvetica, Arial, sans-serif'; g.fillText(String(e.basdai).replace('.', ','), x, y - 22); } });
+  g.save(); g.translate(26, T + ch / 2); g.rotate(-Math.PI / 2); g.fillStyle = '#8a837b'; g.font = '22px Helvetica, Arial, sans-serif'; g.fillText('BASDAI', 0, 0); g.restore();
+  return c.toDataURL('image/png');
+}
+
+async function exportBasdaiPdf() {
+  try {
+    const { from, to } = scorePeriod();
+    const arr = [...D.entries].filter(e => typeof e.basdai === 'number' && (!from || e.date >= from) && (!to || e.date <= to)).sort((a,b) => a.date.localeCompare(b.date));
+    if (!arr.length) { toast('❌ Aucune évaluation BASDAI sur cette période', 'error'); return; }
+    const J = await getJsPDF();
+    const d0 = arr[0].date, d1 = arr[arr.length-1].date;
+    const perLabel = `${fmtFR(from || d0)} au ${fmtFR(to || d1)}`;
+    const P = makePdf(J, 'Rapport BASDAI', `Période du ${perLabel}  ·  ${arr.length} évaluation${arr.length>1?'s':''}`);
+    const vals = arr.map(e => e.basdai), avg = Math.round(vals.reduce((a,b)=>a+b,0)/vals.length*10)/10;
+    const mn = Math.min(...vals), mx = Math.max(...vals), delta = Math.round((vals[vals.length-1]-vals[0])*10)/10;
+    const fr = v => (Math.round(v*10)/10).toFixed(1).replace('.', ',');
+    P.kpis([
+      { label: 'BASDAI moyen', value: fr(avg), color: BASDAI_COL(avg) },
+      { label: 'Minimum', value: fr(mn), color: BASDAI_COL(mn) },
+      { label: 'Maximum', value: fr(mx), color: BASDAI_COL(mx) },
+      { label: 'Évolution', value: (delta > 0 ? '+' : '') + fr(delta), color: delta < -0.5 ? [39,174,96] : delta > 0.5 ? [192,57,43] : [28,31,46] },
+    ]);
+    const nLow = vals.filter(v=>v<4).length, nMid = vals.filter(v=>v>=4&&v<=6).length, nHigh = vals.filter(v=>v>6).length;
+    const pc = n => Math.round(n/vals.length*100) + ' %';
+    P.p(`Répartition : contrôlé (<4) ${nLow} (${pc(nLow)}) · actif (4-6) ${nMid} (${pc(nMid)}) · très actif (>6) ${nHigh} (${pc(nHigh)}). Évolution = dernière valeur moins la première de la période.`);
+    P.h2('Courbe BASDAI');
+    P.image(basdaiChartImage(arr), P.CW, P.CW * 620 / 1600);
+    const qAvg = k => { const v = arr.map(e => +e[k]).filter(x => !isNaN(x)); return v.length ? fr(Math.round(v.reduce((a,b)=>a+b,0)/v.length*10)/10) : '-'; };
+    P.h2('Moyenne par question');
+    P.table([{h:'Q1 Fatigue',w:1/6},{h:'Q2 Axiale',w:1/6},{h:'Q3 Périph.',w:1/6},{h:'Q4 Enthèses',w:1/6},{h:'Q5 Raideur',w:1/6},{h:'Q6 Durée (min)',w:1/6}],
+      [[qAvg('q1'), qAvg('q2'), qAvg('q3'), qAvg('q4'), qAvg('q5'), qAvg('q6m')]]);
+    P.h2('Détail des évaluations');
+    const rows = arr.map(e => [fmtFR(e.date), fr(e.basdai), e.q1 ?? '-', e.q2 ?? '-', e.q3 ?? '-', e.q4 ?? '-', e.q5 ?? '-', (e.q6m ?? '-') + '', [e.ctx && e.ctx !== 'RAS' ? e.ctx : '', e.notes || ''].filter(Boolean).join(' — ') || '-']);
+    P.table([{h:'Date',w:.13},{h:'BASDAI',w:.09},{h:'Q1',w:.055},{h:'Q2',w:.055},{h:'Q3',w:.055},{h:'Q4',w:.055},{h:'Q5',w:.055},{h:'Q6 min',w:.075},{h:'Contexte / notes',w:.37}],
+      rows, { cellStyle: (ri, ci) => ci === 1 ? { bold: true, color: BASDAI_COL(arr[ri].basdai), fill: BASDAI_FILL(arr[ri].basdai) } : null });
+    P.p('Q1 fatigue · Q2 douleur axiale (cou, dos, hanches) · Q3 douleur/gonflement articulations périphériques · Q4 enthèses · Q5 intensité de la raideur matinale · Q6 durée de la raideur. Échelles 0-10. BASDAI < 4 : maladie contrôlée.', 8);
+    P.finish(`BASDAI_${d0}_${d1}.pdf`);
+    toast('✅ PDF BASDAI téléchargé', 'success');
+  } catch (err) { console.error(err); toast('❌ Export PDF impossible : ' + err.message, 'error'); }
+}
+
+async function exportTreatmentPdf() {
+  try {
+    const J = await getJsPDF();
+    const log = [...injLog()].sort((a,b) => a.date.localeCompare(b.date));
+    const pr = getPresc(), inj = calcNextInjection(), sch = injSchedule();
+    const P = makePdf(J, 'Historique du traitement', `IMRALDI (adalimumab) 40 mg · 1 injection sous-cutanée / 14 jours  ·  édité le ${new Date().toLocaleDateString('fr-FR')}`);
+    const today = new Date(); today.setHours(0,0,0,0);
+    let remaining = 0;
+    if (pr && inj) { const end = prescEnd(), d = new Date(inj.nextDate); while (d <= end) { remaining++; d.setDate(d.getDate() + INJ_INTERVAL); } }
+    P.kpis([
+      { label: 'Injections faites', value: String(log.length), color: [142,68,173] },
+      { label: 'Prochaine injection', value: inj ? inj.nextDate.toLocaleDateString('fr-FR') : '-', color: [142,68,173] },
+      { label: 'Début du traitement', value: log[0] ? fmtFR(log[0].date) : (pr ? fmtFR(pr.start) : '-') },
+      { label: 'Restantes prévues', value: pr && inj ? String(remaining) : '-' },
+    ]);
+    if (pr) {
+      const end = prescEnd(), left = Math.round((end - today) / 86400000);
+      P.p(`Prescription : ${pr.months} mois, du ${fmtFR(pr.start)} au ${end.toLocaleDateString('fr-FR')}` + (left > 0 ? ` (${left} jours restants).` : ' (terminée - renouvellement nécessaire).'), 9.5, [28,31,46]);
+    }
+    P.h2('Injections réalisées');
+    if (log.length) {
+      const rows = log.map((x, i) => {
+        const prev = log[i-1], gap = prev ? Math.round((parseDay(x.date) - parseDay(prev.date)) / 86400000) : null;
+        const sh = sch.history.find(h => h.to === x.date);
+        return ['#' + (i+1), fmtFR(x.date, { weekday:'short', day:'2-digit', month:'2-digit', year:'numeric' }), gap === null ? 'Début' : 'J+' + gap, x.site || '-',
+          [x.note, sh && !/calée/i.test(x.note || '') ? `décalée du ${fmtFR(sh.from)} (${sh.reason}${sh.notes ? ' : ' + sh.notes : ''})` : ''].filter(Boolean).join(' — ') || '-'];
+      });
+      if (inj) rows.push(['#' + (log.length + 1), inj.nextDate.toLocaleDateString('fr-FR', { weekday:'short', day:'2-digit', month:'2-digit', year:'numeric' }), 'Prévue', '-', 'Prochaine injection']);
+      P.table([{h:'N°',w:.07},{h:'Date',w:.2},{h:'Intervalle',w:.12},{h:'Site',w:.15},{h:'Notes',w:.46}], rows, {
+        cellStyle: (ri, ci) => {
+          if (ri === log.length) return { color: [142,68,173], bold: true };
+          if (ci === 2 && ri > 0) { const g = Math.round((parseDay(log[ri].date) - parseDay(log[ri-1].date)) / 86400000); return g === INJ_INTERVAL ? { color: [39,174,96], bold: true } : { color: [230,126,34], bold: true }; }
+          return null;
+        }
+      });
+    } else P.p('Aucune injection enregistrée.');
+    if (sch.history.length) {
+      P.h2('Décalages d\'injection');
+      P.table([{h:'Prévue le',w:.18},{h:'Reportée au',w:.18},{h:'Motif',w:.22},{h:'Notes',w:.42}],
+        [...sch.history].sort((a,b)=>a.from.localeCompare(b.from)).map(h => [fmtFR(h.from), fmtFR(h.to), h.reason || '-', h.notes || '-']));
+    }
+    const infs = [...(D.infections || [])].filter(i => i.date).sort((a,b) => a.date.localeCompare(b.date));
+    if (infs.length) {
+      P.h2('Épisodes infectieux');
+      P.table([{h:'Date',w:.15},{h:'Type',w:.2},{h:'T°',w:.08},{h:'Action',w:.27},{h:'Reprise',w:.13},{h:'Notes',w:.17}],
+        infs.map(i => [fmtFR(i.date), i.type || '-', i.temp ? i.temp + '°' : '-', i.action || '-', i.reprise ? fmtFR(i.reprise) : '-', i.notes || '-']));
+    }
+    if ((D.treatments || []).length) {
+      P.h2('Autres traitements & compléments');
+      P.table([{h:'Médicament',w:.26},{h:'Dose',w:.14},{h:'Fréquence',w:.16},{h:'Indication',w:.3},{h:'Début',w:.14}],
+        D.treatments.map(t => [t.name || '-', t.dose || '-', t.freq || '-', t.ind || '-', t.start ? fmtFR(t.start) : '-']));
+    }
+    const rdv = (D.consultations || []).filter(c => /rhumato/i.test(c.type || '') && c.date).sort((a,b) => a.date.localeCompare(b.date));
+    if (rdv.length) {
+      P.h2('Rendez-vous de rhumatologie');
+      P.table([{h:'Date',w:.15},{h:'Statut',w:.12},{h:'Médecin',w:.2},{h:'Motif',w:.23},{h:'Compte-rendu',w:.3}],
+        rdv.map(c => [fmtFR(c.date), parseDay(c.date) >= today ? 'À venir' : 'Passé', c.doc || '-', c.motif || '-', c.notes || '-']),
+        { cellStyle: (ri, ci) => ci === 1 && parseDay(rdv[ri].date) >= today ? { color: [39,174,96], bold: true } : null });
+    }
+    P.finish(`Traitement_IMRALDI_${toISODay(new Date())}.pdf`);
+    toast('✅ PDF du traitement téléchargé', 'success');
+  } catch (err) { console.error(err); toast('❌ Export PDF impossible : ' + err.message, 'error'); }
+}
+
 function getScoresFiltered() {
   let arr = [...D.entries];
   const search = '';
@@ -3448,14 +3716,18 @@ function renderScores() {
   const cnt = document.getElementById('sf-count');
 
   // ─── Courbe BASDAI canvas ───
-  const allSorted = [...D.entries].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const { from: _pf, to: _pt } = scorePeriod();
+  const allSorted = [...D.entries].filter(e => (!_pf || e.date >= _pf) && (!_pt || e.date <= _pt)).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  markScorePeriodChips();
   const canvas = document.getElementById('basdai-canvas');
+  { const h = canvas?.closest('.chart-scroll-wrap')?.nextElementSibling; if (h && h.classList.contains('chart-swipe-hint')) h.style.display = allSorted.length ? '' : 'none'; }
   const emptyEl = document.getElementById('basdai-empty');
   const rLabel = document.getElementById('scores-range-label');
 
   if (!allSorted.length) {
     if(canvas) canvas.style.display='none';
-    if(emptyEl) emptyEl.style.display='';
+    if(emptyEl) { emptyEl.style.display=''; emptyEl.textContent = D.entries.length ? 'Aucune évaluation sur cette période' : 'Aucune donnée — commencez par saisir une journée'; }
+    if(rLabel) rLabel.textContent = '';
   } else {
     if(canvas) canvas.style.display='block';
     if(emptyEl) emptyEl.style.display='none';
