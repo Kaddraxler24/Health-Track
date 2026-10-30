@@ -1,7 +1,7 @@
-// Suivi Santé — service worker (version e9455e010a)
+// Suivi Santé — service worker (version dbae80cec2)
 // Réseau d'abord : chaque ouverture en ligne charge la dernière version publiée ;
 // hors connexion, la dernière version téléchargée est utilisée.
-const CACHE = 'suivi-sante-e9455e010a';
+const CACHE = 'suivi-sante-dbae80cec2';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
