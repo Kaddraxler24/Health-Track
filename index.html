@@ -892,12 +892,13 @@ tbody tr:hover td { background: var(--bg3); }
 <path d="M8.4 19.4h5l1.6-3.4 2.4 6.6 2.2-4.8 1.2 1.6h8.8" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="splash-name">Suivi Santé</div><div class="splash-sub">SpA · Crohn · IMRALDI</div></div>
 <script>
 // Écran d'ouverture : seulement dans l'appli installée (pas dans un navigateur classique)
+var _splashT = performance.now();
 (function(){ var sa = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone;
   if (!sa) document.getElementById('splash').remove(); })();
 setTimeout(hideSplash, 3000);   // sécurité : jamais bloqué sur l'écran d'ouverture
 function hideSplash() {
   var el = document.getElementById('splash'); if (!el) return;
-  setTimeout(function(){ el.classList.add('hide'); setTimeout(function(){ el.remove(); }, 400); }, Math.max(0, 700 - performance.now()));
+  setTimeout(function(){ el.classList.add('hide'); setTimeout(function(){ el.remove(); }, 400); }, Math.max(0, 1100 - (performance.now() - _splashT)));   // visible au moins 1,1 s
 }
 </script>
 <!-- ═══ ICÔNES (sprite SVG) ═══ -->
