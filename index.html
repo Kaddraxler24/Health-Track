@@ -964,6 +964,47 @@ tbody tr:hover td { background: var(--bg3); }
 #toast button { background: rgba(255,255,255,.22); color: #fff; border: 0; border-radius: 8px; padding: 6px 10px; font: 700 12px var(--sans); cursor: pointer; }
 @media (max-width: 768px) { #toast { left: 12px; right: 12px; bottom: 84px; max-width: none; } }
 
+/* ═══ CALENDRIER ═══ */
+.cal-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.cal-head h3 { font-size: 17px; margin: 0; text-transform: capitalize; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal-dow { text-align: center; font: 700 10px var(--sans); color: var(--t3); text-transform: uppercase; padding-bottom: 4px; }
+.cal-day { aspect-ratio: 1 / 1.08; border-radius: 10px; background: var(--bg3); border: 1px solid var(--bdr); padding: 4px; cursor: pointer;
+  display: flex; flex-direction: column; justify-content: space-between; min-width: 0; position: relative; }
+.cal-day.out { visibility: hidden; }
+.cal-day.today { outline: 2px solid var(--t); outline-offset: -2px; }
+.cal-day.future { opacity: .55; }
+.cal-n { font: 700 12px var(--sans); }
+.cal-b { font: 700 10px var(--mono); }
+.cal-ic { display: flex; gap: 2px; flex-wrap: wrap; }
+.cal-ic .ic { width: 11px; height: 11px; }
+.cal-g { background: rgba(39,174,96,.16); border-color: rgba(39,174,96,.4); }
+.cal-o { background: rgba(230,126,34,.18); border-color: rgba(230,126,34,.45); }
+.cal-r { background: rgba(231,76,60,.18); border-color: rgba(231,76,60,.5); }
+.cal-legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 11px; color: var(--t2); margin-top: 10px; align-items: center; }
+.cal-legend span { display: inline-flex; align-items: center; gap: 4px; }
+.cal-legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.day-sec { border-top: 1px solid var(--bdr); padding: 10px 0; font-size: 13px; line-height: 1.5; }
+.day-sec h4 { margin: 0 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .4px; color: var(--t2); display: flex; align-items: center; gap: 6px; }
+.day-sec h4 .ic { width: 14px; height: 14px; }
+.sum-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
+.sum-cell { background: var(--bg3); border: 1px solid var(--bdr); border-radius: 10px; padding: 10px; }
+.sum-cell b { display: block; font: 800 18px var(--mono); margin-top: 2px; }
+.sum-cell span { font-size: 11px; color: var(--t2); }
+/* ═══ MODE CONSULTATION ═══ */
+#m-consult .modal { width: 100%; max-width: 1000px; height: 100%; max-height: 100vh; border-radius: 0; overflow-y: auto; padding: 20px 22px 40px; }
+#m-consult .cs-h { font-size: 22px; font-weight: 800; }
+#m-consult .cs-sec { margin-top: 18px; }
+#m-consult .cs-sec h3 { font-size: 15px; margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
+#m-consult .cs-big { font: 800 30px var(--mono); }
+#m-consult table { width: 100%; font-size: 13px; }
+.q-row { display: flex; gap: 8px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--bdr); }
+.q-row:last-child { border-bottom: 0; }
+.q-row input[type=checkbox] { width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0; }
+.q-row .q-t { flex: 1; font-size: 13px; }
+.q-row.done .q-t > span { text-decoration: line-through; color: var(--t3); }
+.q-row .form-input { margin-top: 6px; font-size: 12px; padding: 6px 8px; }
+
 /* ═══ RAPPELS ═══ */
 .rm-item { display: flex; gap: 12px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--bdr); }
 .rm-item:last-child { border-bottom: 0; padding-bottom: 2px; }
@@ -1019,7 +1060,7 @@ function hideSplash() {
 }
 </script>
 <!-- ═══ ICÔNES (sprite SVG) ═══ -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9L9.6 3.9A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-alert-octagon" viewBox="0 0 24 24"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></symbol><symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/></symbol><symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol><symbol id="i-shift" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3.5"/></symbol><symbol id="i-bone" viewBox="0 0 24 24"><path d="M17 10c.7-.7 1.7 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .8.7 1.8 0 2.5l-7 7c-.7.7-1.7 0-2.5 0a2.5 2.5 0 0 0 0 5c.3 0 .5.2.5.5a2.5 2.5 0 1 0 5 0c0-.8-.7-1.8 0-2.5Z"/></symbol><symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 10v4M6 6v12M10 3v18M14 8v8M18 5v14M22 10v4"/></symbol><symbol id="i-microscope" viewBox="0 0 24 24"><path d="M6 18h8M3 22h18M14 22a7 7 0 1 0 0-14h-1M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></symbol><symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 9V3"/><path d="M7 15h10"/></symbol><symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2.7s6 6.3 6 11.3a6 6 0 0 1-12 0c0-5 6-11.3 6-11.3z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-stetho" viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></symbol><symbol id="n-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="9" rx="2"/><rect x="13.5" y="3" width="7.5" height="5.5" rx="2"/><rect x="13.5" y="11.5" width="7.5" height="9.5" rx="2"/><rect x="3" y="15" width="7.5" height="6" rx="2"/></symbol><symbol id="n-eval" viewBox="0 0 24 24"><rect x="4.5" y="4" width="15" height="17.5" rx="2.5"/><path d="M9 4V3.2c0-.7.5-1.2 1.2-1.2h3.6c.7 0 1.2.5 1.2 1.2V4"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/><circle cx="12.5" cy="10.5" r="1.3" fill="currentColor"/><circle cx="10" cy="14" r="1.3" fill="currentColor"/></symbol><symbol id="n-chart" viewBox="0 0 24 24"><path d="M3.5 3.5v15a2 2 0 0 0 2 2h15"/><path d="m7.5 14.5 3.5-4.5 3 3 5.5-6.5"/><circle cx="19.5" cy="6.5" r="1.4" fill="currentColor"/></symbol><symbol id="n-scale" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M7.5 10.5a6 6 0 0 1 9 0"/><path d="m12 11 1.6-2.4"/><path d="M9 16.5h6"/></symbol><symbol id="n-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="n-flask" viewBox="0 0 24 24"><path d="M9.5 2.5v6.8L4.3 18.4A2.2 2.2 0 0 0 6.2 21.5h11.6a2.2 2.2 0 0 0 1.9-3.1L14.5 9.3V2.5"/><path d="M8 2.5h8"/><path d="M6.6 15h10.8"/></symbol><symbol id="n-scan" viewBox="0 0 24 24"><path d="M3 7.5V5.5a2.5 2.5 0 0 1 2.5-2.5h2M16.5 3h2A2.5 2.5 0 0 1 21 5.5v2M21 16.5v2a2.5 2.5 0 0 1-2.5 2.5h-2M7.5 21h-2A2.5 2.5 0 0 1 3 18.5v-2"/><path d="M12 7v10M9 9.5c1 .6 2 .9 3 .9s2-.3 3-.9M9 14.5c1-.6 2-.9 3-.9s2 .3 3 .9"/></symbol><symbol id="n-stetho" viewBox="0 0 24 24"><path d="M5 2.5H4a1.5 1.5 0 0 0-1.5 1.5v5a5.5 5.5 0 0 0 11 0V4A1.5 1.5 0 0 0 12 2.5h-1"/><path d="M8 14.5v1a5.5 5.5 0 0 0 11 0V12"/><circle cx="19" cy="10" r="2"/></symbol><symbol id="n-file" viewBox="0 0 24 24"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5"/><path d="M12 18.2c-2-1.3-3.4-2.6-3.4-4.2 0-1.1.8-1.9 1.8-1.9.7 0 1.3.4 1.6 1 .3-.6.9-1 1.6-1 1 0 1.8.8 1.8 1.9 0 1.6-1.4 2.9-3.4 4.2Z"/></symbol><symbol id="n-pulse" viewBox="0 0 24 24"><path d="M2.5 12h4l2.5-6 4 13 3-9 1.5 2h4"/></symbol><symbol id="n-shield" viewBox="0 0 24 24"><path d="M12 21.5s7.5-3.4 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 6.1 7.5 9.5 7.5 9.5Z"/><path d="M12 8v4.5M12 16h.01"/></symbol><symbol id="n-watch" viewBox="0 0 24 24"><rect x="5.5" y="6" width="13" height="12" rx="3.5"/><path d="M8.5 6l.7-3.2h5.6L15.5 6M8.5 18l.7 3.2h5.6l.7-3.2"/><path d="M12 9.5V12l1.8 1.2"/></symbol><symbol id="i-sync" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.4 6.4L3 16"/><path d="M3 21v-5h5"/><path d="M3 12a9 9 0 0 1 15.4-6.4L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol><symbol id="n-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol><symbol id="i-thermo" viewBox="0 0 24 24"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/><path d="M11.5 17.5v-6"/></symbol><symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></symbol><symbol id="i-note" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M3 5h13M3 10h13M3 15h7"/></symbol><symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></symbol><symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol><symbol id="n-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="19" cy="12" r="1.7" fill="currentColor"/></symbol></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9L9.6 3.9A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-alert-octagon" viewBox="0 0 24 24"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></symbol><symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/></symbol><symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol><symbol id="i-shift" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3.5"/></symbol><symbol id="i-bone" viewBox="0 0 24 24"><path d="M17 10c.7-.7 1.7 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .8.7 1.8 0 2.5l-7 7c-.7.7-1.7 0-2.5 0a2.5 2.5 0 0 0 0 5c.3 0 .5.2.5.5a2.5 2.5 0 1 0 5 0c0-.8-.7-1.8 0-2.5Z"/></symbol><symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 10v4M6 6v12M10 3v18M14 8v8M18 5v14M22 10v4"/></symbol><symbol id="i-microscope" viewBox="0 0 24 24"><path d="M6 18h8M3 22h18M14 22a7 7 0 1 0 0-14h-1M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></symbol><symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 9V3"/><path d="M7 15h10"/></symbol><symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2.7s6 6.3 6 11.3a6 6 0 0 1-12 0c0-5 6-11.3 6-11.3z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-stetho" viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></symbol><symbol id="n-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="9" rx="2"/><rect x="13.5" y="3" width="7.5" height="5.5" rx="2"/><rect x="13.5" y="11.5" width="7.5" height="9.5" rx="2"/><rect x="3" y="15" width="7.5" height="6" rx="2"/></symbol><symbol id="n-eval" viewBox="0 0 24 24"><rect x="4.5" y="4" width="15" height="17.5" rx="2.5"/><path d="M9 4V3.2c0-.7.5-1.2 1.2-1.2h3.6c.7 0 1.2.5 1.2 1.2V4"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/><circle cx="12.5" cy="10.5" r="1.3" fill="currentColor"/><circle cx="10" cy="14" r="1.3" fill="currentColor"/></symbol><symbol id="n-chart" viewBox="0 0 24 24"><path d="M3.5 3.5v15a2 2 0 0 0 2 2h15"/><path d="m7.5 14.5 3.5-4.5 3 3 5.5-6.5"/><circle cx="19.5" cy="6.5" r="1.4" fill="currentColor"/></symbol><symbol id="n-scale" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M7.5 10.5a6 6 0 0 1 9 0"/><path d="m12 11 1.6-2.4"/><path d="M9 16.5h6"/></symbol><symbol id="n-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="n-flask" viewBox="0 0 24 24"><path d="M9.5 2.5v6.8L4.3 18.4A2.2 2.2 0 0 0 6.2 21.5h11.6a2.2 2.2 0 0 0 1.9-3.1L14.5 9.3V2.5"/><path d="M8 2.5h8"/><path d="M6.6 15h10.8"/></symbol><symbol id="n-scan" viewBox="0 0 24 24"><path d="M3 7.5V5.5a2.5 2.5 0 0 1 2.5-2.5h2M16.5 3h2A2.5 2.5 0 0 1 21 5.5v2M21 16.5v2a2.5 2.5 0 0 1-2.5 2.5h-2M7.5 21h-2A2.5 2.5 0 0 1 3 18.5v-2"/><path d="M12 7v10M9 9.5c1 .6 2 .9 3 .9s2-.3 3-.9M9 14.5c1-.6 2-.9 3-.9s2 .3 3 .9"/></symbol><symbol id="n-stetho" viewBox="0 0 24 24"><path d="M5 2.5H4a1.5 1.5 0 0 0-1.5 1.5v5a5.5 5.5 0 0 0 11 0V4A1.5 1.5 0 0 0 12 2.5h-1"/><path d="M8 14.5v1a5.5 5.5 0 0 0 11 0V12"/><circle cx="19" cy="10" r="2"/></symbol><symbol id="n-file" viewBox="0 0 24 24"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5"/><path d="M12 18.2c-2-1.3-3.4-2.6-3.4-4.2 0-1.1.8-1.9 1.8-1.9.7 0 1.3.4 1.6 1 .3-.6.9-1 1.6-1 1 0 1.8.8 1.8 1.9 0 1.6-1.4 2.9-3.4 4.2Z"/></symbol><symbol id="n-pulse" viewBox="0 0 24 24"><path d="M2.5 12h4l2.5-6 4 13 3-9 1.5 2h4"/></symbol><symbol id="n-shield" viewBox="0 0 24 24"><path d="M12 21.5s7.5-3.4 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 6.1 7.5 9.5 7.5 9.5Z"/><path d="M12 8v4.5M12 16h.01"/></symbol><symbol id="n-watch" viewBox="0 0 24 24"><rect x="5.5" y="6" width="13" height="12" rx="3.5"/><path d="M8.5 6l.7-3.2h5.6L15.5 6M8.5 18l.7 3.2h5.6l.7-3.2"/><path d="M12 9.5V12l1.8 1.2"/></symbol><symbol id="i-sync" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.4 6.4L3 16"/><path d="M3 21v-5h5"/><path d="M3 12a9 9 0 0 1 15.4-6.4L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol><symbol id="n-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol><symbol id="i-thermo" viewBox="0 0 24 24"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/><path d="M11.5 17.5v-6"/></symbol><symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></symbol><symbol id="i-note" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M3 5h13M3 10h13M3 15h7"/></symbol><symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></symbol><symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol><symbol id="n-cal" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M7.5 13.5h2M11 13.5h2M14.5 13.5h2M7.5 17h2M11 17h2"/></symbol><symbol id="n-doctor" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M12 7.5v5M9.5 10h5"/><path d="M8 16.5h8"/></symbol><symbol id="n-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="19" cy="12" r="1.7" fill="currentColor"/></symbol></defs></svg>
 
 <!-- ═══════════ SIDEBAR ═══════════ -->
 <aside class="sidebar">
@@ -1042,6 +1083,10 @@ function hideSplash() {
     <div class="nav-link active" onclick="nav('dashboard')">
       <span class="nav-icon"><svg class="nv"><use href="#n-dash"/></svg></span>
       Vue d'ensemble
+    </div>
+    <div class="nav-link" onclick="nav('calendar')">
+      <span class="nav-icon"><svg class="nv"><use href="#n-cal"/></svg></span>
+      Calendrier
     </div>
   </div>
 
@@ -1082,6 +1127,10 @@ function hideSplash() {
     <div class="nav-link" onclick="nav('consultations')">
       <span class="nav-icon"><svg class="nv"><use href="#n-stetho"/></svg></span>
       Consultations
+    </div>
+    <div class="nav-link" onclick="openConsult()">
+      <span class="nav-icon"><svg class="nv"><use href="#n-doctor"/></svg></span>
+      Mode consultation
     </div>
     <div class="nav-link" onclick="nav('history')">
       <span class="nav-icon"><svg class="nv"><use href="#n-file"/></svg></span>
@@ -1196,9 +1245,12 @@ function hideSplash() {
       <button class="qa-btn" onclick="openMorning()"><svg class="nv"><use href="#n-pulse"/></svg>Raideur</button>
       <button class="qa-btn" onclick="openTemp()"><svg class="ic"><use href="#i-thermo"/></svg>Température</button>
       <button class="qa-btn" onclick="document.getElementById('jr-text').focus()"><svg class="ic"><use href="#i-note"/></svg>Note</button>
+      <button class="qa-btn" onclick="nav('calendar')"><svg class="nv"><use href="#n-cal"/></svg>Calendrier</button>
       <button class="qa-btn hot" id="qa-inj" style="display:none" onclick="openInjDone()"><svg class="nv"><use href="#n-syringe"/></svg>Injection faite</button>
     </div>
   </div>
+
+  <div class="card" id="dd-month" style="display:none"></div>
 
   <div class="card" id="dd-journal">
     <div class="card-header"><div class="card-title"><span class="card-title-dot" style="background:var(--a5)"></span>Comment ça va aujourd'hui ?</div><span style="font-size:11px;color:var(--t3);" id="jr-saved"></span></div>
@@ -2120,6 +2172,12 @@ function hideSplash() {
 
 <!-- ════════════════════════ CONSULTATIONS ════════════════════════ -->
 <div class="page" id="page-consultations">
+  <div class="card" id="q-card">
+    <div class="card-header"><div class="card-title"><span class="card-title-dot" style="background:var(--a6)"></span>Questions pour le médecin</div>
+      <button class="btn btn-primary btn-sm" onclick="openConsult()"><svg class=ic><use href=#n-doctor></use></svg> Mode consultation</button></div>
+    <div style="display:flex;gap:8px;margin-bottom:6px;"><input type="text" class="form-input" id="q-new" placeholder="Ex : faut-il décaler l'injection si j'ai un rhume ?" maxlength="300" onkeydown="if(event.key==='Enter')addQuestion()"><button class="btn btn-primary" onclick="addQuestion()">Ajouter</button></div>
+    <div id="q-list"></div>
+  </div>
   <div class="grid-2" style="margin-bottom:20px;" data-perso="consultNext" data-perso-public><!--PERSO:consultNext--><!--/PERSO:consultNext-->
   </div>
 
@@ -2433,6 +2491,23 @@ function hideSplash() {
   </div>
 </div>
 
+<!-- ════════════════════════ CALENDRIER ════════════════════════ -->
+<div class="page" id="page-calendar">
+  <div class="card">
+    <div class="cal-head">
+      <button class="btn btn-secondary btn-sm" onclick="calMove(-1)" aria-label="Mois précédent">‹</button>
+      <h3 id="cal-title">—</h3>
+      <button class="btn btn-secondary btn-sm" onclick="calMove(1)" aria-label="Mois suivant">›</button>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+    <div class="cal-legend">
+      <span><i style="background:rgba(39,174,96,.5)"></i>BASDAI &lt; 4</span><span><i style="background:rgba(230,126,34,.6)"></i>4 à 6</span><span><i style="background:rgba(231,76,60,.6)"></i>&gt; 6</span>
+      <span><svg class=ic style="width:12px;height:12px"><use href=#n-syringe></use></svg>Injection</span><span><svg class=ic style="width:12px;height:12px;color:var(--a2)"><use href=#i-thermo></use></svg>Fièvre</span><span><svg class=ic style="width:12px;height:12px;color:var(--a4)"><use href=#i-alert></use></svg>Infection</span><span><svg class=ic style="width:12px;height:12px;color:var(--a5)"><use href=#i-note></use></svg>Note</span>
+    </div>
+  </div>
+  <div class="card" id="cal-summary"></div>
+</div>
+
 <!-- ════════════════════════ RÉGLAGES ════════════════════════ -->
 <div class="page" id="page-settings">
   <div class="card">
@@ -2692,6 +2767,24 @@ function hideSplash() {
     <div class="form-label" style="margin-top:6px;">Historique des décalages</div>
     <div id="ish-history"></div>
     <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('m-inj-shift')">Annuler</button><button class="btn btn-primary" onclick="saveInjShift()">Décaler</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-day">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title"><svg class=ic><use href=#n-cal></use></svg><span id="day-title">—</span></div><button class="modal-close" onclick="closeModal('m-day')"><svg class=ic><use href=#i-x></use></svg></button></div>
+    <div id="day-body"></div>
+    <div class="modal-footer" id="day-actions"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-consult">
+  <div class="modal">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+      <div><div class="cs-h">Consultation de rhumatologie</div><div style="font-size:13px;color:var(--t2);" id="cs-sub">—</div></div>
+      <button class="modal-close" onclick="closeModal('m-consult')"><svg class=ic><use href=#i-x></use></svg></button>
+    </div>
+    <div id="cs-body"></div>
   </div>
 </div>
 
@@ -3142,7 +3235,7 @@ var _bioImportExtracted = {};
 
 // ═══ DATA ═══
 let D = { entries:[], symptoms:[], treatments:[], biology:[], imaging:[], consultations:[], infections:[], weights:[], wearable:[], alSymptoms:[] };
-const PAGES = { dashboard:'Vue d\'ensemble', daily:'Évaluation BASDAI', scores:'Historique BASDAI', symptoms:'Symptômes', treatments:'Traitements', biology:'Biologie', imaging:'Imagerie & Examens', consultations:'Consultations', history:'Historique médical', alerts:'Alertes infection', weight:'Poids & IMC', wearable:'Montre & activité', reminders:'Rappels', settings:'Réglages' };
+const PAGES = { dashboard:'Vue d\'ensemble', daily:'Évaluation BASDAI', scores:'Historique BASDAI', symptoms:'Symptômes', treatments:'Traitements', biology:'Biologie', imaging:'Imagerie & Examens', consultations:'Consultations', history:'Historique médical', alerts:'Alertes infection', weight:'Poids & IMC', wearable:'Montre & activité', reminders:'Rappels', settings:'Réglages', calendar:'Calendrier' };
 
 // ═══ SÉCURITÉ : tout texte venant d'un fichier, de l'OCR ou de l'IA est neutralisé ═══
 // (pas de balise HTML, pas de guillemet droit pouvant sortir d'un attribut, identifiants simples)
@@ -3203,6 +3296,8 @@ function nav(id) {
   if(id==='wearable') renderWearable();
   if(id==='reminders') renderReminders();
   if(id==='settings') renderSettings();
+  if(id==='calendar') renderCalendar();
+  if(id==='consultations') renderQuestions();
   if(id==='daily') prefillQ6();
   if(typeof isMobile === 'function' && isMobile()) {
     const mobileMap = { dashboard:'dashboard', daily:'daily', treatments:'treatments', wearable:'wearable' };
@@ -3934,6 +4029,7 @@ function renderDash() {
   // ── Dashboard montre ──
   fillWkTiles('dw');
   renderQuick();
+  renderMonthCard();
 }
 
 // ═══ SCORES — Filter + Sort + Edit + Delete ═══
@@ -6942,8 +7038,8 @@ function prefillQ6() {
 // ═══ BASDAI EXPRESS ═══
 const XP_Q = [['q1', 'Q1 — Fatigue'], ['q2', 'Q2 — Douleur cou / dos / hanches'], ['q3', 'Q3 — Douleur / gonflement des articulations'], ['q4', 'Q4 — Gêne aux points sensibles (talons, bassin…)'], ['q5', 'Q5 — Intensité de la raideur matinale']];
 function q6Score(min) { let s; if (min <= 30) s = min / 12; else if (min <= 60) s = 2.5 + (min - 30) / 12; else if (min <= 90) s = 5 + (min - 60) / 12; else if (min <= 120) s = 7.5 + (min - 90) / 12; else s = 10; return Math.min(10, Math.round(s * 10) / 10); }
-function openExpress() {
-  const date = basdaiDefaultDate();
+function openExpress(forDate) {
+  const date = typeof forDate === 'string' ? forDate : basdaiDefaultDate();
   document.getElementById('xp-date').value = date;
   const ex = (D.entries || []).find(e => e.date === date);
   document.getElementById('xp-qs').innerHTML = XP_Q.map(([k, l]) => `<div class="xp-q"><label>${l} <b id="xp-v-${k}">5</b></label><input type="range" min="0" max="10" step="1" value="5" id="xp-${k}" oninput="xpCalc()"></div>`).join('');
@@ -7087,6 +7183,163 @@ async function autoBackup() {
       for (const f of files.slice(0, Math.max(0, files.length - 6))) await nativeCall('Filesystem', 'deleteFile', { path: 'HealthK/' + f, directory: 'DOCUMENTS' });
     } catch (e) {}
   } catch (e) { console.warn('Sauvegarde automatique', e); }
+}
+
+// ═══ CALENDRIER & FICHE DU JOUR ═══
+let calMonth = null;
+const fr1 = v => String(Math.round(v * 10) / 10).replace('.', ',');
+function bdClass(b) { return b == null ? '' : b < 4 ? 'cal-g' : b < 6 ? 'cal-o' : 'cal-r'; }
+function bdColor(b) { return b < 4 ? 'var(--a3)' : b < 6 ? 'var(--a4)' : 'var(--a2)'; }
+function infectionOn(k) { return (D.infections || []).some(i => i.date && i.date <= k && (i.reprise ? k < i.reprise : (parseDay(k) - parseDay(i.date)) / 86400000 <= 7)); }
+function flareOn(k) { return (D.flares || []).some(f => f.start <= k && (!f.end || k <= f.end)); }
+function dayData(k) {
+  const d = { date: k };
+  d.entry = (D.entries || []).find(e => e.date === k);
+  d.morning = (D.morning || {})[k];
+  d.journal = (D.journal || {})[k];
+  d.wear = wkByDay()[k];
+  d.inj = injLog().find(x => x.date === k);
+  d.temps = (D.temps || []).filter(t => t.date === k);
+  d.weight = (D.weights || []).find(w => w.date === k);
+  d.cons = (D.consultations || []).filter(c => c.date === k);
+  d.bio = (D.biology || []).filter(b => b.date === k);
+  d.img = (D.imaging || []).filter(i => i.date === k);
+  d.inf = (D.infections || []).filter(i => i.date === k);
+  d.infOn = infectionOn(k);
+  d.flares = (D.flares || []).filter(f => f.start <= k && (!f.end || k <= f.end));
+  d.meds = (D.meds || []).filter(m => m.date === k);
+  d.sym = [...(D.symptoms || []), ...(D.alSymptoms || [])].filter(x => x.date === k);
+  return d;
+}
+function renderCalendar() {
+  if (!calMonth) { const t = new Date(); calMonth = new Date(t.getFullYear(), t.getMonth(), 1); }
+  const y = calMonth.getFullYear(), m = calMonth.getMonth(), today = toISODay(new Date());
+  document.getElementById('cal-title').textContent = calMonth.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+  const first = (new Date(y, m, 1).getDay() + 6) % 7, nDays = new Date(y, m + 1, 0).getDate();
+  const IC = (n, c) => `<svg class=ic style="color:${c}"><use href=#${n}></use></svg>`;
+  let h = ['L', 'M', 'M', 'J', 'V', 'S', 'D'].map(x => `<div class="cal-dow">${x}</div>`).join('');
+  for (let i = 0; i < first; i++) h += '<div class="cal-day out"></div>';
+  for (let n = 1; n <= nDays; n++) {
+    const k = toISODay(new Date(y, m, n)), d = dayData(k), b = d.entry ? d.entry.basdai : null;
+    const ic = [];
+    if (d.inj) ic.push(IC('n-syringe', 'var(--a5)'));
+    if (d.temps.some(t => t.value >= 38)) ic.push(IC('i-thermo', 'var(--a2)'));
+    if (d.infOn) ic.push(IC('i-alert', 'var(--a4)'));
+    if (d.flares.length) ic.push(IC('i-bolt', 'var(--a2)'));
+    if (d.journal || d.sym.length || (d.entry && d.entry.notes)) ic.push(IC('i-note', 'var(--a5)'));
+    if (d.cons.length) ic.push(IC('n-doctor', 'var(--a6)'));
+    h += `<div class="cal-day ${bdClass(b)}${k === today ? ' today' : ''}${k > today ? ' future' : ''}" onclick="openDay('${k}')"><div class="cal-n">${n}</div>${b != null ? `<div class="cal-b" style="color:${bdColor(b)}">${fr1(b)}</div>` : ''}<div class="cal-ic">${ic.join('')}</div></div>`;
+  }
+  document.getElementById('cal-grid').innerHTML = h;
+  document.getElementById('cal-summary').innerHTML = monthSummaryHtml(y, m);
+}
+function calMove(d) { calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth() + d, 1); renderCalendar(); }
+function openDay(k) {
+  const d = dayData(k), sec = (ic, t, body) => body ? `<div class="day-sec"><h4><svg class=ic><use href=#${ic}></use></svg>${t}</h4>${body}</div>` : '';
+  const e = d.entry, w = d.wear;
+  let h = '';
+  h += sec('n-eval', 'BASDAI', e ? `<b style="color:${bdColor(e.basdai)};font-size:18px;">${fr1(e.basdai)}</b> · fatigue ${e.q1}, dos ${e.q2}, articulations ${e.q3}, enthèses ${e.q4}, raideur ${e.q5} · raideur ${e.q6m ?? '—'} min${e.ctx && e.ctx !== 'RAS' ? '<br>Contexte : ' + e.ctx : ''}${e.notes ? '<br>' + e.notes : ''}` : '');
+  h += sec('n-pulse', 'Raideur du matin', d.morning != null ? d.morning + ' min' : '');
+  h += sec('i-note', 'Journal', d.journal ? `${d.journal.mood ? MOODS[d.journal.mood - 1][0] + ' ' + MOODS[d.journal.mood - 1][1] : ''}${d.journal.text ? ' — ' + cleanText(d.journal.text) : ''}` : '');
+  h += sec('n-syringe', 'Injection', d.inj ? `Faite${d.inj.site ? ' · ' + d.inj.site : ''}${d.inj.note ? ' · ' + d.inj.note : ''}` : '');
+  h += sec('i-bolt', 'Poussée', d.flares.map(f => `Depuis le ${parseDay(f.start).toLocaleDateString('fr-FR')}${f.end ? ' jusqu\'au ' + parseDay(f.end).toLocaleDateString('fr-FR') : ' (en cours)'} · intensité ${f.intensity}/10${f.zones && f.zones.length ? ' · ' + f.zones.join(', ') : ''}`).join('<br>'));
+  h += sec('i-thermo', 'Température', d.temps.map(t => `<b style="color:${t.value >= 38 ? 'var(--a2)' : 'inherit'}">${fr1(t.value)} °C</b> à ${new Date(t.at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}`).join(' · '));
+  h += sec('i-alert', 'Infection', d.inf.map(i => `${i.type || 'Infection'}${i.temp ? ' · ' + i.temp + ' °C' : ''}`).join('<br>') || (d.infOn ? 'Période d\'infection en cours' : ''));
+  h += sec('i-clock', 'Médicaments', d.meds.map(m => `${m.time || ''} ${m.name}${m.dose ? ' ' + m.dose : ''}${m.reason ? ' (' + m.reason + ')' : ''}`).join('<br>'));
+  h += sec('n-watch', 'Montre', w ? [w.sleepH != null ? 'Sommeil ' + fmtH(w.sleepH) : '', w.hr ? 'FC repos ' + w.hr + ' bpm' : '', w.steps ? Math.round(w.steps).toLocaleString('fr-FR') + ' pas' : '', w.spo2 ? 'SpO2 ' + w.spo2 + ' %' : '', w.exMin ? w.exMin + ' min d\'exercice' : ''].filter(Boolean).join(' · ') : '');
+  h += sec('n-scale', 'Poids', d.weight ? d.weight.kg + ' kg' + (d.weight.fatPct ? ' · ' + d.weight.fatPct + ' % de masse grasse' : '') : '');
+  h += sec('n-stetho', 'Consultation', d.cons.map(c => `${c.type || ''}${c.doc ? ' · ' + c.doc : ''}${c.motif ? ' · ' + c.motif : ''}`).join('<br>'));
+  h += sec('n-flask', 'Biologie', d.bio.map(b => `Bilan${b.lab ? ' · ' + b.lab : ''} (${(b.markers || []).length} marqueurs)`).join('<br>'));
+  h += sec('n-scan', 'Imagerie', d.img.map(i => `${i.type || ''} ${i.zone || ''}`).join('<br>'));
+  h += sec('n-pulse', 'Symptômes', d.sym.map(x => x.desc || x.name || x.type || '').filter(Boolean).join('<br>'));
+  document.getElementById('day-title').textContent = parseDay(k).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  document.getElementById('day-body').innerHTML = h || '<div style="font-size:13px;color:var(--t3);padding:10px 0;">Rien d\'enregistré ce jour-là.</div>';
+  document.getElementById('day-actions').innerHTML = k <= toISODay(new Date()) ? `<button class="btn btn-primary" onclick="closeModal('m-day');openExpress('${k}')">${e ? 'Modifier le BASDAI' : 'BASDAI de ce jour'}</button>` : '';
+  openModal('m-day');
+}
+
+// ═══ RÉSUMÉ DU MOIS ═══
+function monthStats(y, m) {
+  const pre = `${y}-${String(m + 1).padStart(2, '0')}`, inM = k => k && k.startsWith(pre);
+  const ent = (D.entries || []).filter(e => inM(e.date) && e.basdai != null), avg = a => a.length ? a.reduce((x, z) => x + z, 0) / a.length : null;
+  const wd = Object.values(wkByDay()).filter(w => inM(w.date));
+  const moods = Object.entries(D.journal || {}).filter(([k]) => inM(k));
+  const hard = new Set([...ent.filter(e => e.basdai >= 6).map(e => e.date), ...moods.filter(([, j]) => j.mood && j.mood <= 2).map(([k]) => k)]);
+  const ws = (D.weights || []).filter(w => inM(w.date)).sort((a, b) => a.date.localeCompare(b.date));
+  return { n: ent.length, basdai: avg(ent.map(e => e.basdai)), stiff: avg(Object.entries(D.morning || {}).filter(([k]) => inM(k)).map(([, v]) => v)),
+    inj: injLog().filter(x => inM(x.date)).length, hard: hard.size, flares: (D.flares || []).filter(f => inM(f.start)).length,
+    sleep: avg(wd.filter(w => w.sleepH != null).map(w => w.sleepH)), steps: avg(wd.filter(w => w.steps).map(w => w.steps)),
+    wDelta: ws.length >= 2 ? ws[ws.length - 1].kg - ws[0].kg : null, any: ent.length || wd.length || moods.length || injLog().some(x => inM(x.date)) };
+}
+function monthSummaryHtml(y, m) {
+  const st = monthStats(y, m), name = new Date(y, m, 1).toLocaleDateString('fr-FR', { month: 'long' });
+  if (!st.any) return `<div class="card-title"><span class="card-title-dot" style="background:var(--a6)"></span>Résumé de ${name}</div><div style="font-size:13px;color:var(--t3);margin-top:8px;">Pas de données ce mois-ci.</div>`;
+  const cell = (l, v, c) => `<div class="sum-cell"><span>${l}</span><b style="color:${c || 'var(--t)'}">${v}</b></div>`;
+  return `<div class="card-header"><div class="card-title"><span class="card-title-dot" style="background:var(--a6)"></span>Résumé de ${name}</div></div><div class="sum-grid">`
+    + cell('BASDAI moyen', st.basdai != null ? fr1(st.basdai) : '—', st.basdai != null ? bdColor(st.basdai) : '')
+    + cell('Évaluations', st.n) + cell('Injections faites', st.inj, 'var(--a5)') + cell('Jours difficiles', st.hard, st.hard ? 'var(--a4)' : '')
+    + cell('Raideur moyenne', st.stiff != null ? Math.round(st.stiff) + ' min' : '—') + (st.flares ? cell('Poussées', st.flares, 'var(--a2)') : '')
+    + cell('Sommeil moyen', st.sleep != null ? fmtH(st.sleep) : '—') + cell('Pas par jour', st.steps ? Math.round(st.steps).toLocaleString('fr-FR') : '—')
+    + (st.wDelta != null ? cell('Poids', (st.wDelta > 0 ? '+' : '') + fr1(st.wDelta) + ' kg', st.wDelta <= 0 ? 'var(--a3)' : 'var(--a4)') : '') + '</div>';
+}
+function renderMonthCard() {
+  const el = document.getElementById('dd-month'); if (!el) return;
+  const t = new Date(); if (t.getDate() > 7) { el.style.display = 'none'; return; }
+  const p = new Date(t.getFullYear(), t.getMonth() - 1, 1), st = monthStats(p.getFullYear(), p.getMonth());
+  el.style.display = st.any ? 'block' : 'none'; if (st.any) el.innerHTML = monthSummaryHtml(p.getFullYear(), p.getMonth());
+}
+
+// ═══ QUESTIONS POUR LE MÉDECIN ═══
+function addQuestion() {
+  const i = document.getElementById('q-new'), t = i.value.trim(); if (!t) return;
+  D.questions = [...(D.questions || []), { id: Date.now(), text: t, created: toISODay(new Date()), done: false, answer: '' }];
+  i.value = ''; save(); renderQuestions(); toast('✓ Question ajoutée', 'success');
+}
+function qToggle(id) { const q = (D.questions || []).find(x => x.id === id); if (!q) return; q.done = !q.done; q.doneDate = q.done ? toISODay(new Date()) : null; save(); renderQuestions(); const c = document.getElementById('cs-q'); if (c) c.innerHTML = questionsHtml(true); }
+function qAnswer(id, v) { const q = (D.questions || []).find(x => x.id === id); if (q) { q.answer = v; save(); } }
+function qDelete(id) { const snap = undoPoint(); D.questions = (D.questions || []).filter(x => x.id !== id); save(); renderQuestions(); toastUndo('Question supprimée', snap); }
+function questionsHtml(onlyOpen) {
+  const list = [...(D.questions || [])].sort((a, b) => (a.done - b.done) || b.id - a.id).filter(q => !onlyOpen || !q.done || q.doneDate === toISODay(new Date()));
+  if (!list.length) return '<div style="font-size:13px;color:var(--t3);padding:6px 0;">Aucune question pour le moment.</div>';
+  return list.map(q => `<div class="q-row${q.done ? ' done' : ''}"><input type="checkbox" ${q.done ? 'checked' : ''} onchange="qToggle(${q.id})" aria-label="Question traitée"><div class="q-t"><span>${cleanText(q.text)}</span>${q.done ? `<input class="form-input" placeholder="Réponse du médecin" value="${cleanText(q.answer || '')}" onchange="qAnswer(${q.id},this.value)">` : ''}</div><button class="btn btn-secondary btn-xs" onclick="qDelete(${q.id})" aria-label="Supprimer"><svg class=ic><use href=#i-trash></use></svg></button></div>`).join('');
+}
+function renderQuestions() { const el = document.getElementById('q-list'); if (el) el.innerHTML = questionsHtml(false); }
+
+// ═══ MODE CONSULTATION ═══
+function openConsult() {
+  const t = new Date(), lim90 = toISODay(new Date(t.getTime() - 90 * 86400000)), lim30 = toISODay(new Date(t.getTime() - 30 * 86400000));
+  const ent = (D.entries || []).filter(e => e.basdai != null && e.date >= lim90).sort((a, b) => a.date.localeCompare(b.date));
+  const avg = a => a.length ? a.reduce((x, z) => x + z, 0) / a.length : null, p = getPresc(), n = calcNextInjection();
+  const st = Object.entries(D.morning || {}).filter(([k]) => k >= lim30).map(([, v]) => v);
+  document.getElementById('cs-sub').textContent = `IMRALDI · 1 injection / ${INJ_INTERVAL} jours` + (p ? ` · depuis le ${parseDay(p.start).toLocaleDateString('fr-FR')}` : '') + ` · ${t.toLocaleDateString('fr-FR')}`;
+  let h = '';
+  const ab = avg(ent.map(e => e.basdai));
+  h += `<div class="cs-sec"><h3><svg class=ic><use href=#n-eval></use></svg>BASDAI — 3 derniers mois</h3>
+    <div class="sum-grid">${[['Moyenne', ab != null ? fr1(ab) : '—', ab != null ? bdColor(ab) : ''], ['Dernier', ent.length ? fr1(ent[ent.length - 1].basdai) : '—', ent.length ? bdColor(ent[ent.length - 1].basdai) : ''], ['Évaluations', ent.length, ''], ['Raideur matinale (30 j)', st.length ? Math.round(avg(st)) + ' min' : '—', '']].map(([l, v, c]) => `<div class="sum-cell"><span>${l}</span><b style="color:${c || 'var(--t)'}">${v}</b></div>`).join('')}</div>
+    <canvas id="cs-basdai" style="width:100%;height:150px;margin-top:10px;"></canvas></div>`;
+  const inj = [...injLog()].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 6), sh = (injSchedule().history || []).slice(-4).reverse();
+  h += `<div class="cs-sec"><h3><svg class=ic><use href=#n-syringe></use></svg>Injections</h3><div style="font-size:13px;line-height:1.6;">`
+    + (inj.length ? inj.map(x => `${parseDay(x.date).toLocaleDateString('fr-FR')}${x.site ? ' · ' + x.site : ''}${x.note ? ' · ' + x.note : ''}`).join('<br>') : 'Aucune injection enregistrée.')
+    + (n ? `<br><b>Prochaine : ${n.nextDate.toLocaleDateString('fr-FR')}</b>` : '')
+    + (sh.length ? '<br><span style="color:var(--a4);">Décalages : ' + sh.map(x => `${parseDay(x.from).toLocaleDateString('fr-FR')} → ${parseDay(x.to).toLocaleDateString('fr-FR')} (${x.reason || '—'})`).join(' ; ') + '</span>' : '') + '</div></div>';
+  const infs = (D.infections || []).filter(i => i.date >= toISODay(new Date(t.getTime() - 182 * 86400000)));
+  const fl = (D.flares || []).filter(f => f.start >= lim90);
+  if (infs.length || fl.length) h += `<div class="cs-sec"><h3><svg class=ic><use href=#i-alert></use></svg>Infections et poussées (récentes)</h3><div style="font-size:13px;line-height:1.6;">${infs.map(i => `Infection le ${parseDay(i.date).toLocaleDateString('fr-FR')}${i.type ? ' · ' + i.type : ''}`).concat(fl.map(f => `Poussée du ${parseDay(f.start).toLocaleDateString('fr-FR')}${f.end ? ' au ' + parseDay(f.end).toLocaleDateString('fr-FR') : ' (en cours)'} · ${f.intensity}/10${f.zones && f.zones.length ? ' · ' + f.zones.join(', ') : ''}`)).join('<br>')}</div></div>`;
+  const bil = [...(D.biology || [])].filter(b => b.date).sort((a, b) => b.date.localeCompare(a.date))[0];
+  if (bil && typeof PDF_BIO_KEYS !== 'undefined') {
+    const rows = PDF_BIO_KEYS.map(K => ({ K, r: bioPick(bil, K) })).filter(x => x.r);
+    h += `<div class="cs-sec"><h3><svg class=ic><use href=#n-flask></use></svg>Dernier bilan — ${parseDay(bil.date).toLocaleDateString('fr-FR')}</h3><div class="sum-grid">${rows.map(({ K, r }) => `<div class="sum-cell"><span>${K.label}</span><b style="color:${r.out ? 'var(--a2)' : 'var(--t)'}">${fr1(r.v)} <small style="font-size:11px;font-weight:500;color:var(--t2)">${K.unit}</small></b></div>`).join('')}</div></div>`;
+  }
+  const wd = Object.values(wkByDay()).filter(w => w.date >= lim30);
+  const ws = (D.weights || []).filter(w => w.kg).sort((a, b) => b.date.localeCompare(a.date));
+  h += `<div class="cs-sec"><h3><svg class=ic><use href=#n-watch></use></svg>Sommeil, activité et poids (30 derniers jours)</h3><div class="sum-grid">`
+    + [['Sommeil moyen', avg(wd.filter(w => w.sleepH != null).map(w => w.sleepH))], ['FC au repos', avg(wd.filter(w => w.hr).map(w => w.hr))], ['Pas par jour', avg(wd.filter(w => w.steps).map(w => w.steps))]]
+      .map(([l, v], i) => `<div class="sum-cell"><span>${l}</span><b>${v == null ? '—' : i === 0 ? fmtH(v) : i === 1 ? Math.round(v) + ' bpm' : Math.round(v).toLocaleString('fr-FR')}</b></div>`).join('')
+    + `<div class="sum-cell"><span>Poids</span><b>${ws.length ? ws[0].kg + ' kg' : '—'}</b></div></div></div>`;
+  h += `<div class="cs-sec"><h3><svg class=ic><use href=#n-doctor></use></svg>Mes questions</h3><div id="cs-q">${questionsHtml(true)}</div></div>`;
+  document.getElementById('cs-body').innerHTML = h;
+  openModal('m-consult');
+  setTimeout(() => drawWkChart(document.getElementById('cs-basdai'), ent.map(e => ({ d: e.date, v: e.basdai })), { type: 'line', color: '#c0392b', ref: 4, fmt: v => fr1(v) }), 60);
 }
 
 // ═══ RAPPEL DE SAUVEGARDE ═══
