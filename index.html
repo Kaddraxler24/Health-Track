@@ -1057,13 +1057,9 @@ function hideSplash() {
     <svg class="nv"><use href="#n-syringe"/></svg>
     Traitements
   </div>
-  <div class="bottom-nav-item" id="bn-biology" onclick="nav('biology');setBottomNav('biology')">
-    <svg class="nv"><use href="#n-flask"/></svg>
-    Biologie
-  </div>
-  <div class="bottom-nav-item" id="bn-weight" onclick="nav('weight');setBottomNav('weight')">
-    <svg class="nv"><use href="#n-scale"/></svg>
-    Poids
+  <div class="bottom-nav-item" id="bn-wearable" onclick="nav('wearable');setBottomNav('wearable')">
+    <svg class="nv"><use href="#n-watch"/></svg>
+    Montre
   </div>
   <div class="bottom-nav-item" id="bn-more" onclick="toggleSidebar()">
     <svg class="nv"><use href="#n-more"/></svg>
@@ -1274,6 +1270,7 @@ function hideSplash() {
   <div class="card">
     <div class="card-header">
       <div class="card-title"><span class="card-title-dot"></span>Date & Contexte</div>
+      <button class="btn btn-secondary btn-sm" onclick="nav('scores')"><svg class="ic"><use href="#n-chart"></use></svg> Historique →</button>
     </div>
     <div class="form-row">
       <div class="form-group">
@@ -2859,7 +2856,7 @@ function nav(id) {
   if(id==='imaging') renderImaging();
   if(id==='wearable') renderWearable();
   if(typeof isMobile === 'function' && isMobile()) {
-    const mobileMap = { dashboard:'dashboard', daily:'daily', treatments:'treatments', biology:'biology', weight:'weight' };
+    const mobileMap = { dashboard:'dashboard', daily:'daily', treatments:'treatments', wearable:'wearable' };
     setBottomNav(mobileMap[id] || 'more');
     closeSidebar();
   }
