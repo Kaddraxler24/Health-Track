@@ -5,4 +5,10 @@
     <string name="package_name">io.github.kaddraxler24.healthk</string>
     <string name="custom_url_scheme">io.github.kaddraxler24.healthk</string>
     <string name="health_connect_privacy_policy_url">https://kaddraxler24.github.io/Health-Track/confidentialite.html</string>
+    <string name="widget_desc">Prochaine injection, dernier BASDAI et actions rapides</string>
+    <string name="sc_express">BASDAI express</string>
+    <string name="sc_express_long">Évaluation BASDAI express</string>
+    <string name="sc_morning">Raideur du matin</string>
+    <string name="sc_inj">Injection faite</string>
+    <string name="sc_note">Note du jour</string>
 </resources>

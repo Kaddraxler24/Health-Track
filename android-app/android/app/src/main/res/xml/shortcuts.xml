@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut android:shortcutId="express" android:enabled="true" android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/sc_express" android:shortcutLongLabel="@string/sc_express_long">
+        <intent android:action="android.intent.action.VIEW" android:targetPackage="io.github.kaddraxler24.healthk"
+            android:targetClass="io.github.kaddraxler24.healthk.MainActivity" android:data="healthk://express" />
+    </shortcut>
+    <shortcut android:shortcutId="morning" android:enabled="true" android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/sc_morning" android:shortcutLongLabel="@string/sc_morning">
+        <intent android:action="android.intent.action.VIEW" android:targetPackage="io.github.kaddraxler24.healthk"
+            android:targetClass="io.github.kaddraxler24.healthk.MainActivity" android:data="healthk://morning" />
+    </shortcut>
+    <shortcut android:shortcutId="injection" android:enabled="true" android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/sc_inj" android:shortcutLongLabel="@string/sc_inj">
+        <intent android:action="android.intent.action.VIEW" android:targetPackage="io.github.kaddraxler24.healthk"
+            android:targetClass="io.github.kaddraxler24.healthk.MainActivity" android:data="healthk://injection" />
+    </shortcut>
+    <shortcut android:shortcutId="note" android:enabled="true" android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/sc_note" android:shortcutLongLabel="@string/sc_note">
+        <intent android:action="android.intent.action.VIEW" android:targetPackage="io.github.kaddraxler24.healthk"
+            android:targetClass="io.github.kaddraxler24.healthk.MainActivity" android:data="healthk://note" />
+    </shortcut>
+</shortcuts>
