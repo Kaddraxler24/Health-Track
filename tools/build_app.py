@@ -111,8 +111,11 @@ self.addEventListener('fetch', e => {{
     return;
   }}
   if (u.origin !== location.origin) return;
+  // Appli Android : l'en-tête Accept des pages permet d'y injecter le pont vers Santé Connect
+  const init = {{ cache: 'no-cache' }};
+  if (r.mode === 'navigate') init.headers = {{ 'Accept': r.headers.get('Accept') || 'text/html' }};
   e.respondWith(
-    fetch(r.url, {{ cache: 'no-cache' }})
+    fetch(r.url, init)
       .then(res => {{ if (res.ok) {{ const cp = res.clone(); caches.open(CACHE).then(c => c.put(r, cp)); }} return res; }})
       .catch(() => caches.match(r, {{ ignoreSearch: true }}).then(m => m || caches.match('./index.html')))
   );

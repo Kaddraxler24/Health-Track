@@ -867,6 +867,26 @@ tbody tr:hover td { background: var(--bg3); }
   .form-row-4 { grid-template-columns: 1fr; }
 }
 
+/* ═══ MONTRE & ACTIVITÉ ═══ */
+.wk-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.wk-tile { background: var(--bg3); border: 1px solid var(--bdr); border-radius: 10px; padding: 12px; min-width: 0; }
+.wk-tile-label { font-size: 11px; color: var(--t2); display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+.wk-tile-label .ic { width: 14px; height: 14px; }
+.wk-tile-value { font-size: 22px; font-weight: 800; font-family: var(--mono); line-height: 1.1; }
+.wk-tile-sub { font-size: 11px; color: var(--t3); margin-top: 4px; }
+.wk-charts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.wk-chart { background: var(--bg3); border: 1px solid var(--bdr); border-radius: 10px; padding: 10px 10px 4px; min-width: 0; }
+.wk-chart-title { font-size: 12px; font-weight: 700; margin-bottom: 4px; display: flex; justify-content: space-between; gap: 6px; }
+.wk-chart-title span { font-weight: 500; color: var(--t3); }
+.wk-chart canvas { width: 100%; height: 150px; display: block; }
+.wk-sync { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.wk-sync-ic { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(41,128,185,.12); color: var(--a6); flex-shrink: 0; }
+.wk-sync-ic .nv { width: 24px; height: 24px; }
+.wk-status { font-size: 12px; color: var(--t2); margin-top: 2px; }
+.wk-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+@media (max-width: 1024px) { .wk-charts { grid-template-columns: 1fr; } }
+@media (max-width: 768px) { .wk-tiles { grid-template-columns: 1fr 1fr; } .wk-tile-value { font-size: 20px; } }
+
 /* ═══ ÉCRAN D'OUVERTURE ═══ */
 #splash { position: fixed; inset: 0; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
   background: radial-gradient(circle at 50% 38%, #2a2f4d 0%, #1c1f2e 62%); transition: opacity .35s ease, visibility .35s; }
@@ -901,7 +921,7 @@ function hideSplash() {
 }
 </script>
 <!-- ═══ ICÔNES (sprite SVG) ═══ -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9L9.6 3.9A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-alert-octagon" viewBox="0 0 24 24"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></symbol><symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/></symbol><symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol><symbol id="i-shift" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3.5"/></symbol><symbol id="i-bone" viewBox="0 0 24 24"><path d="M17 10c.7-.7 1.7 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .8.7 1.8 0 2.5l-7 7c-.7.7-1.7 0-2.5 0a2.5 2.5 0 0 0 0 5c.3 0 .5.2.5.5a2.5 2.5 0 1 0 5 0c0-.8-.7-1.8 0-2.5Z"/></symbol><symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 10v4M6 6v12M10 3v18M14 8v8M18 5v14M22 10v4"/></symbol><symbol id="i-microscope" viewBox="0 0 24 24"><path d="M6 18h8M3 22h18M14 22a7 7 0 1 0 0-14h-1M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></symbol><symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 9V3"/><path d="M7 15h10"/></symbol><symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2.7s6 6.3 6 11.3a6 6 0 0 1-12 0c0-5 6-11.3 6-11.3z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-stetho" viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></symbol><symbol id="n-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="9" rx="2"/><rect x="13.5" y="3" width="7.5" height="5.5" rx="2"/><rect x="13.5" y="11.5" width="7.5" height="9.5" rx="2"/><rect x="3" y="15" width="7.5" height="6" rx="2"/></symbol><symbol id="n-eval" viewBox="0 0 24 24"><rect x="4.5" y="4" width="15" height="17.5" rx="2.5"/><path d="M9 4V3.2c0-.7.5-1.2 1.2-1.2h3.6c.7 0 1.2.5 1.2 1.2V4"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/><circle cx="12.5" cy="10.5" r="1.3" fill="currentColor"/><circle cx="10" cy="14" r="1.3" fill="currentColor"/></symbol><symbol id="n-chart" viewBox="0 0 24 24"><path d="M3.5 3.5v15a2 2 0 0 0 2 2h15"/><path d="m7.5 14.5 3.5-4.5 3 3 5.5-6.5"/><circle cx="19.5" cy="6.5" r="1.4" fill="currentColor"/></symbol><symbol id="n-scale" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M7.5 10.5a6 6 0 0 1 9 0"/><path d="m12 11 1.6-2.4"/><path d="M9 16.5h6"/></symbol><symbol id="n-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="n-flask" viewBox="0 0 24 24"><path d="M9.5 2.5v6.8L4.3 18.4A2.2 2.2 0 0 0 6.2 21.5h11.6a2.2 2.2 0 0 0 1.9-3.1L14.5 9.3V2.5"/><path d="M8 2.5h8"/><path d="M6.6 15h10.8"/></symbol><symbol id="n-scan" viewBox="0 0 24 24"><path d="M3 7.5V5.5a2.5 2.5 0 0 1 2.5-2.5h2M16.5 3h2A2.5 2.5 0 0 1 21 5.5v2M21 16.5v2a2.5 2.5 0 0 1-2.5 2.5h-2M7.5 21h-2A2.5 2.5 0 0 1 3 18.5v-2"/><path d="M12 7v10M9 9.5c1 .6 2 .9 3 .9s2-.3 3-.9M9 14.5c1-.6 2-.9 3-.9s2 .3 3 .9"/></symbol><symbol id="n-stetho" viewBox="0 0 24 24"><path d="M5 2.5H4a1.5 1.5 0 0 0-1.5 1.5v5a5.5 5.5 0 0 0 11 0V4A1.5 1.5 0 0 0 12 2.5h-1"/><path d="M8 14.5v1a5.5 5.5 0 0 0 11 0V12"/><circle cx="19" cy="10" r="2"/></symbol><symbol id="n-file" viewBox="0 0 24 24"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5"/><path d="M12 18.2c-2-1.3-3.4-2.6-3.4-4.2 0-1.1.8-1.9 1.8-1.9.7 0 1.3.4 1.6 1 .3-.6.9-1 1.6-1 1 0 1.8.8 1.8 1.9 0 1.6-1.4 2.9-3.4 4.2Z"/></symbol><symbol id="n-pulse" viewBox="0 0 24 24"><path d="M2.5 12h4l2.5-6 4 13 3-9 1.5 2h4"/></symbol><symbol id="n-shield" viewBox="0 0 24 24"><path d="M12 21.5s7.5-3.4 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 6.1 7.5 9.5 7.5 9.5Z"/><path d="M12 8v4.5M12 16h.01"/></symbol><symbol id="n-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="19" cy="12" r="1.7" fill="currentColor"/></symbol></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9L9.6 3.9A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-alert-octagon" viewBox="0 0 24 24"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></symbol><symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/></symbol><symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol><symbol id="i-shift" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3.5"/></symbol><symbol id="i-bone" viewBox="0 0 24 24"><path d="M17 10c.7-.7 1.7 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .8.7 1.8 0 2.5l-7 7c-.7.7-1.7 0-2.5 0a2.5 2.5 0 0 0 0 5c.3 0 .5.2.5.5a2.5 2.5 0 1 0 5 0c0-.8-.7-1.8 0-2.5Z"/></symbol><symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 10v4M6 6v12M10 3v18M14 8v8M18 5v14M22 10v4"/></symbol><symbol id="i-microscope" viewBox="0 0 24 24"><path d="M6 18h8M3 22h18M14 22a7 7 0 1 0 0-14h-1M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></symbol><symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 9V3"/><path d="M7 15h10"/></symbol><symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2.7s6 6.3 6 11.3a6 6 0 0 1-12 0c0-5 6-11.3 6-11.3z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-stetho" viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></symbol><symbol id="n-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="9" rx="2"/><rect x="13.5" y="3" width="7.5" height="5.5" rx="2"/><rect x="13.5" y="11.5" width="7.5" height="9.5" rx="2"/><rect x="3" y="15" width="7.5" height="6" rx="2"/></symbol><symbol id="n-eval" viewBox="0 0 24 24"><rect x="4.5" y="4" width="15" height="17.5" rx="2.5"/><path d="M9 4V3.2c0-.7.5-1.2 1.2-1.2h3.6c.7 0 1.2.5 1.2 1.2V4"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/><circle cx="12.5" cy="10.5" r="1.3" fill="currentColor"/><circle cx="10" cy="14" r="1.3" fill="currentColor"/></symbol><symbol id="n-chart" viewBox="0 0 24 24"><path d="M3.5 3.5v15a2 2 0 0 0 2 2h15"/><path d="m7.5 14.5 3.5-4.5 3 3 5.5-6.5"/><circle cx="19.5" cy="6.5" r="1.4" fill="currentColor"/></symbol><symbol id="n-scale" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M7.5 10.5a6 6 0 0 1 9 0"/><path d="m12 11 1.6-2.4"/><path d="M9 16.5h6"/></symbol><symbol id="n-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="n-flask" viewBox="0 0 24 24"><path d="M9.5 2.5v6.8L4.3 18.4A2.2 2.2 0 0 0 6.2 21.5h11.6a2.2 2.2 0 0 0 1.9-3.1L14.5 9.3V2.5"/><path d="M8 2.5h8"/><path d="M6.6 15h10.8"/></symbol><symbol id="n-scan" viewBox="0 0 24 24"><path d="M3 7.5V5.5a2.5 2.5 0 0 1 2.5-2.5h2M16.5 3h2A2.5 2.5 0 0 1 21 5.5v2M21 16.5v2a2.5 2.5 0 0 1-2.5 2.5h-2M7.5 21h-2A2.5 2.5 0 0 1 3 18.5v-2"/><path d="M12 7v10M9 9.5c1 .6 2 .9 3 .9s2-.3 3-.9M9 14.5c1-.6 2-.9 3-.9s2 .3 3 .9"/></symbol><symbol id="n-stetho" viewBox="0 0 24 24"><path d="M5 2.5H4a1.5 1.5 0 0 0-1.5 1.5v5a5.5 5.5 0 0 0 11 0V4A1.5 1.5 0 0 0 12 2.5h-1"/><path d="M8 14.5v1a5.5 5.5 0 0 0 11 0V12"/><circle cx="19" cy="10" r="2"/></symbol><symbol id="n-file" viewBox="0 0 24 24"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5"/><path d="M12 18.2c-2-1.3-3.4-2.6-3.4-4.2 0-1.1.8-1.9 1.8-1.9.7 0 1.3.4 1.6 1 .3-.6.9-1 1.6-1 1 0 1.8.8 1.8 1.9 0 1.6-1.4 2.9-3.4 4.2Z"/></symbol><symbol id="n-pulse" viewBox="0 0 24 24"><path d="M2.5 12h4l2.5-6 4 13 3-9 1.5 2h4"/></symbol><symbol id="n-shield" viewBox="0 0 24 24"><path d="M12 21.5s7.5-3.4 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 6.1 7.5 9.5 7.5 9.5Z"/><path d="M12 8v4.5M12 16h.01"/></symbol><symbol id="n-watch" viewBox="0 0 24 24"><rect x="5.5" y="6" width="13" height="12" rx="3.5"/><path d="M8.5 6l.7-3.2h5.6L15.5 6M8.5 18l.7 3.2h5.6l.7-3.2"/><path d="M12 9.5V12l1.8 1.2"/></symbol><symbol id="i-sync" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.4 6.4L3 16"/><path d="M3 21v-5h5"/><path d="M3 12a9 9 0 0 1 15.4-6.4L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol><symbol id="n-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="19" cy="12" r="1.7" fill="currentColor"/></symbol></defs></svg>
 
 <!-- ═══════════ SIDEBAR ═══════════ -->
 <aside class="sidebar">
@@ -940,6 +960,10 @@ function hideSplash() {
     <div class="nav-link" onclick="nav('weight')">
       <span class="nav-icon"><svg class="nv"><use href="#n-scale"/></svg></span>
       Poids & IMC
+    </div>
+    <div class="nav-link" onclick="nav('wearable')">
+      <span class="nav-icon"><svg class="nv"><use href="#n-watch"/></svg></span>
+      Montre & activité
     </div>
   </div>
 
@@ -1219,6 +1243,21 @@ function hideSplash() {
       </div><div class="chart-swipe-hint">← glisser pour voir toute la courbe →</div>
     </div>
     <div style="margin-top:8px;font-size:11px;color:var(--t3);display:none;" id="dd-weight-last"></div>
+  </div>
+
+  <!-- MONTRE — résumé -->
+  <div class="card" id="dd-wear-card">
+    <div class="card-header">
+      <div class="card-title"><span class="card-title-dot" style="background:var(--a5)"></span>Montre & activité</div>
+      <button class="btn btn-secondary btn-sm" onclick="nav('wearable')">Voir →</button>
+    </div>
+    <div class="wk-tiles">
+      <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#i-moon></use></svg>Sommeil</div><div class="wk-tile-value" style="color:var(--a5)" id="dw-sleep">—</div><div class="wk-tile-sub" id="dw-sleep-sub">—</div></div>
+      <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#n-pulse></use></svg>FC au repos</div><div class="wk-tile-value" style="color:var(--a2)" id="dw-hr">—</div><div class="wk-tile-sub" id="dw-hr-sub">—</div></div>
+      <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#n-dash></use></svg>Pas</div><div class="wk-tile-value" style="color:var(--a3)" id="dw-steps">—</div><div class="wk-tile-sub" id="dw-steps-sub">—</div></div>
+      <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#i-drop></use></svg>SpO2</div><div class="wk-tile-value" style="color:var(--a6)" id="dw-spo2">—</div><div class="wk-tile-sub" id="dw-spo2-sub">—</div></div>
+    </div>
+    <div style="margin-top:8px;font-size:11px;color:var(--t3);" id="dd-wear-last">Aucune donnée de montre pour le moment.</div>
   </div>
 
 </div>
@@ -2120,6 +2159,57 @@ function hideSplash() {
 </div>
 
 <!-- ════════════════════════ ALERTES ════════════════════════ -->
+<!-- ════════════════════════ MONTRE & ACTIVITÉ ════════════════════════ -->
+<div class="page" id="page-wearable">
+
+  <div class="card">
+    <div class="wk-sync">
+      <div class="wk-sync-ic"><svg class="nv"><use href="#n-watch"/></svg></div>
+      <div style="flex:1;min-width:200px;">
+        <div style="font-weight:700;font-size:15px;">Santé Connect · Galaxy Watch</div>
+        <div class="wk-status" id="wk-status">—</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;" id="wk-actions"></div>
+    </div>
+    <div id="wk-help" style="display:none;margin-top:14px;font-size:13px;color:var(--t2);line-height:1.6;"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><span class="card-title-dot" style="background:var(--a5)"></span>Dernières mesures</div>
+    </div>
+    <div class="wk-tiles">
+      <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#i-moon></use></svg>Sommeil</div><div class="wk-tile-value" style="color:var(--a5)" id="wk-sleep">—</div><div class="wk-tile-sub" id="wk-sleep-sub">—</div></div>
+      <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#n-pulse></use></svg>FC au repos</div><div class="wk-tile-value" style="color:var(--a2)" id="wk-hr">—</div><div class="wk-tile-sub" id="wk-hr-sub">—</div></div>
+      <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#n-dash></use></svg>Pas</div><div class="wk-tile-value" style="color:var(--a3)" id="wk-steps">—</div><div class="wk-tile-sub" id="wk-steps-sub">—</div></div>
+      <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#i-drop></use></svg>SpO2</div><div class="wk-tile-value" style="color:var(--a6)" id="wk-spo2">—</div><div class="wk-tile-sub" id="wk-spo2-sub">—</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><span class="card-title-dot" style="background:var(--a3)"></span>Évolution</div>
+      <div style="display:flex;gap:6px;">
+        <button class="btn btn-secondary btn-xs wk-chip" data-p="14" onclick="setWkPeriod(14)">14 j</button>
+        <button class="btn btn-secondary btn-xs wk-chip" data-p="30" onclick="setWkPeriod(30)">30 j</button>
+        <button class="btn btn-secondary btn-xs wk-chip" data-p="90" onclick="setWkPeriod(90)">90 j</button>
+      </div>
+    </div>
+    <div class="wk-charts">
+      <div class="wk-chart"><div class="wk-chart-title">Sommeil <span id="wk-avg-sleep"></span></div><canvas id="wk-c-sleep"></canvas></div>
+      <div class="wk-chart"><div class="wk-chart-title">FC au repos <span id="wk-avg-hr"></span></div><canvas id="wk-c-hr"></canvas></div>
+      <div class="wk-chart"><div class="wk-chart-title">Pas <span id="wk-avg-steps"></span></div><canvas id="wk-c-steps"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><span class="card-title-dot" style="background:var(--a6)"></span>Détail par jour</div>
+    </div>
+    <div class="table-wrap" id="wr-table"></div>
+  </div>
+</div>
+
 <div class="page" id="page-alerts">
   <div class="urgency-grid" style="margin-bottom:24px;">
     <div class="urgency-card urg-r">
@@ -2745,7 +2835,7 @@ var _bioImportExtracted = {};
 
 // ═══ DATA ═══
 let D = { entries:[], symptoms:[], treatments:[], biology:[], imaging:[], consultations:[], infections:[], weights:[], wearable:[], alSymptoms:[] };
-const PAGES = { dashboard:'Vue d\'ensemble', daily:'Évaluation BASDAI', scores:'Historique BASDAI', symptoms:'Symptômes', treatments:'Traitements', biology:'Biologie', imaging:'Imagerie & Examens', consultations:'Consultations', history:'Historique médical', alerts:'Alertes infection', weight:'Poids & IMC' };
+const PAGES = { dashboard:'Vue d\'ensemble', daily:'Évaluation BASDAI', scores:'Historique BASDAI', symptoms:'Symptômes', treatments:'Traitements', biology:'Biologie', imaging:'Imagerie & Examens', consultations:'Consultations', history:'Historique médical', alerts:'Alertes infection', weight:'Poids & IMC', wearable:'Montre & activité' };
 
 function load() { try { const s = localStorage.getItem('st_v3'); if(s) D={...D,...JSON.parse(s)}; } catch(e){} }
 function save() { try { localStorage.setItem('st_v3', JSON.stringify(D)); document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('fr-FR'); } catch(e){} }
@@ -2767,6 +2857,7 @@ function nav(id) {
   if(id==='weight') renderWeight();
   // biotherapy removed
   if(id==='imaging') renderImaging();
+  if(id==='wearable') renderWearable();
   if(typeof isMobile === 'function' && isMobile()) {
     const mobileMap = { dashboard:'dashboard', daily:'daily', treatments:'treatments', biology:'biology', weight:'weight' };
     setBottomNav(mobileMap[id] || 'more');
@@ -3478,21 +3569,7 @@ function renderDash() {
   }
 
   // ── Dashboard montre ──
-  D.wearable = D.wearable || [];
-  const wrSorted = [...D.wearable].sort((a,b)=>new Date(b.date)-new Date(a.date));
-  const ddSl=document.getElementById('dd-sleep');
-  const ddDp=document.getElementById('dd-deep');
-  const ddHr=document.getElementById('dd-hr');
-  const ddSt=document.getElementById('dd-steps');
-  const ddWearLast=document.getElementById('dd-wear-last');
-  if (wrSorted.length) {
-    const lwr = wrSorted[0];
-    if(ddSl) ddSl.textContent = lwr.sleepH ? lwr.sleepH+'h' : '—';
-    if(ddDp) ddDp.textContent = lwr.deep ? lwr.deep+' min' : '—';
-    if(ddHr) { ddHr.textContent = lwr.hr ? lwr.hr+' bpm' : '—'; if(lwr.hr) ddHr.style.color=lwr.hr>80?'var(--a4)':'var(--a3)'; }
-    if(ddSt) ddSt.textContent = lwr.steps ? lwr.steps.toLocaleString('fr-FR') : '—';
-    if(ddWearLast) ddWearLast.textContent = 'Données du '+new Date(lwr.date).toLocaleDateString('fr-FR')+' · '+wrSorted.length+' entrée'+(wrSorted.length>1?'s':'');
-  }
+  fillWkTiles('dw');
 }
 
 // ═══ SCORES — Filter + Sort + Edit + Delete ═══
@@ -3611,7 +3688,7 @@ function makePdf(J, title, subtitle) {
         doc.text(pdfTxt(`Health K' — généré le ${stamp} — document personnel, ne remplace pas un avis médical`), M, PH - 8);
         doc.text(`${i} / ${n}`, PW - M, PH - 8, { align: 'right' });
       }
-      doc.save(file);
+      return saveFile(doc.output('blob'), file);
     }
   };
   P.header();
@@ -3685,7 +3762,7 @@ async function exportBasdaiPdf() {
     P.table([{h:'Date',w:.13},{h:'BASDAI',w:.09},{h:'Q1',w:.055},{h:'Q2',w:.055},{h:'Q3',w:.055},{h:'Q4',w:.055},{h:'Q5',w:.055},{h:'Q6 min',w:.075},{h:'Contexte / notes',w:.37}],
       rows, { cellStyle: (ri, ci) => ci === 1 ? { bold: true, color: BASDAI_COL(arr[ri].basdai), fill: BASDAI_FILL(arr[ri].basdai) } : null });
     P.p('Q1 fatigue · Q2 douleur axiale (cou, dos, hanches) · Q3 douleur/gonflement articulations périphériques · Q4 enthèses · Q5 intensité de la raideur matinale · Q6 durée de la raideur. Échelles 0-10. BASDAI < 4 : maladie contrôlée.', 8);
-    P.finish(`BASDAI_${d0}_${d1}.pdf`);
+    await P.finish(`BASDAI_${d0}_${d1}.pdf`);
     toast('✅ PDF BASDAI téléchargé', 'success');
   } catch (err) { console.error(err); toast('❌ Export PDF impossible : ' + err.message, 'error'); }
 }
@@ -3845,7 +3922,7 @@ async function exportTreatmentPdf() {
         rdv.map(c => [fmtFR(c.date), parseDay(c.date) >= today ? 'À venir' : 'Passé', c.doc || '-', c.motif || '-', c.notes || '-']),
         { cellStyle: (ri, ci) => ci === 1 && parseDay(rdv[ri].date) >= today ? { color: [39,174,96], bold: true } : null });
     }
-    P.finish(`Traitement_IMRALDI_${toISODay(new Date())}.pdf`);
+    await P.finish(`Traitement_IMRALDI_${toISODay(new Date())}.pdf`);
     toast('✅ PDF du traitement téléchargé', 'success');
   } catch (err) { console.error(err); toast('❌ Export PDF impossible : ' + err.message, 'error'); }
 }
@@ -5883,10 +5960,252 @@ function renderInfections() {
 function exportData() {
   const json=JSON.stringify(D,null,2);
   const blob=new Blob([json],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`sante_tracker_${toISODay(new Date())}.json`;a.click();
-  lsSet('st_last_export', toISODay(new Date()));
-  renderBackupBanner();
-  toast('✓ Données exportées');
+  saveFile(blob, `sante_tracker_${toISODay(new Date())}.json`).then(done => {
+    if (!done) return;
+    lsSet('st_last_export', toISODay(new Date()));
+    renderBackupBanner();
+    toast('✓ Données exportées');
+  }).catch(e => toast('Export impossible : ' + (e && e.message || e), 'error'));
+}
+
+// ═══ APPLI ANDROID : FICHIERS & SANTÉ CONNECT ═══
+const IS_NATIVE = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' && window.Capacitor.isNativePlatform());
+const APK_URL = 'https://github.com/Kaddraxler24/Health-Track/releases/download/android/health-k.apk';
+function nativeCall(plugin, method, opts) { return window.Capacitor.nativePromise(plugin, method, opts || {}); }
+
+// Enregistre un fichier : téléchargement dans le navigateur, partage (Drive, Fichiers…) dans l'appli Android
+async function saveFile(blob, filename) {
+  if (!IS_NATIVE) {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    return true;
+  }
+  const b64 = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(String(r.result).split(',')[1]); r.onerror = rej; r.readAsDataURL(blob); });
+  const w = await nativeCall('Filesystem', 'writeFile', { path: filename, data: b64, directory: 'CACHE' });
+  try { await nativeCall('Share', 'share', { title: filename, files: [w.uri], dialogTitle: 'Enregistrer ou envoyer « ' + filename + ' »' }); }
+  catch (e) { if (!/cancel/i.test(e && e.message || '')) throw e; return false; }
+  return true;
+}
+
+const HC_TYPES = ['steps', 'sleep', 'heartRate', 'restingHeartRate', 'oxygenSaturation', 'weight', 'bodyFat'];
+const HC_SRC = 'Santé Connect';
+let hcBusy = false, hcState = { available: null, authorized: null, reason: '' };
+function WK_PERIOD() { try { return +localStorage.getItem('st_wk_period') || 14; } catch(e) { return 14; } }
+function setWkPeriod(p) { try { localStorage.setItem('st_wk_period', p); } catch(e) {} renderWearable(); }
+function fmtH(h) { const t = Math.round(h * 60); return Math.floor(t / 60) + ' h ' + String(t % 60).padStart(2, '0'); }
+function dayKey(iso) { return toISODay(new Date(new Date(iso).getTime() + 2 * 3600000)); }   // début de journée → jour local
+function agoTxt(iso) {
+  const m = Math.round((Date.now() - new Date(iso)) / 60000);
+  return m < 2 ? 'à l\'instant' : m < 60 ? `il y a ${m} min` : m < 1440 ? `il y a ${Math.round(m/60)} h` : `le ${new Date(iso).toLocaleDateString('fr-FR')}`;
+}
+
+// Regroupe toutes les entrées montre par jour (Santé Connect prioritaire, saisies et imports complètent)
+function wkByDay() {
+  const out = {};
+  [...(D.wearable || [])].sort((a,b) => (a.source === HC_SRC) - (b.source === HC_SRC)).forEach(w => {
+    if (!w.date) return;
+    const k = String(w.date).slice(0, 10);
+    const o = out[k] || (out[k] = { date: k, ids: [], sources: [], hc: false });
+    o.ids.push(w.id);
+    const src = w.source === HC_SRC ? HC_SRC : (w.source && w.source !== 'manuel' ? 'import' : 'manuel');
+    if (!o.sources.includes(src)) o.sources.push(src);
+    if (w.source === HC_SRC) o.hc = true;
+    ['sleepH','deep','light','rem','hr','hrAvg','hrMax','steps','spo2'].forEach(f => { if (w[f] != null && w[f] !== '' && !isNaN(w[f])) o[f] = +w[f]; });
+  });
+  return out;
+}
+
+function fillWkTiles(pre) {
+  const days = Object.values(wkByDay()).sort((a,b) => b.date.localeCompare(a.date));
+  const set = (id, t) => { const el = document.getElementById(pre + '-' + id); if (el) el.textContent = t; };
+  const lastOf = k => days.find(d => d[k] != null);
+  const avg7 = k => { const lim = toISODay(new Date(Date.now() - 7 * 86400000)); const v = days.filter(d => d.date > lim && d[k] != null).map(d => d[k]); return v.length ? v.reduce((a,b)=>a+b,0)/v.length : null; };
+  const when = d => { const t = toISODay(new Date()), y = toISODay(new Date(Date.now() - 86400000)); return d.date === t ? 'aujourd\'hui' : d.date === y ? 'hier' : parseDay(d.date).toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit' }); };
+  const s = lastOf('sleepH'), h = lastOf('hr'), p = lastOf('steps'), o = lastOf('spo2');
+  set('sleep', s ? fmtH(s.sleepH) : '—');
+  set('sleep-sub', s ? `nuit → ${when(s)}` + (s.deep ? ` · profond ${s.deep} min` : '') : 'pas de donnée');
+  set('hr', h ? h.hr + ' bpm' : '—');
+  const a = avg7('hr'); set('hr-sub', h ? when(h) + (a ? ` · moy. 7 j ${Math.round(a)}` : '') : 'pas de donnée');
+  set('steps', p ? Math.round(p.steps).toLocaleString('fr-FR') : '—');
+  const b = avg7('steps'); set('steps-sub', p ? when(p) + (b ? ` · moy. 7 j ${Math.round(b).toLocaleString('fr-FR')}` : '') : 'pas de donnée');
+  set('spo2', o ? o.spo2 + ' %' : '—');
+  set('spo2-sub', o ? when(o) : 'pas de donnée');
+  const last = document.getElementById('dd-wear-last');
+  if (pre === 'dw' && last) last.textContent = D.hcLastSync ? 'Santé Connect synchronisé ' + agoTxt(D.hcLastSync) : days.length ? days.length + ' jour' + (days.length > 1 ? 's' : '') + ' de données' : (IS_NATIVE ? 'Va dans Montre & activité pour connecter Santé Connect.' : 'Les données de la montre arrivent avec l\'appli Android Health K\'.');
+}
+
+function renderWkSync() {
+  const st = document.getElementById('wk-status'), act = document.getElementById('wk-actions'), help = document.getElementById('wk-help');
+  if (!st) return;
+  const IC = n => `<svg class=ic><use href=#i-${n}></use></svg>`;
+  if (!IS_NATIVE) {
+    st.innerHTML = '<span class="wk-dot" style="background:var(--a4)"></span>Synchronisation disponible dans l\'appli Android';
+    act.innerHTML = `<a class="btn btn-primary btn-sm" href="${APK_URL}" style="text-decoration:none;">${IC('download')} Télécharger l'appli Android</a>`;
+    help.style.display = 'block';
+    help.innerHTML = 'Ta Galaxy Watch envoie ses données à Samsung Health, qui les partage avec <strong>Santé Connect</strong>. L\'appli Android Health K\' les lit automatiquement à chaque ouverture : sommeil, fréquence cardiaque, pas, SpO2, poids et masse grasse.';
+    return;
+  }
+  help.style.display = 'none';
+  if (hcBusy) { st.innerHTML = '<span class="wk-dot" style="background:var(--a6)"></span>Synchronisation en cours…'; act.innerHTML = ''; return; }
+  if (hcState.available === false) {
+    st.innerHTML = '<span class="wk-dot" style="background:var(--a2)"></span>Santé Connect introuvable sur ce téléphone';
+    act.innerHTML = `<button class="btn btn-secondary btn-sm" onclick="hcOpenSettings()">${IC('settings')} Ouvrir Santé Connect</button>`;
+    return;
+  }
+  if (hcState.authorized === false && !D.hcLastSync) {
+    st.innerHTML = '<span class="wk-dot" style="background:var(--a4)"></span>Pas encore connecté';
+    act.innerHTML = `<button class="btn btn-primary btn-sm" onclick="hcSync(true)">${IC('sync')} Connecter Santé Connect</button>`;
+    help.style.display = 'block';
+    help.innerHTML = 'Vérifie d\'abord dans <strong>Samsung Health → Paramètres → Santé Connect</strong> que Samsung Health est autorisé à écrire ses données. Puis touche « Connecter » et autorise Health K\' à les lire.';
+    return;
+  }
+  st.innerHTML = '<span class="wk-dot" style="background:var(--a3)"></span>' + (D.hcLastSync ? 'Synchronisé ' + agoTxt(D.hcLastSync) : 'Connecté');
+  act.innerHTML = `<button class="btn btn-primary btn-sm" onclick="hcSync(true)">${IC('sync')} Synchroniser</button><button class="btn btn-secondary btn-sm" onclick="hcOpenSettings()" title="Gérer les autorisations">${IC('settings')}</button>`;
+}
+
+async function hcOpenSettings() { try { await nativeCall('Health', 'openHealthConnectSettings'); } catch (e) { toast('Impossible d\'ouvrir Santé Connect', 'error'); } }
+
+async function hcSync(interactive) {
+  if (!IS_NATIVE || hcBusy) return;
+  hcBusy = true; renderWkSync();
+  try {
+    const av = await nativeCall('Health', 'isAvailable');
+    hcState.available = !!av.available;
+    if (!av.available) { if (interactive) toast('Santé Connect n\'est pas disponible sur ce téléphone', 'error'); return; }
+    let auth = await nativeCall('Health', 'checkAuthorization', { read: HC_TYPES });
+    if (interactive && (auth.readAuthorized || []).length < HC_TYPES.length)
+      auth = await nativeCall('Health', 'requestAuthorization', { read: HC_TYPES, requestHistoryAccess: true });
+    const ok = new Set(auth.readAuthorized || []);
+    hcState.authorized = ok.size > 0;
+    if (!ok.size) { if (interactive) toast('Aucune autorisation accordée dans Santé Connect', 'warning'); return; }
+
+    const end = new Date();
+    const start = D.hcLastSync ? new Date(new Date(D.hcLastSync).getTime() - 3 * 86400000) : new Date(Date.now() - 90 * 86400000);
+    start.setHours(0, 0, 0, 0);
+    const range = { startDate: start.toISOString(), endDate: end.toISOString() };
+    const days = {};
+    const day = k => days[k] || (days[k] = {});
+    const safe = async (type, fn) => { if (!ok.has(type)) return; try { await fn(); } catch (e) { console.warn('Santé Connect', type, e); } };
+
+    await safe('steps', async () => {
+      const r = await nativeCall('Health', 'queryAggregated', { ...range, dataType: 'steps', bucket: 'day', aggregation: 'sum' });
+      (r.samples || []).forEach(x => { if (x.value > 0) day(dayKey(x.startDate)).steps = Math.round(x.value); });
+    });
+    await safe('heartRate', async () => {
+      const r = await nativeCall('Health', 'queryAggregated', { ...range, dataType: 'heartRate', bucket: 'day', aggregation: ['min', 'average', 'max'] });
+      (r.samples || []).forEach(x => { const v = x.values || {}; if (!v.average) return; const d = day(dayKey(x.startDate)); d.hrMin = Math.round(v.min); d.hrAvg = Math.round(v.average); d.hrMax = Math.round(v.max); });
+    });
+    await safe('restingHeartRate', async () => {
+      const r = await nativeCall('Health', 'queryAggregated', { ...range, dataType: 'restingHeartRate', bucket: 'day', aggregation: 'average' });
+      (r.samples || []).forEach(x => { if (x.value > 0) day(dayKey(x.startDate)).hrRest = Math.round(x.value); });
+    });
+    await safe('sleep', async () => {
+      const r = await nativeCall('Health', 'readSamples', { ...range, dataType: 'sleep', limit: 1000, ascending: true });
+      (r.samples || []).forEach(x => {
+        const d = day(toISODay(new Date(x.endDate)));     // nuit rattachée au jour du réveil
+        let tot = 0, deep = 0, light = 0, rem = 0;
+        if (x.stages && x.stages.length) x.stages.forEach(g => {
+          const mn = g.durationMinutes || 0;
+          if (g.stage === 'awake' || g.stage === 'inBed') return;
+          tot += mn; if (g.stage === 'deep') deep += mn; else if (g.stage === 'light') light += mn; else if (g.stage === 'rem') rem += mn;
+        });
+        else tot = x.value || 0;
+        d.sleepMin = (d.sleepMin || 0) + tot; d.deep = (d.deep || 0) + deep; d.light = (d.light || 0) + light; d.rem = (d.rem || 0) + rem;
+      });
+    });
+    await safe('oxygenSaturation', async () => {
+      const r = await nativeCall('Health', 'readSamples', { ...range, dataType: 'oxygenSaturation', limit: 10000, ascending: true });
+      const acc = {};
+      (r.samples || []).forEach(x => { let v = +x.value; if (!v) return; if (v <= 1) v *= 100; const k = toISODay(new Date(x.startDate)); (acc[k] = acc[k] || []).push(v); });
+      Object.entries(acc).forEach(([k, v]) => { day(k).spo2 = Math.round(v.reduce((a,b)=>a+b,0) / v.length * 10) / 10; });
+    });
+
+    // Fusion dans D.wearable : une entrée « Santé Connect » par jour
+    D.wearable = D.wearable || [];
+    let nDays = 0;
+    Object.entries(days).forEach(([k, d]) => {
+      const rec = {};
+      if (d.sleepMin) { rec.sleepH = Math.round(d.sleepMin / 6) / 10; if (d.deep) rec.deep = Math.round(d.deep); if (d.light) rec.light = Math.round(d.light); if (d.rem) rec.rem = Math.round(d.rem); }
+      if (d.hrRest || d.hrMin) rec.hr = d.hrRest || d.hrMin;
+      if (d.hrAvg) { rec.hrAvg = d.hrAvg; rec.hrMax = d.hrMax; }
+      if (d.steps) rec.steps = d.steps;
+      if (d.spo2) rec.spo2 = d.spo2;
+      if (!Object.keys(rec).length) return;
+      const ex = D.wearable.find(w => w.source === HC_SRC && w.date === k);
+      if (ex) Object.assign(ex, rec); else D.wearable.push({ id: Date.now() + Math.floor(Math.random() * 1e6), date: k, source: HC_SRC, ...rec });
+      nDays++;
+    });
+
+    // Poids et masse grasse → page Poids (complète sans écraser une pesée existante)
+    let nW = 0;
+    const wDays = {};
+    await safe('weight', async () => {
+      const r = await nativeCall('Health', 'readSamples', { ...range, dataType: 'weight', limit: 1000, ascending: true });
+      (r.samples || []).forEach(x => { if (x.value > 20) (wDays[toISODay(new Date(x.startDate))] = wDays[toISODay(new Date(x.startDate))] || {}).kg = Math.round(x.value * 10) / 10; });
+    });
+    await safe('bodyFat', async () => {
+      const r = await nativeCall('Health', 'readSamples', { ...range, dataType: 'bodyFat', limit: 1000, ascending: true });
+      (r.samples || []).forEach(x => { let v = +x.value; if (!v) return; if (v <= 1) v *= 100; (wDays[toISODay(new Date(x.startDate))] = wDays[toISODay(new Date(x.startDate))] || {}).fatPct = Math.round(v * 10) / 10; });
+    });
+    D.weights = D.weights || [];
+    Object.entries(wDays).forEach(([k, w]) => {
+      const ex = D.weights.find(x => x.date === k);
+      if (ex) { let ch = false; if (w.fatPct && ex.fatPct == null) { ex.fatPct = w.fatPct; ch = true; } if (w.kg && !ex.kg) { ex.kg = w.kg; ch = true; } if (ch) nW++; }
+      else if (w.kg) { D.weights.push({ id: Date.now() + Math.floor(Math.random() * 1e6), date: k, kg: w.kg, ...(w.fatPct ? { fatPct: w.fatPct } : {}), ctx: HC_SRC }); nW++; }
+    });
+
+    D.hcLastSync = new Date().toISOString();
+    save();
+    if (interactive) toast(`✓ Santé Connect : ${nDays} jour${nDays > 1 ? 's' : ''} de données` + (nW ? `, ${nW} pesée${nW > 1 ? 's' : ''}` : ''), 'success');
+  } catch (e) {
+    console.error(e);
+    if (interactive) toast('Synchronisation impossible : ' + (e && e.message || e), 'error');
+  } finally {
+    hcBusy = false;
+    const cur = currentPageId();
+    if (cur === 'wearable') renderWearable(); else renderWkSync();
+    if (cur === 'dashboard') renderDash(); else fillWkTiles('dw');
+    if (cur === 'weight') renderWeight();
+  }
+}
+
+// Synchro automatique : à l'ouverture et au retour dans l'appli (au plus toutes les 30 min)
+function hcAutoSync() {
+  if (!IS_NATIVE) return;
+  if (D.hcLastSync && Date.now() - new Date(D.hcLastSync) < 30 * 60000) return;
+  hcSync(false);
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') hcAutoSync(); });
+
+// Petit graphique (barres ou ligne) pour la page Montre
+function drawWkChart(canvas, pts, o) {
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1, W = canvas.clientWidth || 300, H = 150;
+  canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+  const g = canvas.getContext('2d'); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
+  const vals = pts.filter(p => p.v != null).map(p => p.v);
+  const PAD = { l: 34, r: 8, t: 10, b: 20 }, cW = W - PAD.l - PAD.r, cH = H - PAD.t - PAD.b;
+  g.font = '10px Inter,system-ui,sans-serif';
+  if (!vals.length) { g.fillStyle = '#a09890'; g.textAlign = 'center'; g.fillText('Pas encore de données', W / 2, H / 2); return; }
+  let lo = o.type === 'bar' ? 0 : Math.min(...vals), hi = Math.max(...vals, o.ref || 0);
+  if (o.type !== 'bar') { const m = Math.max(3, (hi - lo) * 0.15); lo = Math.floor(lo - m); hi = Math.ceil(hi + m); } else hi *= 1.1;
+  const y = v => PAD.t + cH - (v - lo) / (hi - lo || 1) * cH, n = pts.length, step = cW / n;
+  const x = i => PAD.l + step * i + step / 2;
+  g.strokeStyle = 'rgba(200,194,183,0.45)'; g.lineWidth = 1; g.fillStyle = '#a09890'; g.textAlign = 'right';
+  for (let i = 0; i <= 3; i++) { const v = lo + (hi - lo) * i / 3, yy = y(v); g.beginPath(); g.moveTo(PAD.l, yy); g.lineTo(W - PAD.r, yy); g.stroke(); g.fillText(o.fmt(v), PAD.l - 4, yy + 3); }
+  if (o.ref && o.ref < hi) { g.setLineDash([4, 3]); g.strokeStyle = 'rgba(39,174,96,0.6)'; g.beginPath(); g.moveTo(PAD.l, y(o.ref)); g.lineTo(W - PAD.r, y(o.ref)); g.stroke(); g.setLineDash([]); }
+  if (o.type === 'bar') {
+    const bw = Math.max(2, Math.min(18, step * 0.65));
+    pts.forEach((p, i) => { if (p.v == null) return; g.fillStyle = o.color; const top = y(p.v); g.beginPath(); g.roundRect ? g.roundRect(x(i) - bw / 2, top, bw, PAD.t + cH - top, [3, 3, 0, 0]) : g.rect(x(i) - bw / 2, top, bw, PAD.t + cH - top); g.fill(); });
+  } else {
+    g.strokeStyle = o.color; g.lineWidth = 2; g.lineJoin = 'round'; g.beginPath(); let started = false;
+    pts.forEach((p, i) => { if (p.v == null) return; if (!started) { g.moveTo(x(i), y(p.v)); started = true; } else g.lineTo(x(i), y(p.v)); });
+    g.stroke(); g.fillStyle = o.color;
+    if (n <= 31) pts.forEach((p, i) => { if (p.v == null) return; g.beginPath(); g.arc(x(i), y(p.v), 2.5, 0, Math.PI * 2); g.fill(); });
+  }
+  g.fillStyle = '#a09890'; g.textAlign = 'center';
+  const every = Math.ceil(n / 6);
+  pts.forEach((p, i) => { if ((n - 1 - i) % every) return; g.fillText(parseDay(p.d).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' }), x(i), H - 5); });
 }
 
 // ═══ RAPPEL DE SAUVEGARDE ═══
@@ -6742,43 +7061,47 @@ function handleWearableDrop(e) {
 
 function renderWearable() {
   D.wearable = D.wearable || [];
-  const sorted = [...D.wearable].sort((a,b)=>new Date(b.date)-new Date(a.date));
+  renderWkSync();
+  fillWkTiles('wk');
+  const P = WK_PERIOD();
+  document.querySelectorAll('.wk-chip').forEach(b => { const on = +b.dataset.p === P; b.classList.toggle('btn-primary', on); b.classList.toggle('btn-secondary', !on); });
+  const days = [];
+  for (let i = P - 1; i >= 0; i--) { const d = new Date(); d.setHours(12,0,0,0); d.setDate(d.getDate() - i); days.push(toISODay(d)); }
+  const byDay = wkByDay();
+  const series = k => days.map(d => ({ d, v: byDay[d] && byDay[d][k] != null ? +byDay[d][k] : null }));
+  const avg = a => { const v = a.filter(x => x.v != null).map(x => x.v); return v.length ? v.reduce((x,y)=>x+y,0) / v.length : null; };
+  const sl = series('sleepH'), hr = series('hr'), st = series('steps');
+  const set = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+  const aS = avg(sl), aH = avg(hr), aP = avg(st);
+  set('wk-avg-sleep', aS != null ? 'moy. ' + fmtH(aS) : '');
+  set('wk-avg-hr', aH != null ? 'moy. ' + Math.round(aH) + ' bpm' : '');
+  set('wk-avg-steps', aP != null ? 'moy. ' + Math.round(aP).toLocaleString('fr-FR') : '');
+  drawWkChart(document.getElementById('wk-c-sleep'), sl, { type:'bar', color:'#8e44ad', ref:7, refLabel:'7 h', fmt: v => fmtH(v) });
+  drawWkChart(document.getElementById('wk-c-hr'), hr, { type:'line', color:'#c0392b', fmt: v => Math.round(v) });
+  drawWkChart(document.getElementById('wk-c-steps'), st, { type:'bar', color:'#27ae60', ref:6000, refLabel:'6 000', fmt: v => v >= 1000 ? (v/1000).toFixed(1).replace('.', ',') + 'k' : Math.round(v) });
 
-  // Dernière nuit
-  if (sorted.length) {
-    const l = sorted[0];
-    const wsTotal = document.getElementById('ws-total');
-    const wsDeep = document.getElementById('ws-deep');
-    const wsHr = document.getElementById('ws-hr');
-    const wsSteps = document.getElementById('ws-steps');
-    if (wsTotal) wsTotal.textContent = l.sleepH ? l.sleepH + 'h' : '—';
-    if (wsDeep) wsDeep.textContent = l.deep ? l.deep + ' min' : '—';
-    if (wsHr) wsHr.textContent = l.hr ? l.hr + ' bpm' : '—';
-    if (wsSteps) wsSteps.textContent = l.steps ? l.steps.toLocaleString('fr-FR') : '—';
-  }
-
+  const sorted = Object.values(byDay).sort((a,b) => b.date.localeCompare(a.date));
   const tbl = document.getElementById('wr-table');
   if (!tbl) return;
   if (!sorted.length) {
-    tbl.innerHTML='<div class="empty-state"><div class="empty-title">Aucune donnée importée</div><div class="empty-text">Chargez un fichier ou saisissez manuellement</div></div>';
+    tbl.innerHTML = '<div class="empty-state"><div class="empty-title">Aucune donnée de montre</div><div class="empty-text">' + (IS_NATIVE ? 'Touche « Synchroniser » pour récupérer les données de Santé Connect.' : 'Les données arrivent automatiquement dans l\'appli Android Health K\'.') + '</div></div>';
     return;
   }
-  tbl.innerHTML = `<table><thead><tr>
-    <th>Date</th><th>Sommeil total</th><th>Profond</th><th>Léger</th><th>FC min/repos</th><th>FC moy.</th><th>FC max</th><th>Mesures</th><th>Pas</th><th>SpO2</th><th>Source</th><th style="width:60px;">Actions</th>
-  </tr></thead><tbody>
-  ${sorted.map(w=>`<tr>
-    <td style="white-space:nowrap;">${w.date?new Date(w.date).toLocaleDateString('fr-FR'):'—'}</td>
-    <td style="font-family:var(--mono);">${w.sleepH?w.sleepH+'h':'—'}</td>
-    <td style="font-family:var(--mono);">${w.deep?w.deep+' min':'—'}</td>
-    <td style="font-family:var(--mono);">${w.light?w.light+' min':'—'}</td>
-    <td style="font-family:var(--mono);${w.hr&&w.hr>80?'color:var(--a4)':w.hr?'color:var(--a3)':''}">${w.hr?w.hr+' bpm':'—'}</td>
-    <td style="font-family:var(--mono);">${w.hrAvg?w.hrAvg+' bpm':'—'}</td>
-    <td style="font-family:var(--mono);${w.hrMax&&w.hrMax>100?'color:var(--a2)':''}">${w.hrMax?w.hrMax+' bpm':'—'}</td>
-    <td style="font-family:var(--mono);color:var(--t3);">${w.hrMeasurements||'—'}</td>
-    <td style="font-family:var(--mono);">${w.steps?w.steps.toLocaleString('fr-FR'):'—'}</td>
-    <td style="font-family:var(--mono);${w.spo2&&w.spo2<95?'color:var(--a2)':''}">${w.spo2?w.spo2+'%':'—'}</td>
-    <td style="font-size:10px;color:var(--t3);max-width:80px;overflow:hidden;text-overflow:ellipsis;" title="${w.source||''}">${w.source?w.source.replace('Fréquence_cardiaque_','FC_'):'manuel'}</td>
-    <td><button class="btn btn-danger btn-xs" onclick="deleteWearable(${w.id})"><svg class=ic><use href=#i-trash></use></svg></button></td>
+  const m = v => v != null && v !== '' ? v : null;
+  tbl.innerHTML = `<table><thead><tr><th>Date</th><th>Sommeil</th><th>Profond</th><th>Paradoxal</th><th>Léger</th><th>FC repos</th><th>FC moy.</th><th>FC max</th><th>Pas</th><th>SpO2</th><th>Source</th><th style="width:44px;"></th></tr></thead><tbody>
+  ${sorted.slice(0, 120).map(w => `<tr>
+    <td style="white-space:nowrap;">${parseDay(w.date).toLocaleDateString('fr-FR', { weekday:'short', day:'2-digit', month:'2-digit' })}</td>
+    <td style="font-family:var(--mono);">${m(w.sleepH) ? fmtH(w.sleepH) : '—'}</td>
+    <td style="font-family:var(--mono);">${m(w.deep) ? w.deep + ' min' : '—'}</td>
+    <td style="font-family:var(--mono);">${m(w.rem) ? w.rem + ' min' : '—'}</td>
+    <td style="font-family:var(--mono);">${m(w.light) ? w.light + ' min' : '—'}</td>
+    <td style="font-family:var(--mono);${w.hr && w.hr > 80 ? 'color:var(--a4)' : w.hr ? 'color:var(--a3)' : ''}">${m(w.hr) ? w.hr + ' bpm' : '—'}</td>
+    <td style="font-family:var(--mono);">${m(w.hrAvg) ? w.hrAvg + ' bpm' : '—'}</td>
+    <td style="font-family:var(--mono);${w.hrMax && w.hrMax > 100 ? 'color:var(--a2)' : ''}">${m(w.hrMax) ? w.hrMax + ' bpm' : '—'}</td>
+    <td style="font-family:var(--mono);">${m(w.steps) ? Math.round(w.steps).toLocaleString('fr-FR') : '—'}</td>
+    <td style="font-family:var(--mono);${w.spo2 && w.spo2 < 95 ? 'color:var(--a2)' : ''}">${m(w.spo2) ? w.spo2 + ' %' : '—'}</td>
+    <td style="font-size:10px;color:var(--t3);">${w.sources.join(', ')}</td>
+    <td>${w.ids.length === 1 && !w.hc ? `<button class="btn btn-danger btn-xs" onclick="deleteWearable(${w.ids[0]})"><svg class=ic><use href=#i-trash></use></svg></button>` : ''}</td>
   </tr>`).join('')}
   </tbody></table>`;
 }
@@ -6865,6 +7188,7 @@ function setBottomNav(id) {
 checkMobileUI();
 syncBackGuard();
 hideSplash();
+hcAutoSync();
 
 // ═══ IMPORT PDF / IMAGE BIOLOGIE — OCR AUTO ═══
 

@@ -28,3 +28,18 @@ Deux versions vivent en parallèle et doivent **toujours** être livrées ensemb
 5. Renvoyer à l'utilisateur la source HTML mise à jour.
 6. Si de nouvelles données pré-remplies ont été ajoutées dans la source :
    `node tools/build_data.js <source.html> <tmp>/perso_html.json mes_donnees.json` et l'envoyer (à importer dans l'appli).
+
+## Appli Android (`android-app/`) — synchro Galaxy Watch via Santé Connect
+
+- Projet Capacitor qui **affiche la version en ligne** (`server.url` = GitHub Pages) : toute modification web
+  publiée arrive aussi dans l'appli Android, **sans nouvel APK**.
+- Le code web détecte l'appli Android avec `IS_NATIVE` et appelle les modules natifs par
+  `Capacitor.nativePromise('Health' | 'Filesystem' | 'Share', méthode, options)`.
+  Synchro : `hcSync()` (sommeil, FC, pas, SpO2 → `D.wearable` source « Santé Connect » ; poids et masse grasse → `D.weights`).
+  Fichiers (export JSON, PDF) : toujours passer par `saveFile(blob, nom)` (les téléchargements ne marchent pas dans l'appli Android).
+- Un **nouvel APK** n'est nécessaire que si `android-app/` change (permissions, modules, icônes, réglages natifs).
+  Le workflow `.github/workflows/android.yml` le construit et le publie à
+  `https://github.com/Kaddraxler24/Health-Track/releases/download/android/health-k.apk`.
+  En cas d'échec, le journal Gradle est poussé sur la branche `build-logs` (`git fetch origin build-logs`).
+- La clé de signature `android-app/health-k-release.keystore` ne doit **jamais** changer, sinon l'APK ne s'installe plus par-dessus l'ancien.
+- Icônes Android : `node tools/build_android_icons.js`. Tests : simuler `window.Capacitor` (isNativePlatform + nativePromise) dans Playwright.
