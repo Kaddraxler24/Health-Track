@@ -51,4 +51,8 @@ Deux versions vivent en parallèle et doivent **toujours** être livrées ensemb
   `https://github.com/Kaddraxler24/Health-Track/releases/download/android/health-k.apk`.
   En cas d'échec, le journal Gradle est poussé sur la branche `build-logs` (`git fetch origin build-logs`).
 - La clé de signature `android-app/health-k-release.keystore` ne doit **jamais** changer, sinon l'APK ne s'installe plus par-dessus l'ancien.
+- Modules natifs : Health (Santé Connect), LocalNotifications (rappels, boutons d'action), Filesystem + Share (fichiers, sauvegarde auto),
+  App (liens `healthk://express|morning|temp|injection|note` du widget et des raccourcis), NativeBiometric (verrouillage),
+  et `HealthKWidget` (plugin maison `android-app/android/app/src/main/java/.../WidgetPlugin.java` + `HealthKWidget.java`, widget d'écran d'accueil).
+  Le code web tolère un ancien APK (module absent → la fonction est simplement ignorée, jamais de blocage).
 - Icônes Android : `node tools/build_android_icons.js`. Tests : simuler `window.Capacitor` (isNativePlatform + nativePromise) dans Playwright.
