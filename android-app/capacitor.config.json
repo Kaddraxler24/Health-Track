@@ -1,0 +1,19 @@
+{
+  "appId": "io.github.kaddraxler24.healthk",
+  "appName": "Health K'",
+  "webDir": "www",
+  "server": {
+    "url": "https://kaddraxler24.github.io/Health-Track/",
+    "errorPath": "offline.html",
+    "cleartext": false
+  },
+  "android": {
+    "backgroundColor": "#1c1f2e"
+  },
+  "plugins": {
+    "SystemBars": {
+      "style": "DARK",
+      "insetsHandling": "css"
+    }
+  }
+}

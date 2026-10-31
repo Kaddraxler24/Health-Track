@@ -1,0 +1,15 @@
+{
+  "name": "health-k-android",
+  "private": true,
+  "description": "Health K' — version Android (Capacitor) reliée à Santé Connect",
+  "dependencies": {
+    "@capacitor/android": "8.5.3",
+    "@capacitor/core": "8.5.3",
+    "@capacitor/filesystem": "8.1.4",
+    "@capacitor/share": "8.0.3",
+    "@capgo/capacitor-health": "8.11.11"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.5.3"
+  }
+}

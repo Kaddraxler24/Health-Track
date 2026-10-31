@@ -1,0 +1,69 @@
+# Construit l'appli Android de Health K' (APK) et la publie dans la release « android ».
+# Lien de téléchargement fixe :
+#   https://github.com/Kaddraxler24/Health-Track/releases/download/android/health-k.apk
+name: Appli Android
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'android-app/**'
+      - '.github/workflows/android.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-build
+  cancel-in-progress: true
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Installer Capacitor et les modules
+        working-directory: android-app
+        run: npm install --no-audit --no-fund
+
+      - name: Synchroniser le projet Android
+        working-directory: android-app
+        run: npx cap sync android
+
+      - name: Construire l'APK signé
+        working-directory: android-app/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon --stacktrace 2>&1 | tee "$RUNNER_TEMP/build.log"
+          test "${PIPESTATUS[0]}" -eq 0
+          cp app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/health-k.apk"
+
+      - name: Publier l'APK
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view android >/dev/null 2>&1 || gh release create android --title "Health K' pour Android" --notes "Appli Android de Health K', reliée à Santé Connect. Télécharger health-k.apk ci-dessous puis l'installer."
+          gh release upload android "$RUNNER_TEMP/health-k.apk" --clobber
+          gh release edit android --notes "Appli Android de Health K', reliée à Santé Connect. Version 1.${GITHUB_RUN_NUMBER} construite le $(date -u +%d/%m/%Y) à $(date -u +%H:%M) UTC."
+
+      # En cas d'échec, le journal est poussé sur la branche « build-logs » pour pouvoir être lu
+      - name: Garder le journal d'erreur
+        if: failure()
+        run: |
+          mkdir -p "$RUNNER_TEMP/logs" && cd "$RUNNER_TEMP/logs"
+          git init -q && git checkout -q -b build-logs
+          tail -c 200000 "$RUNNER_TEMP/build.log" > build.log 2>/dev/null || echo "pas de journal Gradle (échec avant la construction)" > build.log
+          git add build.log
+          git -c user.name=github-actions -c user.email=actions@github.com commit -qm "journal ${GITHUB_RUN_NUMBER}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git" build-logs
