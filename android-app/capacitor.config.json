@@ -14,6 +14,10 @@
     "SystemBars": {
       "style": "DARK",
       "insetsHandling": "css"
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_healthk",
+      "iconColor": "#C0392B"
     }
   }
 }

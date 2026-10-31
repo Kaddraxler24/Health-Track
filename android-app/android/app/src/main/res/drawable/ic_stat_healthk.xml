@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Petite icône de notification (blanche, silhouette du logo Health K') -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp"
+    android:viewportWidth="38" android:viewportHeight="38">
+    <path android:fillColor="#00000000" android:strokeColor="#FFFFFFFF" android:strokeWidth="2.6" android:strokeLineJoin="round"
+        android:pathData="M19,2.6L32.9,10.6L32.9,27.4L19,35.4L5.1,27.4L5.1,10.6Z"/>
+    <path android:fillColor="#00000000" android:strokeColor="#FFFFFFFF" android:strokeWidth="2.6" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M8.4,19.4h5l1.6,-3.4l2.4,6.6l2.2,-4.8l1.2,1.6h8.8"/>
+</vector>
