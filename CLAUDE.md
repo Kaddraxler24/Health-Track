@@ -17,6 +17,15 @@ Deux versions vivent en parallèle et doivent **toujours** être livrées ensemb
 - Nouvelle région perso ⇒ ajouter son stub / contenu vide dans `tools/build_app.py`.
 - `build_app.py` échoue si une date `AAAA-MM-JJ` (hors liste blanche) se retrouve dans la version publique.
 
+## Sécurité du code (à respecter)
+
+- Toute donnée venant de l'extérieur (import `.json`, OCR, IA, fichiers montre) passe par `sanitizeData()` ;
+  le HTML du dossier perso passe par `sanitizeHtml()` (seuls quelques `onclick` connus sont gardés, voir `PERSO_HANDLERS`).
+- Politique de sécurité (balise `Content-Security-Policy` dans la source) : toute nouvelle adresse externe
+  (bibliothèque, API) doit y être ajoutée, sinon elle sera bloquée.
+- Dates : toujours `toISODay(new Date())` (heure locale), jamais `toISOString()` pour une date du jour.
+- Le service worker n'intercepte pas les fichiers `.apk`, `.json`, `.pdf`.
+
 ## Procédure à chaque modification
 
 1. Modifier la source (`sante_tracker_desktop.html`, jointe par l'utilisateur).
