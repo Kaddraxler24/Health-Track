@@ -868,7 +868,7 @@ tbody tr:hover td { background: var(--bg3); }
 }
 
 /* ═══ MONTRE & ACTIVITÉ ═══ */
-.wk-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.wk-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .wk-tile { background: var(--bg3); border: 1px solid var(--bdr); border-radius: 10px; padding: 12px; min-width: 0; }
 .wk-tile-label { font-size: 11px; color: var(--t2); display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
 .wk-tile-label .ic { width: 14px; height: 14px; }
@@ -879,6 +879,18 @@ tbody tr:hover td { background: var(--bg3); }
 .wk-chart-title { font-size: 12px; font-weight: 700; margin-bottom: 4px; display: flex; justify-content: space-between; gap: 6px; }
 .wk-chart-title span { font-weight: 500; color: var(--t3); }
 .wk-chart canvas { width: 100%; height: 150px; display: block; }
+.wk-notes { border-top: 1px solid var(--bdr); margin-top: 6px; padding: 8px 2px 6px; display: flex; flex-direction: column; gap: 5px; }
+.wk-note { font-size: 12px; line-height: 1.45; color: var(--t2); display: flex; gap: 6px; }
+.wk-note .ic { width: 14px; height: 14px; margin-top: 1px; }
+.wk-alerts { display: flex; flex-direction: column; gap: 8px; }
+.wk-alert { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 10px; border: 1px solid; font-size: 13px; line-height: 1.45; }
+.wk-alert .ic { width: 18px; height: 18px; margin-top: 1px; }
+.wk-alert b { display: block; font-size: 13px; }
+.wk-alert span { color: var(--t2); font-size: 12px; }
+.wk-red { background: rgba(231,76,60,.08); border-color: rgba(231,76,60,.35); color: var(--a2); }
+.wk-orange { background: rgba(230,126,34,.08); border-color: rgba(230,126,34,.35); color: var(--a4); }
+.wk-green { background: rgba(39,174,96,.07); border-color: rgba(39,174,96,.3); color: var(--a3); }
+.wk-blue { background: rgba(41,128,185,.07); border-color: rgba(41,128,185,.3); color: var(--a6); }
 .wk-sync { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
 .wk-sync-ic { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: rgba(41,128,185,.12); color: var(--a6); flex-shrink: 0; }
 .wk-sync-ic .nv { width: 24px; height: 24px; }
@@ -1252,7 +1264,10 @@ function hideSplash() {
       <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#n-pulse></use></svg>FC au repos</div><div class="wk-tile-value" style="color:var(--a2)" id="dw-hr">—</div><div class="wk-tile-sub" id="dw-hr-sub">—</div></div>
       <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#n-dash></use></svg>Pas</div><div class="wk-tile-value" style="color:var(--a3)" id="dw-steps">—</div><div class="wk-tile-sub" id="dw-steps-sub">—</div></div>
       <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#i-drop></use></svg>SpO2</div><div class="wk-tile-value" style="color:var(--a6)" id="dw-spo2">—</div><div class="wk-tile-sub" id="dw-spo2-sub">—</div></div>
+      <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#i-clock></use></svg>Exercice</div><div class="wk-tile-value" style="color:var(--a4)" id="dw-ex">—</div><div class="wk-tile-sub" id="dw-ex-sub">—</div></div>
+      <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#i-target></use></svg>Calories</div><div class="wk-tile-value" style="color:var(--a)" id="dw-cal">—</div><div class="wk-tile-sub" id="dw-cal-sub">—</div></div>
     </div>
+    <div id="dd-wear-alerts" class="wk-alerts" style="margin-top:12px;"></div>
     <div style="margin-top:8px;font-size:11px;color:var(--t3);" id="dd-wear-last">Aucune donnée de montre pour le moment.</div>
   </div>
 
@@ -2173,6 +2188,15 @@ function hideSplash() {
 
   <div class="card">
     <div class="card-header">
+      <div class="card-title"><span class="card-title-dot" style="background:var(--a2)"></span>Synthèse des 7 derniers jours</div>
+      <span class="badge badge-gray" id="wk-syn-badge">—</span>
+    </div>
+    <div class="wk-alerts" id="wk-synthese"></div>
+    <div style="font-size:11px;color:var(--t3);margin-top:10px;">Analyse automatique à titre indicatif : elle ne remplace pas l'avis de ton médecin.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
       <div class="card-title"><span class="card-title-dot" style="background:var(--a5)"></span>Dernières mesures</div>
     </div>
     <div class="wk-tiles">
@@ -2180,6 +2204,8 @@ function hideSplash() {
       <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#n-pulse></use></svg>FC au repos</div><div class="wk-tile-value" style="color:var(--a2)" id="wk-hr">—</div><div class="wk-tile-sub" id="wk-hr-sub">—</div></div>
       <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#n-dash></use></svg>Pas</div><div class="wk-tile-value" style="color:var(--a3)" id="wk-steps">—</div><div class="wk-tile-sub" id="wk-steps-sub">—</div></div>
       <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#i-drop></use></svg>SpO2</div><div class="wk-tile-value" style="color:var(--a6)" id="wk-spo2">—</div><div class="wk-tile-sub" id="wk-spo2-sub">—</div></div>
+      <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#i-clock></use></svg>Exercice</div><div class="wk-tile-value" style="color:var(--a4)" id="wk-ex">—</div><div class="wk-tile-sub" id="wk-ex-sub">—</div></div>
+      <div class="wk-tile"><div class="wk-tile-label"><svg class=ic><use href=#i-target></use></svg>Calories</div><div class="wk-tile-value" style="color:var(--a)" id="wk-cal">—</div><div class="wk-tile-sub" id="wk-cal-sub">—</div></div>
     </div>
   </div>
 
@@ -2193,9 +2219,12 @@ function hideSplash() {
       </div>
     </div>
     <div class="wk-charts">
-      <div class="wk-chart"><div class="wk-chart-title">Sommeil <span id="wk-avg-sleep"></span></div><canvas id="wk-c-sleep"></canvas></div>
-      <div class="wk-chart"><div class="wk-chart-title">FC au repos <span id="wk-avg-hr"></span></div><canvas id="wk-c-hr"></canvas></div>
-      <div class="wk-chart"><div class="wk-chart-title">Pas <span id="wk-avg-steps"></span></div><canvas id="wk-c-steps"></canvas></div>
+      <div class="wk-chart"><div class="wk-chart-title">Sommeil <span id="wk-avg-sleep"></span></div><canvas id="wk-c-sleep"></canvas><div class="wk-notes" id="wk-n-sleep"></div></div>
+      <div class="wk-chart"><div class="wk-chart-title">FC au repos <span id="wk-avg-hr"></span></div><canvas id="wk-c-hr"></canvas><div class="wk-notes" id="wk-n-hr"></div></div>
+      <div class="wk-chart"><div class="wk-chart-title">Saturation en oxygène <span id="wk-avg-spo2"></span></div><canvas id="wk-c-spo2"></canvas><div class="wk-notes" id="wk-n-spo2"></div></div>
+      <div class="wk-chart"><div class="wk-chart-title">Pas <span id="wk-avg-steps"></span></div><canvas id="wk-c-steps"></canvas><div class="wk-notes" id="wk-n-steps"></div></div>
+      <div class="wk-chart"><div class="wk-chart-title">Exercice (min) <span id="wk-avg-ex"></span></div><canvas id="wk-c-ex"></canvas><div class="wk-notes" id="wk-n-ex"></div></div>
+      <div class="wk-chart"><div class="wk-chart-title">Calories dépensées <span id="wk-avg-cal"></span></div><canvas id="wk-c-cal"></canvas><div class="wk-notes" id="wk-n-cal"></div></div>
     </div>
   </div>
 
@@ -5984,9 +6013,10 @@ async function saveFile(blob, filename) {
   return true;
 }
 
-const HC_TYPES = ['steps', 'sleep', 'heartRate', 'restingHeartRate', 'oxygenSaturation', 'weight', 'bodyFat'];
+const HC_TYPES = ['steps', 'sleep', 'heartRate', 'restingHeartRate', 'oxygenSaturation', 'weight', 'bodyFat',
+                  'distance', 'totalCalories', 'basalCalories', 'height', 'dietaryEnergyConsumed', 'workouts'];
 const HC_SRC = 'Santé Connect';
-let hcBusy = false, hcState = { available: null, authorized: null, reason: '' };
+let hcBusy = false, hcAskedSession = false, hcState = { available: null, authorized: null, reason: '', missing: [] };
 function WK_PERIOD() { try { return +localStorage.getItem('st_wk_period') || 14; } catch(e) { return 14; } }
 function setWkPeriod(p) { try { localStorage.setItem('st_wk_period', p); } catch(e) {} renderWearable(); }
 function fmtH(h) { const t = Math.round(h * 60); return Math.floor(t / 60) + ' h ' + String(t % 60).padStart(2, '0'); }
@@ -6007,7 +6037,8 @@ function wkByDay() {
     const src = w.source === HC_SRC ? HC_SRC : (w.source && w.source !== 'manuel' ? 'import' : 'manuel');
     if (!o.sources.includes(src)) o.sources.push(src);
     if (w.source === HC_SRC) o.hc = true;
-    ['sleepH','deep','light','rem','hr','hrAvg','hrMax','steps','spo2'].forEach(f => { if (w[f] != null && w[f] !== '' && !isNaN(w[f])) o[f] = +w[f]; });
+    if (w.exTypes) o.exTypes = w.exTypes;
+    ['sleepH','deep','light','rem','hr','hrAvg','hrMax','steps','spo2','distKm','calTotal','calIn','exMin'].forEach(f => { if (w[f] != null && w[f] !== '' && !isNaN(w[f])) o[f] = +w[f]; });
   });
   return out;
 }
@@ -6027,6 +6058,14 @@ function fillWkTiles(pre) {
   const b = avg7('steps'); set('steps-sub', p ? when(p) + (b ? ` · moy. 7 j ${Math.round(b).toLocaleString('fr-FR')}` : '') : 'pas de donnée');
   set('spo2', o ? o.spo2 + ' %' : '—');
   set('spo2-sub', o ? when(o) : 'pas de donnée');
+  const lim7 = toISODay(new Date(Date.now() - 7 * 86400000)), wk = days.filter(d => d.date > lim7);
+  const exT = wk.reduce((a, d) => a + (d.exMin || 0), 0);
+  set('ex', wk.some(d => d.exMin != null) ? exT + ' min' : '—');
+  set('ex-sub', wk.some(d => d.exMin != null) ? 'sur 7 jours · objectif 150' : 'pas de donnée');
+  const c = lastOf('calTotal');
+  set('cal', c ? Math.round(c.calTotal).toLocaleString('fr-FR') : '—');
+  set('cal-sub', c ? 'kcal · ' + when(c) : 'pas de donnée');
+  if (pre === 'dw') { const box = document.getElementById('dd-wear-alerts'); if (box) { const an = days.length ? wkAnalyze() : { alerts: [] }; box.innerHTML = wkAlertsHtml(an.alerts.filter(a => a.lvl !== 'green').slice(0, 2)); } }
   const last = document.getElementById('dd-wear-last');
   if (pre === 'dw' && last) last.textContent = D.hcLastSync ? 'Santé Connect synchronisé ' + agoTxt(D.hcLastSync) : days.length ? days.length + ' jour' + (days.length > 1 ? 's' : '') + ' de données' : (IS_NATIVE ? 'Va dans Montre & activité pour connecter Santé Connect.' : 'Les données de la montre arrivent avec l\'appli Android Health K\'.');
 }
@@ -6057,6 +6096,12 @@ function renderWkSync() {
     return;
   }
   st.innerHTML = '<span class="wk-dot" style="background:var(--a3)"></span>' + (D.hcLastSync ? 'Synchronisé ' + agoTxt(D.hcLastSync) : 'Connecté');
+  if ((hcState.missing || []).length) {
+    act.innerHTML = `<button class="btn btn-primary btn-sm" onclick="hcAskedSession=false;hcSync(true)">${IC('sync')} Autoriser les nouvelles données</button><button class="btn btn-secondary btn-sm" onclick="hcOpenSettings()" title="Gérer les autorisations">${IC('settings')}</button>`;
+    help.style.display = 'block';
+    help.innerHTML = 'Health K\' peut maintenant lire aussi la distance, les exercices, les calories, le métabolisme de base, la taille et la nutrition. Touche le bouton et coche tout.';
+    return;
+  }
   act.innerHTML = `<button class="btn btn-primary btn-sm" onclick="hcSync(true)">${IC('sync')} Synchroniser</button><button class="btn btn-secondary btn-sm" onclick="hcOpenSettings()" title="Gérer les autorisations">${IC('settings')}</button>`;
 }
 
@@ -6070,11 +6115,18 @@ async function hcSync(interactive) {
     hcState.available = !!av.available;
     if (!av.available) { if (interactive) toast('Santé Connect n\'est pas disponible sur ce téléphone', 'error'); return; }
     let auth = await nativeCall('Health', 'checkAuthorization', { read: HC_TYPES });
-    if (interactive && (auth.readAuthorized || []).length < HC_TYPES.length)
+    // workouts n'est pas toujours rapporté par checkAuthorization : on ne s'en sert pas pour décider
+    const granted = auth.readAuthorized || [];
+    hcState.missing = HC_TYPES.filter(t => t !== 'workouts' && !granted.includes(t));
+    if (interactive && hcState.missing.length && !hcAskedSession) {
+      hcAskedSession = true;   // une seule demande par ouverture de l'appli
       auth = await nativeCall('Health', 'requestAuthorization', { read: HC_TYPES, requestHistoryAccess: true });
+      hcState.missing = HC_TYPES.filter(t => t !== 'workouts' && !(auth.readAuthorized || []).includes(t));
+    }
     const ok = new Set(auth.readAuthorized || []);
     hcState.authorized = ok.size > 0;
     if (!ok.size) { if (interactive) toast('Aucune autorisation accordée dans Santé Connect', 'warning'); return; }
+    ok.add('workouts');   // l'accès aux exercices n'est pas toujours rapporté : on essaie quand même
 
     const end = new Date();
     const start = D.hcLastSync ? new Date(new Date(D.hcLastSync).getTime() - 3 * 86400000) : new Date(Date.now() - 90 * 86400000);
@@ -6117,6 +6169,32 @@ async function hcSync(interactive) {
       Object.entries(acc).forEach(([k, v]) => { day(k).spo2 = Math.round(v.reduce((a,b)=>a+b,0) / v.length * 10) / 10; });
     });
 
+    await safe('distance', async () => {
+      const r = await nativeCall('Health', 'queryAggregated', { ...range, dataType: 'distance', bucket: 'day', aggregation: 'sum' });
+      (r.samples || []).forEach(x => { if (x.value > 0) day(dayKey(x.startDate)).distKm = Math.round(x.value / 100) / 10; });
+    });
+    await safe('totalCalories', async () => {
+      const r = await nativeCall('Health', 'readSamples', { ...range, dataType: 'totalCalories', limit: 10000, ascending: true });
+      (r.samples || []).forEach(x => { if (x.value > 0) { const d = day(toISODay(new Date(x.startDate))); d.calTotal = (d.calTotal || 0) + x.value; } });
+    });
+    await safe('dietaryEnergyConsumed', async () => {
+      const r = await nativeCall('Health', 'queryAggregated', { ...range, dataType: 'dietaryEnergyConsumed', bucket: 'day', aggregation: 'sum' });
+      (r.samples || []).forEach(x => { if (x.value > 0) day(dayKey(x.startDate)).calIn = Math.round(x.value); });
+    });
+    await safe('workouts', async () => {
+      const r = await nativeCall('Health', 'queryWorkouts', { ...range, limit: 1000, ascending: true });
+      (r.workouts || []).forEach(w => {
+        const d = day(toISODay(new Date(w.startDate)));
+        d.exMin = (d.exMin || 0) + Math.round((w.duration || 0) / 60);
+        const t = WK_SPORT[w.workoutType] || 'Exercice';
+        d.exTypes = d.exTypes || []; if (!d.exTypes.includes(t)) d.exTypes.push(t);
+      });
+    });
+    await safe('height', async () => {
+      const r = await nativeCall('Health', 'readSamples', { startDate: new Date(Date.now() - 5 * 365 * 86400000).toISOString(), endDate: end.toISOString(), dataType: 'height', limit: 1 });
+      const h = (r.samples || [])[0]; if (h && h.value > 100) { D.hcHeight = Math.round(h.value); if (!(D.cfg && D.cfg.height) && !CFG().height) D.cfg = { ...(D.cfg || {}), height: D.hcHeight }; }
+    });
+
     // Fusion dans D.wearable : une entrée « Santé Connect » par jour
     D.wearable = D.wearable || [];
     let nDays = 0;
@@ -6127,6 +6205,10 @@ async function hcSync(interactive) {
       if (d.hrAvg) { rec.hrAvg = d.hrAvg; rec.hrMax = d.hrMax; }
       if (d.steps) rec.steps = d.steps;
       if (d.spo2) rec.spo2 = d.spo2;
+      if (d.distKm) rec.distKm = d.distKm;
+      if (d.calTotal) rec.calTotal = Math.round(d.calTotal);
+      if (d.calIn) rec.calIn = d.calIn;
+      if (d.exMin) { rec.exMin = d.exMin; rec.exTypes = d.exTypes.join(', '); }
       if (!Object.keys(rec).length) return;
       const ex = D.wearable.find(w => w.source === HC_SRC && w.date === k);
       if (ex) Object.assign(ex, rec); else D.wearable.push({ id: Date.now() + Math.floor(Math.random() * 1e6), date: k, source: HC_SRC, ...rec });
@@ -6144,11 +6226,15 @@ async function hcSync(interactive) {
       const r = await nativeCall('Health', 'readSamples', { ...range, dataType: 'bodyFat', limit: 1000, ascending: true });
       (r.samples || []).forEach(x => { let v = +x.value; if (!v) return; if (v <= 1) v *= 100; (wDays[toISODay(new Date(x.startDate))] = wDays[toISODay(new Date(x.startDate))] || {}).fatPct = Math.round(v * 10) / 10; });
     });
+    await safe('basalCalories', async () => {
+      const r = await nativeCall('Health', 'readSamples', { ...range, dataType: 'basalCalories', limit: 1000, ascending: true });
+      (r.samples || []).forEach(x => { if (x.value > 500 && x.value < 5000) (wDays[toISODay(new Date(x.startDate))] = wDays[toISODay(new Date(x.startDate))] || {}).bmr = Math.round(x.value); });
+    });
     D.weights = D.weights || [];
     Object.entries(wDays).forEach(([k, w]) => {
       const ex = D.weights.find(x => x.date === k);
-      if (ex) { let ch = false; if (w.fatPct && ex.fatPct == null) { ex.fatPct = w.fatPct; ch = true; } if (w.kg && !ex.kg) { ex.kg = w.kg; ch = true; } if (ch) nW++; }
-      else if (w.kg) { D.weights.push({ id: Date.now() + Math.floor(Math.random() * 1e6), date: k, kg: w.kg, ...(w.fatPct ? { fatPct: w.fatPct } : {}), ctx: HC_SRC }); nW++; }
+      if (ex) { let ch = false; ['fatPct', 'bmr', 'kg'].forEach(f => { if (w[f] && ex[f] == null) { ex[f] = w[f]; ch = true; } }); if (ch) nW++; }
+      else if (w.kg) { D.weights.push({ id: Date.now() + Math.floor(Math.random() * 1e6), date: k, kg: w.kg, ...(w.fatPct ? { fatPct: w.fatPct } : {}), ...(w.bmr ? { bmr: w.bmr } : {}), ctx: HC_SRC }); nW++; }
     });
 
     D.hcLastSync = new Date().toISOString();
@@ -6173,6 +6259,121 @@ function hcAutoSync() {
   hcSync(false);
 }
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') hcAutoSync(); });
+
+const WK_SPORT = { walking:'Marche', running:'Course', runningTreadmill:'Tapis de course', cycling:'Vélo', bikingStationary:'Vélo d\'appartement',
+  swimming:'Natation', swimmingPool:'Natation', hiking:'Randonnée', yoga:'Yoga', pilates:'Pilates', stretching:'Étirements', elliptical:'Elliptique',
+  strengthTraining:'Renforcement', traditionalStrengthTraining:'Musculation', functionalStrengthTraining:'Renforcement', weightlifting:'Musculation',
+  highIntensityIntervalTraining:'HIIT', dance:'Danse', dancing:'Danse', soccer:'Football', tennis:'Tennis', badminton:'Badminton', rowingMachine:'Rameur',
+  stairClimbing:'Escaliers', boxing:'Boxe', martialArts:'Arts martiaux', other:'Exercice' };
+
+// ═══ ANALYSE DES DONNÉES MONTRE ═══
+// Renvoie { alerts:[{lvl,title,text}], notes:{sleep,hr,spo2,steps,ex,cal} } — lvl : red | orange | green | blue
+function wkAnalyze() {
+  const byDay = wkByDay();
+  const today = new Date(); today.setHours(12, 0, 0, 0);
+  const iso = n => toISODay(new Date(today.getTime() - n * 86400000));
+  const win = (a, b, k) => { const out = []; for (let i = a; i <= b; i++) { const d = byDay[iso(i)]; if (d && d[k] != null) out.push(d[k]); } return out; };
+  const mean = v => v.length ? v.reduce((x, y) => x + y, 0) / v.length : null;
+  const N = { sleep: [], hr: [], spo2: [], steps: [], ex: [], cal: [] }, A = [];
+  const note = (k, lvl, t) => N[k].push({ lvl, t });
+  const alert = (lvl, title, text) => A.push({ lvl, title, text });
+  const f1 = v => String(Math.round(v * 10) / 10).replace('.', ',');
+  const nf = v => Math.round(v).toLocaleString('fr-FR');
+
+  // Fraîcheur
+  const all = Object.keys(byDay).sort();
+  if (!all.length) return { alerts: [], notes: N, empty: true };
+  const lastDay = all[all.length - 1], age = Math.round((today - parseDay(lastDay)) / 86400000);
+  if (age >= 3) alert('blue', 'Données pas à jour', `Dernière donnée de montre le ${parseDay(lastDay).toLocaleDateString('fr-FR')}. ` + (IS_NATIVE ? 'Touche « Synchroniser ».' : 'Ouvre l\'appli Android pour synchroniser.'));
+
+  // ── Sommeil ──
+  const sl7 = win(0, 6, 'sleepH'), slB = win(7, 34, 'sleepH');
+  if (sl7.length >= 3) {
+    const m = mean(sl7), short = sl7.filter(v => v < 6).length;
+    if (m < 6) { alert('orange', 'Sommeil insuffisant', `${fmtH(m)} en moyenne sur 7 nuits (7 h à 9 h recommandées). Le manque de sommeil augmente la fatigue et la douleur dans la spondylarthrite.`); note('sleep', 'orange', `Moyenne de ${fmtH(m)} : en dessous des 7 h recommandées.`); }
+    else if (m < 7) note('sleep', 'orange', `Moyenne de ${fmtH(m)} : un peu en dessous des 7 h recommandées.`);
+    else note('sleep', 'green', `Moyenne de ${fmtH(m)} sur 7 nuits : dans la zone recommandée (7 à 9 h).`);
+    if (short >= 3) { note('sleep', 'orange', `${short} nuits de moins de 6 h cette semaine.`); if (m >= 6) alert('orange', 'Plusieurs nuits courtes', `${short} nuits de moins de 6 h sur les 7 dernières.`); }
+    const spread = Math.max(...sl7) - Math.min(...sl7);
+    if (spread >= 2.5) note('sleep', 'blue', `Durée irrégulière : de ${fmtH(Math.min(...sl7))} à ${fmtH(Math.max(...sl7))}. Des horaires réguliers aident à mieux récupérer.`);
+    if (slB.length >= 7) { const d = m - mean(slB); if (Math.abs(d) >= 0.5) note('sleep', d < 0 ? 'orange' : 'green', `${d < 0 ? 'En baisse' : 'En hausse'} de ${fmtH(Math.abs(d))} par rapport aux semaines précédentes.`); }
+    let tot = 0, deep = 0, rem = 0; for (let i = 0; i <= 6; i++) { const d = byDay[iso(i)]; if (d && d.sleepH && d.deep != null) { tot += d.sleepH * 60; deep += d.deep || 0; rem += d.rem || 0; } }
+    if (tot > 0) {
+      const dp = deep / tot * 100, rp = rem / tot * 100;
+      note('sleep', dp < 13 ? 'orange' : 'green', `Sommeil profond : ${Math.round(dp)} % du sommeil (habituellement 13 à 23 %)${dp < 13 ? ' — un sommeil peu réparateur peut accentuer la fatigue (Q1 du BASDAI).' : '.'}`);
+      if (rem > 0) note('sleep', rp < 18 ? 'blue' : 'green', `Sommeil paradoxal : ${Math.round(rp)} % (habituellement 18 à 25 %).`);
+    }
+  } else note('sleep', 'blue', 'Pas assez de nuits enregistrées cette semaine pour une analyse.');
+
+  // ── FC au repos ──
+  const hr7 = win(0, 6, 'hr'), hrB = win(7, 34, 'hr');
+  if (hr7.length >= 3) {
+    const m = mean(hr7);
+    if (hrB.length >= 7) {
+      const base = mean(hrB), d = m - base;
+      if (d >= 10) alert('red', 'Fréquence cardiaque au repos nettement en hausse', `${Math.round(m)} bpm en moyenne contre ${Math.round(base)} bpm d'habitude (+${Math.round(d)}). Une hausse durable peut accompagner une infection, une poussée inflammatoire, de la fièvre ou un manque de sommeil. Sous IMRALDI, prends ta température ; en cas de fièvre ou d'infection, pas d'injection sans avis médical.`);
+      else if (d >= 5) alert('orange', 'Fréquence cardiaque au repos en hausse', `${Math.round(m)} bpm contre ${Math.round(base)} bpm d'habitude (+${Math.round(d)}). À surveiller : infection débutante, poussée, fatigue ou stress peuvent l'expliquer. Sous IMRALDI, surveille la température.`);
+      note('hr', d >= 5 ? 'orange' : d <= -3 ? 'green' : 'green', d >= 5 ? `En hausse de ${Math.round(d)} bpm par rapport à ta moyenne habituelle (${Math.round(base)} bpm).` : d <= -3 ? `En baisse de ${Math.round(-d)} bpm : souvent signe de bonne récupération.` : `Stable autour de ${Math.round(m)} bpm (habituel : ${Math.round(base)} bpm).`);
+    } else note('hr', 'blue', `Moyenne de ${Math.round(m)} bpm sur 7 jours. La comparaison avec ton habituel sera possible après quelques semaines de données.`);
+    if (m > 90) { alert('orange', 'Fréquence cardiaque au repos élevée', `${Math.round(m)} bpm en moyenne : au-dessus de 90 bpm au repos, parles-en à ton médecin.`); note('hr', 'orange', 'Au-dessus de 90 bpm au repos.'); }
+    else if (m < 50) note('hr', 'blue', `Fréquence au repos basse (${Math.round(m)} bpm) : fréquent chez les sportifs, à signaler en cas de malaise.`);
+    const mx = win(0, 6, 'hrMax'); if (mx.length && Math.max(...mx) >= 150) note('hr', 'blue', `Pic à ${Math.max(...mx)} bpm cette semaine (effort ou mesure ponctuelle).`);
+  } else note('hr', 'blue', 'Pas assez de mesures cette semaine pour une analyse.');
+
+  // ── SpO2 ──
+  const sp7 = win(0, 6, 'spo2');
+  if (sp7.length) {
+    const mn = Math.min(...sp7), m = mean(sp7);
+    if (mn < 92) { alert('red', 'Saturation en oxygène basse', `Minimum de ${f1(mn)} % cette semaine (normal : 95 à 100 %). Si tu es essoufflé, fiévreux ou si ça se répète, consulte rapidement — surtout sous IMRALDI (risque d'infection respiratoire).`); note('spo2', 'red', `Valeur basse : ${f1(mn)} %.`); }
+    else if (mn < 95) note('spo2', 'orange', `Une valeur à ${f1(mn)} % : légèrement basse. Les mesures de nuit au poignet peuvent être imprécises ; surveille si ça se répète.`);
+    note('spo2', m >= 95 ? 'green' : 'orange', `Moyenne de ${f1(m)} % sur 7 jours (normal : 95 à 100 %).`);
+  } else note('spo2', 'blue', 'Pas de mesure cette semaine. Active la mesure de l\'oxygène pendant le sommeil sur la montre pour en avoir chaque nuit.');
+
+  // ── Pas ──
+  const st7 = win(0, 6, 'steps'), stB = win(7, 34, 'steps');
+  if (st7.length >= 3) {
+    const m = mean(st7);
+    if (m < 4000) { alert('orange', 'Activité faible', `${nf(m)} pas par jour en moyenne. Dans la spondylarthrite, bouger régulièrement aide à limiter la raideur et la douleur.`); note('steps', 'orange', `${nf(m)} pas par jour : activité faible.`); }
+    else if (m < 7000) note('steps', 'blue', `${nf(m)} pas par jour : activité modérée. L'objectif de 7 000 à 10 000 pas aide à limiter la raideur.`);
+    else note('steps', 'green', `${nf(m)} pas par jour : bon niveau d'activité.`);
+    if (stB.length >= 7) { const r = (m - mean(stB)) / mean(stB); if (Math.abs(r) >= 0.25) note('steps', r < 0 ? 'orange' : 'green', `${r < 0 ? 'Baisse' : 'Hausse'} de ${Math.round(Math.abs(r) * 100)} % par rapport aux semaines précédentes${r < 0 ? ' (douleur, raideur ou fatigue ?)' : ''}.`); }
+    const dk = win(0, 6, 'distKm'); if (dk.length) note('steps', 'blue', `Distance : ${f1(mean(dk))} km par jour en moyenne.`);
+  } else note('steps', 'blue', 'Pas assez de jours enregistrés cette semaine.');
+
+  // ── Exercice ──
+  const ex7 = win(0, 6, 'exMin'), exTot = ex7.reduce((a, b) => a + b, 0);
+  const types = []; for (let i = 0; i <= 6; i++) { const d = byDay[iso(i)]; if (d && d.exTypes) d.exTypes.split(', ').forEach(t => { if (!types.includes(t)) types.push(t); }); }
+  if (exTot > 0) {
+    note('ex', exTot >= 150 ? 'green' : 'blue', `${exTot} min d'exercice sur 7 jours (${ex7.length} séance${ex7.length > 1 ? 's' : ''})${types.length ? ' : ' + types.join(', ') : ''}. Recommandé : 150 min par semaine.`);
+    if (exTot >= 150) note('ex', 'green', 'Objectif hebdomadaire atteint.');
+  } else note('ex', 'blue', 'Aucune séance enregistrée cette semaine. Natation, vélo, marche et étirements sont conseillés dans la spondylarthrite.');
+
+  // ── Calories ──
+  const c7 = win(0, 6, 'calTotal'), ci7 = win(0, 6, 'calIn');
+  if (c7.length >= 2) {
+    note('cal', 'blue', `${nf(mean(c7))} kcal dépensées par jour en moyenne (métabolisme de base compris).`);
+    if (ci7.length >= 3) { const bal = mean(ci7) - mean(c7); note('cal', bal > 300 ? 'orange' : 'green', `Apport saisi : ${nf(mean(ci7))} kcal par jour — ${bal > 0 ? 'excédent' : 'déficit'} de ${nf(Math.abs(bal))} kcal${bal < 0 ? ', cohérent avec l\'objectif de perte de poids' : ''}.`); }
+  } else note('cal', 'blue', 'Pas assez de données cette semaine.');
+
+  // ── Lien avec le BASDAI ──
+  const pairs = (D.entries || []).filter(e => e.basdai != null && byDay[e.date] && byDay[e.date].sleepH != null).map(e => ({ b: +e.basdai, s: byDay[e.date].sleepH }));
+  const lo = pairs.filter(p => p.s < 6.5), hi = pairs.filter(p => p.s >= 6.5);
+  if (lo.length >= 2 && hi.length >= 2) {
+    const dl = mean(lo.map(p => p.b)), dh = mean(hi.map(p => p.b));
+    if (dl - dh >= 0.8) alert('blue', 'Sommeil et BASDAI liés', `Ton BASDAI est en moyenne de ${f1(dl)} après une nuit de moins de 6 h 30, contre ${f1(dh)} après une nuit plus longue (${pairs.length} soirs comparés).`);
+  }
+  const pairsSt = (D.entries || []).filter(e => e.basdai != null && byDay[e.date] && byDay[e.date].steps != null).map(e => ({ b: +e.basdai, s: byDay[e.date].steps }));
+  const act = pairsSt.filter(p => p.s >= 6000), sed = pairsSt.filter(p => p.s < 6000);
+  if (act.length >= 2 && sed.length >= 2) { const da = mean(act.map(p => p.b)), ds = mean(sed.map(p => p.b)); if (ds - da >= 0.8) alert('blue', 'Activité et BASDAI liés', `BASDAI moyen de ${f1(da)} les jours à plus de 6 000 pas, contre ${f1(ds)} les jours moins actifs.`); }
+
+  if (!A.some(a => a.lvl === 'red' || a.lvl === 'orange')) alert('green', 'Rien d\'inquiétant cette semaine', 'Sommeil, fréquence cardiaque, oxygène et activité ne montrent pas de signal d\'alerte.');
+  const order = { red: 0, orange: 1, blue: 2, green: 3 };
+  A.sort((a, b) => order[a.lvl] - order[b.lvl]);
+  return { alerts: A, notes: N };
+}
+const WK_ICON = { red: 'alert-octagon', orange: 'alert', green: 'check-circle', blue: 'info' };
+function wkAlertsHtml(list) { return list.map(a => `<div class="wk-alert wk-${a.lvl}"><svg class=ic><use href=#i-${WK_ICON[a.lvl]}></use></svg><div><b>${a.title}</b><span>${a.text}</span></div></div>`).join(''); }
+function wkNotesHtml(list) { return list.map(n => `<div class="wk-note" style="color:${{ red: 'var(--a2)', orange: 'var(--a4)', green: 'var(--a3)', blue: 'var(--t2)' }[n.lvl]}"><svg class=ic><use href=#i-${WK_ICON[n.lvl]}></use></svg><span>${n.t}</span></div>`).join(''); }
 
 // Petit graphique (barres ou ligne) pour la page Montre
 function drawWkChart(canvas, pts, o) {
@@ -7067,7 +7268,7 @@ function renderWearable() {
   const byDay = wkByDay();
   const series = k => days.map(d => ({ d, v: byDay[d] && byDay[d][k] != null ? +byDay[d][k] : null }));
   const avg = a => { const v = a.filter(x => x.v != null).map(x => x.v); return v.length ? v.reduce((x,y)=>x+y,0) / v.length : null; };
-  const sl = series('sleepH'), hr = series('hr'), st = series('steps');
+  const sl = series('sleepH'), hr = series('hr'), st = series('steps'), sp = series('spo2'), ex = series('exMin'), ca = series('calTotal');
   const set = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
   const aS = avg(sl), aH = avg(hr), aP = avg(st);
   set('wk-avg-sleep', aS != null ? 'moy. ' + fmtH(aS) : '');
@@ -7075,7 +7276,21 @@ function renderWearable() {
   set('wk-avg-steps', aP != null ? 'moy. ' + Math.round(aP).toLocaleString('fr-FR') : '');
   drawWkChart(document.getElementById('wk-c-sleep'), sl, { type:'bar', color:'#8e44ad', ref:7, refLabel:'7 h', fmt: v => fmtH(v) });
   drawWkChart(document.getElementById('wk-c-hr'), hr, { type:'line', color:'#c0392b', fmt: v => Math.round(v) });
-  drawWkChart(document.getElementById('wk-c-steps'), st, { type:'bar', color:'#27ae60', ref:6000, refLabel:'6 000', fmt: v => v >= 1000 ? (v/1000).toFixed(1).replace('.', ',') + 'k' : Math.round(v) });
+  drawWkChart(document.getElementById('wk-c-steps'), st, { type:'bar', color:'#27ae60', ref:7000, refLabel:'7 000', fmt: v => v >= 1000 ? (v/1000).toFixed(1).replace('.', ',') + 'k' : Math.round(v) });
+  drawWkChart(document.getElementById('wk-c-spo2'), sp, { type:'line', color:'#2980b9', ref:95, fmt: v => Math.round(v) });
+  drawWkChart(document.getElementById('wk-c-ex'), ex, { type:'bar', color:'#e67e22', fmt: v => Math.round(v) });
+  drawWkChart(document.getElementById('wk-c-cal'), ca, { type:'bar', color:'#c0392b', fmt: v => v >= 1000 ? (v/1000).toFixed(1).replace('.', ',') + 'k' : Math.round(v) });
+  const aSp = avg(sp), aE = avg(ex), aC = avg(ca);
+  set('wk-avg-spo2', aSp != null ? 'moy. ' + String(Math.round(aSp * 10) / 10).replace('.', ',') + ' %' : '');
+  set('wk-avg-ex', aE != null ? 'moy. ' + Math.round(aE) + ' min/séance' : '');
+  set('wk-avg-cal', aC != null ? 'moy. ' + Math.round(aC).toLocaleString('fr-FR') + ' kcal' : '');
+  const AN = wkAnalyze();
+  const syn = document.getElementById('wk-synthese'), badge = document.getElementById('wk-syn-badge');
+  if (syn) syn.innerHTML = AN.empty ? '<div style="font-size:13px;color:var(--t3);">Pas encore de données de montre à analyser.</div>' : wkAlertsHtml(AN.alerts);
+  if (badge) { const r = AN.alerts.filter(a => a.lvl === 'red').length, o = AN.alerts.filter(a => a.lvl === 'orange').length;
+    badge.className = 'badge ' + (r ? 'badge-red' : o ? 'badge-yellow' : AN.empty ? 'badge-gray' : 'badge-green');
+    badge.textContent = r ? r + ' alerte' + (r > 1 ? 's' : '') : o ? o + ' point' + (o > 1 ? 's' : '') + ' à surveiller' : AN.empty ? '—' : 'Tout va bien'; }
+  ['sleep', 'hr', 'spo2', 'steps', 'ex', 'cal'].forEach(k => { const el = document.getElementById('wk-n-' + k); if (el) el.innerHTML = AN.empty ? '' : wkNotesHtml(AN.notes[k]); });
 
   const sorted = Object.values(byDay).sort((a,b) => b.date.localeCompare(a.date));
   const tbl = document.getElementById('wr-table');
@@ -7085,7 +7300,7 @@ function renderWearable() {
     return;
   }
   const m = v => v != null && v !== '' ? v : null;
-  tbl.innerHTML = `<table><thead><tr><th>Date</th><th>Sommeil</th><th>Profond</th><th>Paradoxal</th><th>Léger</th><th>FC repos</th><th>FC moy.</th><th>FC max</th><th>Pas</th><th>SpO2</th><th>Source</th><th style="width:44px;"></th></tr></thead><tbody>
+  tbl.innerHTML = `<table><thead><tr><th>Date</th><th>Sommeil</th><th>Profond</th><th>Paradoxal</th><th>Léger</th><th>FC repos</th><th>FC moy.</th><th>FC max</th><th>Pas</th><th>Distance</th><th>SpO2</th><th>Exercice</th><th>Calories</th><th>Source</th><th style="width:44px;"></th></tr></thead><tbody>
   ${sorted.slice(0, 120).map(w => `<tr>
     <td style="white-space:nowrap;">${parseDay(w.date).toLocaleDateString('fr-FR', { weekday:'short', day:'2-digit', month:'2-digit' })}</td>
     <td style="font-family:var(--mono);">${m(w.sleepH) ? fmtH(w.sleepH) : '—'}</td>
@@ -7096,7 +7311,10 @@ function renderWearable() {
     <td style="font-family:var(--mono);">${m(w.hrAvg) ? w.hrAvg + ' bpm' : '—'}</td>
     <td style="font-family:var(--mono);${w.hrMax && w.hrMax > 100 ? 'color:var(--a2)' : ''}">${m(w.hrMax) ? w.hrMax + ' bpm' : '—'}</td>
     <td style="font-family:var(--mono);">${m(w.steps) ? Math.round(w.steps).toLocaleString('fr-FR') : '—'}</td>
+    <td style="font-family:var(--mono);">${m(w.distKm) ? String(w.distKm).replace('.', ',') + ' km' : '—'}</td>
     <td style="font-family:var(--mono);${w.spo2 && w.spo2 < 95 ? 'color:var(--a2)' : ''}">${m(w.spo2) ? w.spo2 + ' %' : '—'}</td>
+    <td style="font-family:var(--mono);" title="${w.exTypes || ''}">${m(w.exMin) ? w.exMin + ' min' : '—'}</td>
+    <td style="font-family:var(--mono);">${m(w.calTotal) ? Math.round(w.calTotal).toLocaleString('fr-FR') : '—'}</td>
     <td style="font-size:10px;color:var(--t3);">${w.sources.join(', ')}</td>
     <td>${w.ids.length === 1 && !w.hc ? `<button class="btn btn-danger btn-xs" onclick="deleteWearable(${w.ids[0]})"><svg class=ic><use href=#i-trash></use></svg></button>` : ''}</td>
   </tr>`).join('')}
