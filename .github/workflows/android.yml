@@ -60,11 +60,11 @@ jobs:
       # Copie aussi l'APK sur le site (même adresse que l'appli) : téléchargement direct, sans redirection
       - name: Copier l'APK sur le site
         run: |
-          git config user.name github-actions && git config user.email actions@github.com
-          git pull -q --rebase origin main
+          git clone -q --depth 1 "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git" "$RUNNER_TEMP/site"
+          cd "$RUNNER_TEMP/site"
           cp "$RUNNER_TEMP/health-k.apk" health-k.apk
           git add health-k.apk
-          git commit -qm "APK Health K' 1.${GITHUB_RUN_NUMBER}" || exit 0
+          git -c user.name=github-actions -c user.email=actions@github.com commit -qm "APK Health K' 1.${GITHUB_RUN_NUMBER}" || exit 0
           git push -q origin HEAD:main
 
       # En cas d'échec, le journal est poussé sur la branche « build-logs » pour pouvoir être lu
