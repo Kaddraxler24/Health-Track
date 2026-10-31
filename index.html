@@ -5970,7 +5970,7 @@ function exportData() {
 
 // ═══ APPLI ANDROID : FICHIERS & SANTÉ CONNECT ═══
 const IS_NATIVE = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' && window.Capacitor.isNativePlatform());
-const APK_URL = 'https://github.com/Kaddraxler24/Health-Track/releases/download/android/health-k.apk';
+const APK_URL = "https://kaddraxler24.github.io/Health-Track/android.html";
 function nativeCall(plugin, method, opts) { return window.Capacitor.nativePromise(plugin, method, opts || {}); }
 
 // Enregistre un fichier : téléchargement dans le navigateur, partage (Drive, Fichiers…) dans l'appli Android
@@ -6040,7 +6040,7 @@ function renderWkSync() {
   const IC = n => `<svg class=ic><use href=#i-${n}></use></svg>`;
   if (!IS_NATIVE) {
     st.innerHTML = '<span class="wk-dot" style="background:var(--a4)"></span>Synchronisation disponible dans l\'appli Android';
-    act.innerHTML = `<a class="btn btn-primary btn-sm" href="${APK_URL}" style="text-decoration:none;">${IC('download')} Télécharger l'appli Android</a>`;
+    act.innerHTML = `<a class="btn btn-primary btn-sm" href="${APK_URL}" target="_blank" rel="noopener" style="text-decoration:none;">${IC('download')} Télécharger l'appli Android</a>`;
     help.style.display = 'block';
     help.innerHTML = 'Ta Galaxy Watch envoie ses données à Samsung Health, qui les partage avec <strong>Santé Connect</strong>. L\'appli Android Health K\' les lit automatiquement à chaque ouverture : sommeil, fréquence cardiaque, pas, SpO2, poids et masse grasse.';
     return;
