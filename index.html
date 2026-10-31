@@ -899,6 +899,27 @@ tbody tr:hover td { background: var(--bg3); }
 @media (max-width: 1024px) { .wk-charts { grid-template-columns: 1fr; } }
 @media (max-width: 768px) { .wk-tiles { grid-template-columns: 1fr 1fr; } .wk-tile-value { font-size: 20px; } }
 
+/* ═══ RAPPELS ═══ */
+.rm-item { display: flex; gap: 12px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--bdr); }
+.rm-item:last-child { border-bottom: 0; padding-bottom: 2px; }
+.rm-ic { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.rm-ic .nv { width: 20px; height: 20px; }
+.rm-body { flex: 1; min-width: 0; }
+.rm-title { font-weight: 700; font-size: 14px; }
+.rm-desc { font-size: 12px; color: var(--t2); margin: 2px 0 8px; line-height: 1.45; }
+.rm-opts { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 12px; color: var(--t2); }
+.rm-opts .form-input, .rm-opts .form-select { width: auto; padding: 6px 8px; font-size: 13px; }
+.rm-opts label { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+.sw { position: relative; width: 42px; height: 24px; flex-shrink: 0; margin-top: 4px; }
+.sw input { opacity: 0; width: 0; height: 0; }
+.sw span { position: absolute; inset: 0; background: var(--bdr2); border-radius: 999px; transition: .2s; cursor: pointer; }
+.sw span::before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: .2s; box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+.sw input:checked + span { background: var(--a3); }
+.sw input:checked + span::before { transform: translateX(18px); }
+.rm-next { font-size: 12px; color: var(--t2); display: flex; flex-direction: column; gap: 6px; }
+.rm-next div { display: flex; gap: 8px; } .rm-next b { color: var(--t); font-weight: 600; min-width: 128px; font-family: var(--mono); font-size: 11.5px; }
+.chrono { font-family: var(--mono); font-size: 34px; font-weight: 800; text-align: center; color: var(--a4); margin: 6px 0 12px; }
+
 /* ═══ ÉCRAN D'OUVERTURE ═══ */
 #splash { position: fixed; inset: 0; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
   background: radial-gradient(circle at 50% 38%, #2a2f4d 0%, #1c1f2e 62%); transition: opacity .35s ease, visibility .35s; }
@@ -933,7 +954,7 @@ function hideSplash() {
 }
 </script>
 <!-- ═══ ICÔNES (sprite SVG) ═══ -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9L9.6 3.9A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-alert-octagon" viewBox="0 0 24 24"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></symbol><symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/></symbol><symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol><symbol id="i-shift" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3.5"/></symbol><symbol id="i-bone" viewBox="0 0 24 24"><path d="M17 10c.7-.7 1.7 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .8.7 1.8 0 2.5l-7 7c-.7.7-1.7 0-2.5 0a2.5 2.5 0 0 0 0 5c.3 0 .5.2.5.5a2.5 2.5 0 1 0 5 0c0-.8-.7-1.8 0-2.5Z"/></symbol><symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 10v4M6 6v12M10 3v18M14 8v8M18 5v14M22 10v4"/></symbol><symbol id="i-microscope" viewBox="0 0 24 24"><path d="M6 18h8M3 22h18M14 22a7 7 0 1 0 0-14h-1M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></symbol><symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 9V3"/><path d="M7 15h10"/></symbol><symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2.7s6 6.3 6 11.3a6 6 0 0 1-12 0c0-5 6-11.3 6-11.3z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-stetho" viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></symbol><symbol id="n-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="9" rx="2"/><rect x="13.5" y="3" width="7.5" height="5.5" rx="2"/><rect x="13.5" y="11.5" width="7.5" height="9.5" rx="2"/><rect x="3" y="15" width="7.5" height="6" rx="2"/></symbol><symbol id="n-eval" viewBox="0 0 24 24"><rect x="4.5" y="4" width="15" height="17.5" rx="2.5"/><path d="M9 4V3.2c0-.7.5-1.2 1.2-1.2h3.6c.7 0 1.2.5 1.2 1.2V4"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/><circle cx="12.5" cy="10.5" r="1.3" fill="currentColor"/><circle cx="10" cy="14" r="1.3" fill="currentColor"/></symbol><symbol id="n-chart" viewBox="0 0 24 24"><path d="M3.5 3.5v15a2 2 0 0 0 2 2h15"/><path d="m7.5 14.5 3.5-4.5 3 3 5.5-6.5"/><circle cx="19.5" cy="6.5" r="1.4" fill="currentColor"/></symbol><symbol id="n-scale" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M7.5 10.5a6 6 0 0 1 9 0"/><path d="m12 11 1.6-2.4"/><path d="M9 16.5h6"/></symbol><symbol id="n-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="n-flask" viewBox="0 0 24 24"><path d="M9.5 2.5v6.8L4.3 18.4A2.2 2.2 0 0 0 6.2 21.5h11.6a2.2 2.2 0 0 0 1.9-3.1L14.5 9.3V2.5"/><path d="M8 2.5h8"/><path d="M6.6 15h10.8"/></symbol><symbol id="n-scan" viewBox="0 0 24 24"><path d="M3 7.5V5.5a2.5 2.5 0 0 1 2.5-2.5h2M16.5 3h2A2.5 2.5 0 0 1 21 5.5v2M21 16.5v2a2.5 2.5 0 0 1-2.5 2.5h-2M7.5 21h-2A2.5 2.5 0 0 1 3 18.5v-2"/><path d="M12 7v10M9 9.5c1 .6 2 .9 3 .9s2-.3 3-.9M9 14.5c1-.6 2-.9 3-.9s2 .3 3 .9"/></symbol><symbol id="n-stetho" viewBox="0 0 24 24"><path d="M5 2.5H4a1.5 1.5 0 0 0-1.5 1.5v5a5.5 5.5 0 0 0 11 0V4A1.5 1.5 0 0 0 12 2.5h-1"/><path d="M8 14.5v1a5.5 5.5 0 0 0 11 0V12"/><circle cx="19" cy="10" r="2"/></symbol><symbol id="n-file" viewBox="0 0 24 24"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5"/><path d="M12 18.2c-2-1.3-3.4-2.6-3.4-4.2 0-1.1.8-1.9 1.8-1.9.7 0 1.3.4 1.6 1 .3-.6.9-1 1.6-1 1 0 1.8.8 1.8 1.9 0 1.6-1.4 2.9-3.4 4.2Z"/></symbol><symbol id="n-pulse" viewBox="0 0 24 24"><path d="M2.5 12h4l2.5-6 4 13 3-9 1.5 2h4"/></symbol><symbol id="n-shield" viewBox="0 0 24 24"><path d="M12 21.5s7.5-3.4 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 6.1 7.5 9.5 7.5 9.5Z"/><path d="M12 8v4.5M12 16h.01"/></symbol><symbol id="n-watch" viewBox="0 0 24 24"><rect x="5.5" y="6" width="13" height="12" rx="3.5"/><path d="M8.5 6l.7-3.2h5.6L15.5 6M8.5 18l.7 3.2h5.6l.7-3.2"/><path d="M12 9.5V12l1.8 1.2"/></symbol><symbol id="i-sync" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.4 6.4L3 16"/><path d="M3 21v-5h5"/><path d="M3 12a9 9 0 0 1 15.4-6.4L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol><symbol id="n-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="19" cy="12" r="1.7" fill="currentColor"/></symbol></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9L9.6 3.9A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-alert-octagon" viewBox="0 0 24 24"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></symbol><symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/></symbol><symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol><symbol id="i-shift" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3.5"/></symbol><symbol id="i-bone" viewBox="0 0 24 24"><path d="M17 10c.7-.7 1.7 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .8.7 1.8 0 2.5l-7 7c-.7.7-1.7 0-2.5 0a2.5 2.5 0 0 0 0 5c.3 0 .5.2.5.5a2.5 2.5 0 1 0 5 0c0-.8-.7-1.8 0-2.5Z"/></symbol><symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 10v4M6 6v12M10 3v18M14 8v8M18 5v14M22 10v4"/></symbol><symbol id="i-microscope" viewBox="0 0 24 24"><path d="M6 18h8M3 22h18M14 22a7 7 0 1 0 0-14h-1M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></symbol><symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 9V3"/><path d="M7 15h10"/></symbol><symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2.7s6 6.3 6 11.3a6 6 0 0 1-12 0c0-5 6-11.3 6-11.3z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-stetho" viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></symbol><symbol id="n-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="9" rx="2"/><rect x="13.5" y="3" width="7.5" height="5.5" rx="2"/><rect x="13.5" y="11.5" width="7.5" height="9.5" rx="2"/><rect x="3" y="15" width="7.5" height="6" rx="2"/></symbol><symbol id="n-eval" viewBox="0 0 24 24"><rect x="4.5" y="4" width="15" height="17.5" rx="2.5"/><path d="M9 4V3.2c0-.7.5-1.2 1.2-1.2h3.6c.7 0 1.2.5 1.2 1.2V4"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/><circle cx="12.5" cy="10.5" r="1.3" fill="currentColor"/><circle cx="10" cy="14" r="1.3" fill="currentColor"/></symbol><symbol id="n-chart" viewBox="0 0 24 24"><path d="M3.5 3.5v15a2 2 0 0 0 2 2h15"/><path d="m7.5 14.5 3.5-4.5 3 3 5.5-6.5"/><circle cx="19.5" cy="6.5" r="1.4" fill="currentColor"/></symbol><symbol id="n-scale" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M7.5 10.5a6 6 0 0 1 9 0"/><path d="m12 11 1.6-2.4"/><path d="M9 16.5h6"/></symbol><symbol id="n-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="n-flask" viewBox="0 0 24 24"><path d="M9.5 2.5v6.8L4.3 18.4A2.2 2.2 0 0 0 6.2 21.5h11.6a2.2 2.2 0 0 0 1.9-3.1L14.5 9.3V2.5"/><path d="M8 2.5h8"/><path d="M6.6 15h10.8"/></symbol><symbol id="n-scan" viewBox="0 0 24 24"><path d="M3 7.5V5.5a2.5 2.5 0 0 1 2.5-2.5h2M16.5 3h2A2.5 2.5 0 0 1 21 5.5v2M21 16.5v2a2.5 2.5 0 0 1-2.5 2.5h-2M7.5 21h-2A2.5 2.5 0 0 1 3 18.5v-2"/><path d="M12 7v10M9 9.5c1 .6 2 .9 3 .9s2-.3 3-.9M9 14.5c1-.6 2-.9 3-.9s2 .3 3 .9"/></symbol><symbol id="n-stetho" viewBox="0 0 24 24"><path d="M5 2.5H4a1.5 1.5 0 0 0-1.5 1.5v5a5.5 5.5 0 0 0 11 0V4A1.5 1.5 0 0 0 12 2.5h-1"/><path d="M8 14.5v1a5.5 5.5 0 0 0 11 0V12"/><circle cx="19" cy="10" r="2"/></symbol><symbol id="n-file" viewBox="0 0 24 24"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5"/><path d="M12 18.2c-2-1.3-3.4-2.6-3.4-4.2 0-1.1.8-1.9 1.8-1.9.7 0 1.3.4 1.6 1 .3-.6.9-1 1.6-1 1 0 1.8.8 1.8 1.9 0 1.6-1.4 2.9-3.4 4.2Z"/></symbol><symbol id="n-pulse" viewBox="0 0 24 24"><path d="M2.5 12h4l2.5-6 4 13 3-9 1.5 2h4"/></symbol><symbol id="n-shield" viewBox="0 0 24 24"><path d="M12 21.5s7.5-3.4 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 6.1 7.5 9.5 7.5 9.5Z"/><path d="M12 8v4.5M12 16h.01"/></symbol><symbol id="n-watch" viewBox="0 0 24 24"><rect x="5.5" y="6" width="13" height="12" rx="3.5"/><path d="M8.5 6l.7-3.2h5.6L15.5 6M8.5 18l.7 3.2h5.6l.7-3.2"/><path d="M12 9.5V12l1.8 1.2"/></symbol><symbol id="i-sync" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.4 6.4L3 16"/><path d="M3 21v-5h5"/><path d="M3 12a9 9 0 0 1 15.4-6.4L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol><symbol id="n-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol><symbol id="n-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="19" cy="12" r="1.7" fill="currentColor"/></symbol></defs></svg>
 
 <!-- ═══════════ SIDEBAR ═══════════ -->
 <aside class="sidebar">
@@ -1012,6 +1033,14 @@ function hideSplash() {
     <div class="nav-link" onclick="nav('alerts')">
       <span class="nav-icon"><svg class="nv"><use href="#n-shield"/></svg></span>
       Alertes infection
+    </div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-label">Appli</div>
+    <div class="nav-link" onclick="nav('reminders')">
+      <span class="nav-icon"><svg class="nv"><use href="#n-bell"/></svg></span>
+      Rappels
     </div>
   </div>
 
@@ -2236,6 +2265,76 @@ function hideSplash() {
   </div>
 </div>
 
+<!-- ════════════════════════ RAPPELS ════════════════════════ -->
+<div class="page" id="page-reminders">
+  <div class="card" id="rm-perm-card">
+    <div class="wk-sync">
+      <div class="wk-sync-ic" style="background:rgba(192,57,43,.1);color:var(--a);"><svg class="nv"><use href="#n-bell"/></svg></div>
+      <div style="flex:1;min-width:200px;">
+        <div style="font-weight:700;font-size:15px;">Notifications</div>
+        <div class="wk-status" id="rm-status">—</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;" id="rm-actions"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-title-dot" style="background:var(--a)"></span>Mes rappels</div></div>
+
+    <div class="rm-item">
+      <div class="rm-ic" style="background:rgba(142,68,173,.1);color:var(--a5);"><svg class="nv"><use href="#n-syringe"/></svg></div>
+      <div class="rm-body">
+        <div class="rm-title">Commander IMRALDI</div>
+        <div class="rm-desc">Avant chaque injection, pour avoir le temps de commander le stylo à la pharmacie. Suit automatiquement les décalages. Le bouton « C'est commandé » de la notification annule le rappel suivant.</div>
+        <div class="rm-opts">
+          <label><input type="checkbox" id="rm-inj-j3" onchange="rmSave()"> 3 jours avant</label>
+          <label><input type="checkbox" id="rm-inj-j2" onchange="rmSave()"> 2 jours avant</label>
+          à <input type="time" class="form-input" id="rm-inj-time" onchange="rmSave()">
+        </div>
+      </div>
+      <label class="sw"><input type="checkbox" id="rm-inj-on" onchange="rmSave()"><span></span></label>
+    </div>
+
+    <div class="rm-item">
+      <div class="rm-ic" style="background:rgba(230,126,34,.12);color:var(--a4);"><svg class="nv"><use href="#n-pulse"/></svg></div>
+      <div class="rm-body">
+        <div class="rm-title">Raideur matinale (Q6)</div>
+        <div class="rm-desc">Chaque matin : note combien de temps dure ta raideur, avec un chrono si tu veux. La durée est reprise automatiquement dans l'évaluation BASDAI du soir.</div>
+        <div class="rm-opts">tous les jours à <input type="time" class="form-input" id="rm-morning-time" onchange="rmSave()"></div>
+      </div>
+      <label class="sw"><input type="checkbox" id="rm-morning-on" onchange="rmSave()"><span></span></label>
+    </div>
+
+    <div class="rm-item">
+      <div class="rm-ic" style="background:rgba(192,57,43,.1);color:var(--a);"><svg class="nv"><use href="#n-eval"/></svg></div>
+      <div class="rm-body">
+        <div class="rm-title">Évaluation BASDAI du soir</div>
+        <div class="rm-desc">Seulement si l'évaluation du jour n'est pas encore faite.</div>
+        <div class="rm-opts">tous les jours à <input type="time" class="form-input" id="rm-basdai-time" onchange="rmSave()"></div>
+      </div>
+      <label class="sw"><input type="checkbox" id="rm-basdai-on" onchange="rmSave()"><span></span></label>
+    </div>
+
+    <div class="rm-item">
+      <div class="rm-ic" style="background:rgba(39,174,96,.1);color:var(--a3);"><svg class="nv"><use href="#n-file"/></svg></div>
+      <div class="rm-body">
+        <div class="rm-title">Sauvegarde de la semaine</div>
+        <div class="rm-desc">Ouvre directement la sauvegarde de tes données et les PDF (BASDAI, traitement) à enregistrer dans Drive ou Fichiers.</div>
+        <div class="rm-opts">chaque <select class="form-select" id="rm-backup-dow" onchange="rmSave()"><option value="1">lundi</option><option value="2">mardi</option><option value="3">mercredi</option><option value="4">jeudi</option><option value="5">vendredi</option><option value="6">samedi</option><option value="0">dimanche</option></select> à <input type="time" class="form-input" id="rm-backup-time" onchange="rmSave()"></div>
+      </div>
+      <label class="sw"><input type="checkbox" id="rm-backup-on" onchange="rmSave()"><span></span></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><span class="card-title-dot" style="background:var(--a6)"></span>Prochains rappels</div>
+      <button class="btn btn-secondary btn-xs" onclick="rmTest()" id="rm-test-btn">Tester</button>
+    </div>
+    <div class="rm-next" id="rm-next">—</div>
+  </div>
+</div>
+
 <div class="page" id="page-alerts">
   <div class="urgency-grid" style="margin-bottom:24px;">
     <div class="urgency-card urg-r">
@@ -2462,6 +2561,30 @@ function hideSplash() {
     <div class="form-label" style="margin-top:6px;">Historique des décalages</div>
     <div id="ish-history"></div>
     <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('m-inj-shift')">Annuler</button><button class="btn btn-primary" onclick="saveInjShift()">Décaler</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-morning">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title"><svg class=ic><use href=#n-pulse></use></svg>Raideur matinale</div><button class="modal-close" onclick="closeModal('m-morning')"><svg class=ic><use href=#i-x></use></svg></button></div>
+    <div style="font-size:13px;color:var(--t2);margin-bottom:10px;">Combien de temps dure ta raideur ce matin ? Lance le chrono au réveil et arrête-le quand la raideur est partie, ou saisis directement la durée.</div>
+    <div class="chrono" id="mo-chrono">0 min</div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-bottom:14px;" id="mo-chrono-btns"></div>
+    <div class="form-group"><label class="form-label">Durée de la raideur (minutes)</label><input type="number" class="form-input" id="mo-min" min="0" max="300" placeholder="ex. 30"></div>
+    <div style="font-size:11px;color:var(--t3);" id="mo-info"></div>
+    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('m-morning')">Plus tard</button><button class="btn btn-primary" onclick="saveMorning()">Enregistrer</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-backup">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title"><svg class=ic><use href=#i-save></use></svg>Sauvegarde de la semaine</div><button class="modal-close" onclick="closeModal('m-backup')"><svg class=ic><use href=#i-x></use></svg></button></div>
+    <div style="font-size:13px;color:var(--t2);margin-bottom:14px;">Enregistre chaque fichier dans Drive ou Fichiers. La sauvegarde permet de tout récupérer en cas de perte du téléphone.</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <button class="btn btn-primary" onclick="exportData()"><svg class=ic><use href=#i-save></use></svg> Sauvegarde complète (.json)</button>
+      <button class="btn btn-secondary" onclick="exportBasdaiPdf()"><svg class=ic><use href=#i-file></use></svg> PDF historique BASDAI</button>
+      <button class="btn btn-secondary" onclick="exportTreatmentPdf()"><svg class=ic><use href=#i-file></use></svg> PDF du traitement</button>
+    </div>
   </div>
 </div>
 
@@ -2861,10 +2984,10 @@ var _bioImportExtracted = {};
 
 // ═══ DATA ═══
 let D = { entries:[], symptoms:[], treatments:[], biology:[], imaging:[], consultations:[], infections:[], weights:[], wearable:[], alSymptoms:[] };
-const PAGES = { dashboard:'Vue d\'ensemble', daily:'Évaluation BASDAI', scores:'Historique BASDAI', symptoms:'Symptômes', treatments:'Traitements', biology:'Biologie', imaging:'Imagerie & Examens', consultations:'Consultations', history:'Historique médical', alerts:'Alertes infection', weight:'Poids & IMC', wearable:'Montre & activité' };
+const PAGES = { dashboard:'Vue d\'ensemble', daily:'Évaluation BASDAI', scores:'Historique BASDAI', symptoms:'Symptômes', treatments:'Traitements', biology:'Biologie', imaging:'Imagerie & Examens', consultations:'Consultations', history:'Historique médical', alerts:'Alertes infection', weight:'Poids & IMC', wearable:'Montre & activité', reminders:'Rappels' };
 
 function load() { try { const s = localStorage.getItem('st_v3'); if(s) D={...D,...JSON.parse(s)}; } catch(e){} }
-function save() { try { localStorage.setItem('st_v3', JSON.stringify(D)); document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('fr-FR'); } catch(e){} }
+function save() { try { localStorage.setItem('st_v3', JSON.stringify(D)); document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('fr-FR'); } catch(e){} if (typeof remSchedule === 'function') remSchedule(); }
 
 // ═══ NAV ═══
 function nav(id) {
@@ -2884,6 +3007,8 @@ function nav(id) {
   // biotherapy removed
   if(id==='imaging') renderImaging();
   if(id==='wearable') renderWearable();
+  if(id==='reminders') renderReminders();
+  if(id==='daily') prefillQ6();
   if(typeof isMobile === 'function' && isMobile()) {
     const mobileMap = { dashboard:'dashboard', daily:'daily', treatments:'treatments', wearable:'wearable' };
     setBottomNav(mobileMap[id] || 'more');
@@ -6406,6 +6531,169 @@ function drawWkChart(canvas, pts, o) {
   pts.forEach((p, i) => { if ((n - 1 - i) % every) return; g.fillText(parseDay(p.d).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' }), x(i), H - 5); });
 }
 
+// ═══ RAPPELS & NOTIFICATIONS (appli Android) ═══
+const RM_DEFAULT = { inj: { on: true, j3: true, j2: true, time: '10:00' }, morning: { on: true, time: '08:00' }, basdai: { on: true, time: '21:00' }, backup: { on: true, dow: 0, time: '18:00' } };
+function RM() { const r = D.reminders || {}; const o = {}; Object.keys(RM_DEFAULT).forEach(k => o[k] = { ...RM_DEFAULT[k], ...(r[k] || {}) }); return o; }
+const DOW_FR = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+let rmTimer = null, rmPermission = null, rmListening = false;
+
+function atTime(dayDate, hhmm) { const [h, m] = (hhmm || '09:00').split(':').map(Number); const d = new Date(dayDate); d.setHours(h, m, 0, 0); return d; }
+function fmtDayFR(d) { return d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }); }
+
+// Liste des rappels à venir (14 jours), calculée à partir des données
+function rmPlan() {
+  const R = RM(), now = new Date(), out = [];
+  const today0 = new Date(); today0.setHours(0, 0, 0, 0);
+  const add = (id, at, title, body, extra, actionTypeId) => { if (at > now) out.push({ id, at, title, body, extra, actionTypeId }); };
+  const doneDays = new Set((D.entries || []).map(e => e.date));
+  for (let i = 0; i < 14; i++) {
+    const d = new Date(today0); d.setDate(d.getDate() + i); const k = toISODay(d);
+    if (R.basdai.on && !doneDays.has(k)) add(1000 + i, atTime(d, R.basdai.time), 'Évaluation BASDAI du soir', 'Prends 2 minutes pour noter ta journée.', { go: 'daily', date: k });
+    if (R.morning.on && !(D.morning || {})[k]) add(2000 + i, atTime(d, R.morning.time), 'Raideur matinale', 'Combien de temps dure ta raideur ce matin ? Note-la pour la Q6 du BASDAI.', { go: 'morning', date: k });
+  }
+  if (R.inj.on && typeof calcNextInjection === 'function') {
+    const n = calcNextInjection();
+    if (n) {
+      const k = toISODay(n.nextDate), when = fmtDayFR(n.nextDate);
+      const inf = typeof activeInfection === 'function' && activeInfection() ? ' Attention : infection en cours, pas d\'injection sans avis médical.' : '';
+      if (!(D.injOrdered || {})[k]) {
+        if (R.inj.j3) { const d = new Date(n.nextDate); d.setDate(d.getDate() - 3); add(3003, atTime(d, R.inj.time), 'Injection IMRALDI dans 3 jours', `Prévue ${when}. Pense à commander ton stylo à la pharmacie.` + inf, { go: 'inj', date: k }, 'INJ'); }
+        if (R.inj.j2) { const d = new Date(n.nextDate); d.setDate(d.getDate() - 2); add(3002, atTime(d, R.inj.time), 'Injection IMRALDI dans 2 jours', `Prévue ${when}. As-tu commandé ton stylo ?` + inf, { go: 'inj', date: k }, 'INJ'); }
+      }
+    }
+  }
+  if (R.backup.on) {
+    for (let w = 0, n = 0; w < 21 && n < 3; w++) {
+      const d = new Date(today0); d.setDate(d.getDate() + w);
+      if (d.getDay() !== +R.backup.dow) continue;
+      add(4000 + n, atTime(d, R.backup.time), 'Sauvegarde de la semaine', 'Enregistre ta sauvegarde et tes PDF pour ne rien perdre.', { go: 'backup' }); n++;
+    }
+  }
+  return out.sort((a, b) => a.at - b.at);
+}
+
+// Reprogramme toutes les notifications (appelé après chaque modification, avec un léger délai)
+function remSchedule() { if (!IS_NATIVE) return; clearTimeout(rmTimer); rmTimer = setTimeout(remScheduleNow, 1200); }
+let rmChain = Promise.resolve();
+function remScheduleNow() { rmChain = rmChain.then(remScheduleRun, remScheduleRun); return rmChain; }   // une programmation à la fois
+async function remScheduleRun() {
+  if (!IS_NATIVE) return;
+  try {
+    const perm = await nativeCall('LocalNotifications', 'checkPermissions');
+    rmPermission = perm.display;
+    if (perm.display !== 'granted') return;
+    const pend = await nativeCall('LocalNotifications', 'getPending');
+    if ((pend.notifications || []).length) await nativeCall('LocalNotifications', 'cancel', { notifications: pend.notifications.map(n => ({ id: n.id })) });
+    let exact = false; try { exact = (await nativeCall('LocalNotifications', 'checkExactNotificationSetting')).exact_alarm === 'granted'; } catch (e) {}
+    const list = rmPlan().map(n => ({ id: n.id, title: n.title, body: n.body, largeBody: n.body, extra: n.extra, actionTypeId: n.actionTypeId,
+      schedule: { at: n.at.toISOString(), allowWhileIdle: true }, isExactNotification: exact }));
+    if (list.length) await nativeCall('LocalNotifications', 'schedule', { notifications: list });
+  } catch (e) { console.warn('Rappels', e); }
+  if (currentPageId() === 'reminders') renderReminders();
+}
+
+// Clic sur une notification (ou sur « C'est commandé »)
+function rmHandleAction(d) {
+  const n = d && d.notification, x = n && n.extra || {};
+  if (d.actionId === 'ordered') { D.injOrdered = { ...(D.injOrdered || {}), [x.date]: true }; save(); toast('✓ Stylo IMRALDI noté comme commandé', 'success'); return; }
+  setTimeout(() => {
+    if (x.go === 'daily') { nav('daily'); }
+    else if (x.go === 'morning') { openMorning(); }
+    else if (x.go === 'inj') { nav('treatments'); }
+    else if (x.go === 'backup') { openModal('m-backup'); }
+  }, 300);
+}
+async function remInit() {
+  if (!IS_NATIVE) return;
+  try {
+    await nativeCall('LocalNotifications', 'registerActionTypes', { types: [{ id: 'INJ', actions: [{ id: 'ordered', title: 'C\'est commandé' }] }] });
+    if (!rmListening && window.Capacitor.addListener) { rmListening = true; window.Capacitor.addListener('LocalNotifications', 'localNotificationActionPerformed', d => rmHandleAction(d)); }
+    // Première ouverture : demander l'autorisation des notifications
+    const perm = await nativeCall('LocalNotifications', 'checkPermissions');
+    rmPermission = perm.display;
+    if (perm.display === 'prompt' && !D.rmAsked) { D.rmAsked = true; save(); await rmAskPermission(true); }
+  } catch (e) { console.warn('Rappels', e); }
+  remScheduleNow();
+}
+async function rmAskPermission(silent) {
+  try {
+    const r = await nativeCall('LocalNotifications', 'requestPermissions');
+    rmPermission = r.display;
+    if (r.display === 'granted') { if (!silent) toast('✓ Notifications activées', 'success'); remScheduleNow(); }
+    else if (!silent) toast('Notifications refusées — active-les dans les paramètres Android de Health K\'', 'warning');
+  } catch (e) { toast('Impossible d\'activer les notifications', 'error'); }
+  renderReminders();
+}
+async function rmTest() {
+  if (!IS_NATIVE) return;
+  try {
+    await nativeCall('LocalNotifications', 'schedule', { notifications: [{ id: 9001, title: 'Health K\' — test', body: 'Les rappels fonctionnent. Cette notification est arrivée 5 secondes après le test.', schedule: { at: new Date(Date.now() + 5000).toISOString(), allowWhileIdle: true }, isExactNotification: false }] });
+    toast('Notification de test dans 5 secondes', 'success');
+  } catch (e) { toast('Test impossible : ' + (e && e.message || e), 'error'); }
+}
+
+function renderReminders() {
+  const R = RM(), set = (id, v) => { const el = document.getElementById(id); if (el) { if (el.type === 'checkbox') el.checked = !!v; else el.value = v; } };
+  set('rm-inj-on', R.inj.on); set('rm-inj-j3', R.inj.j3); set('rm-inj-j2', R.inj.j2); set('rm-inj-time', R.inj.time);
+  set('rm-morning-on', R.morning.on); set('rm-morning-time', R.morning.time);
+  set('rm-basdai-on', R.basdai.on); set('rm-basdai-time', R.basdai.time);
+  set('rm-backup-on', R.backup.on); set('rm-backup-dow', R.backup.dow); set('rm-backup-time', R.backup.time);
+  const st = document.getElementById('rm-status'), act = document.getElementById('rm-actions'), IC = n => `<svg class=ic><use href=#i-${n}></use></svg>`;
+  if (!st) return;
+  if (!IS_NATIVE) {
+    st.innerHTML = '<span class="wk-dot" style="background:var(--a4)"></span>Les rappels arrivent avec l\'appli Android Health K\'';
+    act.innerHTML = `<a class="btn btn-primary btn-sm" href="${APK_URL}" target="_blank" rel="noopener" style="text-decoration:none;">${IC('download')} Appli Android</a>`;
+    document.getElementById('rm-test-btn').style.display = 'none';
+  } else if (rmPermission === 'granted') {
+    st.innerHTML = '<span class="wk-dot" style="background:var(--a3)"></span>Activées';
+    act.innerHTML = '';
+  } else {
+    st.innerHTML = '<span class="wk-dot" style="background:var(--a2)"></span>' + (rmPermission === 'denied' ? 'Bloquées dans les paramètres Android' : 'Pas encore activées');
+    act.innerHTML = `<button class="btn btn-primary btn-sm" onclick="rmAskPermission()">${IC('check')} Activer les notifications</button>`;
+  }
+  const next = document.getElementById('rm-next'); if (!next) return;
+  const plan = rmPlan().slice(0, 8);
+  next.innerHTML = plan.length ? plan.map(n => `<div><b>${n.at.toLocaleDateString('fr-FR', { weekday: 'short', day: '2-digit', month: '2-digit' })} ${n.at.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</b><span>${n.title}</span></div>`).join('') : 'Aucun rappel programmé.';
+}
+function rmSave() {
+  const g = id => document.getElementById(id), R = RM();
+  R.inj = { on: g('rm-inj-on').checked, j3: g('rm-inj-j3').checked, j2: g('rm-inj-j2').checked, time: g('rm-inj-time').value || '10:00' };
+  R.morning = { on: g('rm-morning-on').checked, time: g('rm-morning-time').value || '08:00' };
+  R.basdai = { on: g('rm-basdai-on').checked, time: g('rm-basdai-time').value || '21:00' };
+  R.backup = { on: g('rm-backup-on').checked, dow: +g('rm-backup-dow').value, time: g('rm-backup-time').value || '18:00' };
+  D.reminders = R; save(); renderReminders();
+}
+
+// ── Raideur matinale (Q6) ──
+let moTick = null;
+function openMorning() {
+  const k = toISODay(new Date()), v = (D.morning || {})[k];
+  document.getElementById('mo-min').value = v != null ? v : '';
+  document.getElementById('mo-info').textContent = v != null ? 'Déjà noté aujourd\'hui : ' + v + ' min. Tu peux corriger.' : '';
+  renderChrono(); openModal('m-morning');
+  clearInterval(moTick); moTick = setInterval(() => { if (!document.getElementById('m-morning').classList.contains('open')) { clearInterval(moTick); return; } renderChrono(); }, 15000);
+}
+function renderChrono() {
+  const t = D.morningTimer, el = document.getElementById('mo-chrono'), b = document.getElementById('mo-chrono-btns');
+  const running = t && t.date === toISODay(new Date());
+  const mins = running ? Math.max(0, Math.round((Date.now() - t.start) / 60000)) : (+document.getElementById('mo-min').value || 0);
+  el.textContent = mins + ' min'; el.style.color = running ? 'var(--a4)' : 'var(--t3)';
+  b.innerHTML = running ? '<button class="btn btn-primary btn-sm" onclick="stopChrono()">La raideur est partie</button>' : '<button class="btn btn-secondary btn-sm" onclick="startChrono()">Démarrer le chrono</button>';
+}
+function startChrono() { D.morningTimer = { date: toISODay(new Date()), start: Date.now() }; save(); renderChrono(); toast('Chrono lancé : reviens ici quand la raideur est partie', 'success'); }
+function stopChrono() { const t = D.morningTimer; if (!t) return; document.getElementById('mo-min').value = Math.max(0, Math.round((Date.now() - t.start) / 60000)); D.morningTimer = null; save(); renderChrono(); }
+function saveMorning() {
+  const v = parseInt(document.getElementById('mo-min').value);
+  if (isNaN(v) || v < 0) { toast('Indique la durée en minutes', 'error'); return; }
+  D.morning = { ...(D.morning || {}), [toISODay(new Date())]: v }; D.morningTimer = null; save();
+  closeModal('m-morning'); toast('✓ Raideur matinale : ' + v + ' min (reprise ce soir dans le BASDAI)', 'success');
+}
+function prefillQ6() {
+  const k = (document.getElementById('e-date') || {}).value || toISODay(new Date()), v = (D.morning || {})[k], f = document.getElementById('q6m');
+  if (!f || v == null || f.value !== '') return;
+  f.value = v; calcQ6(); toast('Q6 : raideur de ' + v + ' min reprise de ta mesure du matin', 'success');
+}
+
 // ═══ RAPPEL DE SAUVEGARDE ═══
 const BACKUP_DAYS = 7;
 function lsGet(k) { try { return localStorage.getItem(k); } catch(e) { return null; } }
@@ -7404,6 +7692,7 @@ checkMobileUI();
 syncBackGuard();
 hideSplash();
 hcAutoSync();
+remInit();
 
 // ═══ IMPORT PDF / IMAGE BIOLOGIE — OCR AUTO ═══
 
