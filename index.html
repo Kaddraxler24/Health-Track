@@ -898,7 +898,71 @@ tbody tr:hover td { background: var(--bg3); }
 .wk-status { font-size: 12px; color: var(--t2); margin-top: 2px; }
 .wk-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
 @media (max-width: 1024px) { .wk-charts { grid-template-columns: 1fr; } }
+/* ═══════════════════════════════════════════
+   PLIABLES OUVERTS & TABLETTES TACTILES (769–1180 px, écran tactile)
+   Navigation du téléphone (barre du bas, menu en tiroir) mais contenu sur 2 colonnes
+═══════════════════════════════════════════ */
+@media (pointer: coarse) and (min-width: 769px) and (max-width: 1180px) {
+  :root { --sidebar-w: 0px; }
+  .sidebar { transform: translateX(-100%); transition: transform .28s cubic-bezier(.4,0,.2,1); width: 300px; z-index: 400; box-shadow: 4px 0 32px rgba(0,0,0,.35); }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 390; }
+  .sidebar-overlay.open { display: block; }
+  .main { margin-left: 0; max-width: 100vw; }
+  .topbar { padding: 14px 24px 12px; gap: 14px; }
+  .topbar-logo { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; cursor: pointer; flex-shrink: 0; }
+  .content { padding: 20px 24px 104px; }
+  .grid-4 { grid-template-columns: 1fr 1fr; }
+  .wk-charts { grid-template-columns: 1fr 1fr; }
+  .wk-tiles { grid-template-columns: repeat(3, 1fr); }
+  .bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; height: 68px; background: var(--sidebar);
+    border-top: 1px solid rgba(255,255,255,.08); z-index: 300; justify-content: center; gap: 4px; align-items: center;
+    padding: 0 16px; padding-bottom: env(safe-area-inset-bottom); }
+  .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; cursor: pointer; color: rgba(255,255,255,.55);
+    font-size: 11px; font-weight: 600; letter-spacing: .03em; padding: 6px 4px; border-radius: 10px; flex: 0 1 140px; white-space: nowrap; }
+  .bottom-nav-item .nv { width: 22px; height: 22px; padding: 4px 14px; box-sizing: content-box; border-radius: 999px; transition: background .2s; }
+  .bottom-nav-item.active { color: #fff; }
+  .bottom-nav-item.active .nv { background: linear-gradient(135deg, #c0392b, #e74c3c); color: #fff; box-shadow: 0 2px 8px rgba(231,76,60,.35); }
+  .modal-box { max-height: 88vh; overflow-y: auto; }
+}
+/* Pliable fermé / très petits écrans (≤ 380 px) */
+@media (max-width: 380px) {
+  .content { padding: 10px 8px 88px; }
+  .card { padding: 12px 10px; }
+  .bottom-nav-item { font-size: 8.5px; }
+  .bottom-nav-item .nv { padding: 4px 9px; }
+  .wk-tile-value { font-size: 18px; }
+  #w-compo-card > div[style*="repeat(4,1fr)"] { grid-template-columns: 1fr 1fr !important; }
+}
+/* Rangée de tuiles de biologie : défilement horizontal sur téléphone au lieu de 7 colonnes écrasées */
+@media (max-width: 768px) {
+  #page-biology div[style*="repeat(7,1fr)"] { grid-template-columns: none !important; grid-auto-flow: column; grid-auto-columns: 104px;
+    overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 4px; }
+}
+
 @media (max-width: 768px) { .wk-tiles { grid-template-columns: 1fr 1fr; } .wk-tile-value { font-size: 20px; } }
+
+/* ═══ ACCUEIL : ACTIONS RAPIDES & JOURNAL ═══ */
+.qa-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(68px, 1fr)); gap: 8px; }
+.qa-btn { font-size: 11px !important; }
+.qa-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 6px; border-radius: 12px; border: 1px solid var(--bdr);
+  background: var(--bg3); color: var(--t); font: 600 12px var(--sans); cursor: pointer; transition: transform .1s, background .15s; }
+.qa-btn:active { transform: scale(.96); }
+.qa-btn .nv, .qa-btn .ic { width: 22px; height: 22px; }
+.qa-btn.hot { background: rgba(192,57,43,.1); border-color: rgba(192,57,43,.4); color: var(--a); }
+.mood-row { display: flex; gap: 6px; justify-content: space-between; margin-bottom: 10px; }
+.mood { flex: 1; font-size: 26px; line-height: 1; padding: 8px 0; border-radius: 12px; border: 2px solid transparent; background: var(--bg3); cursor: pointer; transition: transform .1s; }
+.mood.on { border-color: var(--a); background: rgba(192,57,43,.08); transform: scale(1.06); }
+.mood small { display: block; font: 600 10px var(--sans); color: var(--t2); margin-top: 4px; }
+.xp-q { margin-bottom: 14px; }
+.xp-q label { display: flex; justify-content: space-between; font-weight: 600; font-size: 13px; margin-bottom: 6px; }
+.xp-q label b { font-family: var(--mono); color: var(--a); font-size: 16px; }
+.xp-q input[type=range] { width: 100%; }
+.xp-total { text-align: center; font: 800 30px var(--mono); margin: 4px 0 10px; }
+.stock-n { font: 800 34px var(--mono); color: var(--a5); min-width: 46px; text-align: center; }
+#toast { display: none; align-items: center; gap: 12px; }
+#toast button { background: rgba(255,255,255,.22); color: #fff; border: 0; border-radius: 8px; padding: 6px 10px; font: 700 12px var(--sans); cursor: pointer; }
+@media (max-width: 768px) { #toast { left: 12px; right: 12px; bottom: 84px; max-width: none; } }
 
 /* ═══ RAPPELS ═══ */
 .rm-item { display: flex; gap: 12px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--bdr); }
@@ -955,7 +1019,7 @@ function hideSplash() {
 }
 </script>
 <!-- ═══ ICÔNES (sprite SVG) ═══ -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9L9.6 3.9A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-alert-octagon" viewBox="0 0 24 24"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></symbol><symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/></symbol><symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol><symbol id="i-shift" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3.5"/></symbol><symbol id="i-bone" viewBox="0 0 24 24"><path d="M17 10c.7-.7 1.7 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .8.7 1.8 0 2.5l-7 7c-.7.7-1.7 0-2.5 0a2.5 2.5 0 0 0 0 5c.3 0 .5.2.5.5a2.5 2.5 0 1 0 5 0c0-.8-.7-1.8 0-2.5Z"/></symbol><symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 10v4M6 6v12M10 3v18M14 8v8M18 5v14M22 10v4"/></symbol><symbol id="i-microscope" viewBox="0 0 24 24"><path d="M6 18h8M3 22h18M14 22a7 7 0 1 0 0-14h-1M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></symbol><symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 9V3"/><path d="M7 15h10"/></symbol><symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2.7s6 6.3 6 11.3a6 6 0 0 1-12 0c0-5 6-11.3 6-11.3z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-stetho" viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></symbol><symbol id="n-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="9" rx="2"/><rect x="13.5" y="3" width="7.5" height="5.5" rx="2"/><rect x="13.5" y="11.5" width="7.5" height="9.5" rx="2"/><rect x="3" y="15" width="7.5" height="6" rx="2"/></symbol><symbol id="n-eval" viewBox="0 0 24 24"><rect x="4.5" y="4" width="15" height="17.5" rx="2.5"/><path d="M9 4V3.2c0-.7.5-1.2 1.2-1.2h3.6c.7 0 1.2.5 1.2 1.2V4"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/><circle cx="12.5" cy="10.5" r="1.3" fill="currentColor"/><circle cx="10" cy="14" r="1.3" fill="currentColor"/></symbol><symbol id="n-chart" viewBox="0 0 24 24"><path d="M3.5 3.5v15a2 2 0 0 0 2 2h15"/><path d="m7.5 14.5 3.5-4.5 3 3 5.5-6.5"/><circle cx="19.5" cy="6.5" r="1.4" fill="currentColor"/></symbol><symbol id="n-scale" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M7.5 10.5a6 6 0 0 1 9 0"/><path d="m12 11 1.6-2.4"/><path d="M9 16.5h6"/></symbol><symbol id="n-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="n-flask" viewBox="0 0 24 24"><path d="M9.5 2.5v6.8L4.3 18.4A2.2 2.2 0 0 0 6.2 21.5h11.6a2.2 2.2 0 0 0 1.9-3.1L14.5 9.3V2.5"/><path d="M8 2.5h8"/><path d="M6.6 15h10.8"/></symbol><symbol id="n-scan" viewBox="0 0 24 24"><path d="M3 7.5V5.5a2.5 2.5 0 0 1 2.5-2.5h2M16.5 3h2A2.5 2.5 0 0 1 21 5.5v2M21 16.5v2a2.5 2.5 0 0 1-2.5 2.5h-2M7.5 21h-2A2.5 2.5 0 0 1 3 18.5v-2"/><path d="M12 7v10M9 9.5c1 .6 2 .9 3 .9s2-.3 3-.9M9 14.5c1-.6 2-.9 3-.9s2 .3 3 .9"/></symbol><symbol id="n-stetho" viewBox="0 0 24 24"><path d="M5 2.5H4a1.5 1.5 0 0 0-1.5 1.5v5a5.5 5.5 0 0 0 11 0V4A1.5 1.5 0 0 0 12 2.5h-1"/><path d="M8 14.5v1a5.5 5.5 0 0 0 11 0V12"/><circle cx="19" cy="10" r="2"/></symbol><symbol id="n-file" viewBox="0 0 24 24"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5"/><path d="M12 18.2c-2-1.3-3.4-2.6-3.4-4.2 0-1.1.8-1.9 1.8-1.9.7 0 1.3.4 1.6 1 .3-.6.9-1 1.6-1 1 0 1.8.8 1.8 1.9 0 1.6-1.4 2.9-3.4 4.2Z"/></symbol><symbol id="n-pulse" viewBox="0 0 24 24"><path d="M2.5 12h4l2.5-6 4 13 3-9 1.5 2h4"/></symbol><symbol id="n-shield" viewBox="0 0 24 24"><path d="M12 21.5s7.5-3.4 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 6.1 7.5 9.5 7.5 9.5Z"/><path d="M12 8v4.5M12 16h.01"/></symbol><symbol id="n-watch" viewBox="0 0 24 24"><rect x="5.5" y="6" width="13" height="12" rx="3.5"/><path d="M8.5 6l.7-3.2h5.6L15.5 6M8.5 18l.7 3.2h5.6l.7-3.2"/><path d="M12 9.5V12l1.8 1.2"/></symbol><symbol id="i-sync" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.4 6.4L3 16"/><path d="M3 21v-5h5"/><path d="M3 12a9 9 0 0 1 15.4-6.4L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol><symbol id="n-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol><symbol id="n-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="19" cy="12" r="1.7" fill="currentColor"/></symbol></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9L9.6 3.9A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-alert-octagon" viewBox="0 0 24 24"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></symbol><symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/></symbol><symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol><symbol id="i-shift" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3.5"/></symbol><symbol id="i-bone" viewBox="0 0 24 24"><path d="M17 10c.7-.7 1.7 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .8.7 1.8 0 2.5l-7 7c-.7.7-1.7 0-2.5 0a2.5 2.5 0 0 0 0 5c.3 0 .5.2.5.5a2.5 2.5 0 1 0 5 0c0-.8-.7-1.8 0-2.5Z"/></symbol><symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 10v4M6 6v12M10 3v18M14 8v8M18 5v14M22 10v4"/></symbol><symbol id="i-microscope" viewBox="0 0 24 24"><path d="M6 18h8M3 22h18M14 22a7 7 0 1 0 0-14h-1M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></symbol><symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 9V3"/><path d="M7 15h10"/></symbol><symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2.7s6 6.3 6 11.3a6 6 0 0 1-12 0c0-5 6-11.3 6-11.3z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-stetho" viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></symbol><symbol id="n-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="9" rx="2"/><rect x="13.5" y="3" width="7.5" height="5.5" rx="2"/><rect x="13.5" y="11.5" width="7.5" height="9.5" rx="2"/><rect x="3" y="15" width="7.5" height="6" rx="2"/></symbol><symbol id="n-eval" viewBox="0 0 24 24"><rect x="4.5" y="4" width="15" height="17.5" rx="2.5"/><path d="M9 4V3.2c0-.7.5-1.2 1.2-1.2h3.6c.7 0 1.2.5 1.2 1.2V4"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/><circle cx="12.5" cy="10.5" r="1.3" fill="currentColor"/><circle cx="10" cy="14" r="1.3" fill="currentColor"/></symbol><symbol id="n-chart" viewBox="0 0 24 24"><path d="M3.5 3.5v15a2 2 0 0 0 2 2h15"/><path d="m7.5 14.5 3.5-4.5 3 3 5.5-6.5"/><circle cx="19.5" cy="6.5" r="1.4" fill="currentColor"/></symbol><symbol id="n-scale" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M7.5 10.5a6 6 0 0 1 9 0"/><path d="m12 11 1.6-2.4"/><path d="M9 16.5h6"/></symbol><symbol id="n-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="n-flask" viewBox="0 0 24 24"><path d="M9.5 2.5v6.8L4.3 18.4A2.2 2.2 0 0 0 6.2 21.5h11.6a2.2 2.2 0 0 0 1.9-3.1L14.5 9.3V2.5"/><path d="M8 2.5h8"/><path d="M6.6 15h10.8"/></symbol><symbol id="n-scan" viewBox="0 0 24 24"><path d="M3 7.5V5.5a2.5 2.5 0 0 1 2.5-2.5h2M16.5 3h2A2.5 2.5 0 0 1 21 5.5v2M21 16.5v2a2.5 2.5 0 0 1-2.5 2.5h-2M7.5 21h-2A2.5 2.5 0 0 1 3 18.5v-2"/><path d="M12 7v10M9 9.5c1 .6 2 .9 3 .9s2-.3 3-.9M9 14.5c1-.6 2-.9 3-.9s2 .3 3 .9"/></symbol><symbol id="n-stetho" viewBox="0 0 24 24"><path d="M5 2.5H4a1.5 1.5 0 0 0-1.5 1.5v5a5.5 5.5 0 0 0 11 0V4A1.5 1.5 0 0 0 12 2.5h-1"/><path d="M8 14.5v1a5.5 5.5 0 0 0 11 0V12"/><circle cx="19" cy="10" r="2"/></symbol><symbol id="n-file" viewBox="0 0 24 24"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5"/><path d="M12 18.2c-2-1.3-3.4-2.6-3.4-4.2 0-1.1.8-1.9 1.8-1.9.7 0 1.3.4 1.6 1 .3-.6.9-1 1.6-1 1 0 1.8.8 1.8 1.9 0 1.6-1.4 2.9-3.4 4.2Z"/></symbol><symbol id="n-pulse" viewBox="0 0 24 24"><path d="M2.5 12h4l2.5-6 4 13 3-9 1.5 2h4"/></symbol><symbol id="n-shield" viewBox="0 0 24 24"><path d="M12 21.5s7.5-3.4 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 6.1 7.5 9.5 7.5 9.5Z"/><path d="M12 8v4.5M12 16h.01"/></symbol><symbol id="n-watch" viewBox="0 0 24 24"><rect x="5.5" y="6" width="13" height="12" rx="3.5"/><path d="M8.5 6l.7-3.2h5.6L15.5 6M8.5 18l.7 3.2h5.6l.7-3.2"/><path d="M12 9.5V12l1.8 1.2"/></symbol><symbol id="i-sync" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.4 6.4L3 16"/><path d="M3 21v-5h5"/><path d="M3 12a9 9 0 0 1 15.4-6.4L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol><symbol id="n-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol><symbol id="i-thermo" viewBox="0 0 24 24"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/><path d="M11.5 17.5v-6"/></symbol><symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></symbol><symbol id="i-note" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M3 5h13M3 10h13M3 15h7"/></symbol><symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></symbol><symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol><symbol id="n-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="19" cy="12" r="1.7" fill="currentColor"/></symbol></defs></svg>
 
 <!-- ═══════════ SIDEBAR ═══════════ -->
 <aside class="sidebar">
@@ -1043,6 +1107,10 @@ function hideSplash() {
       <span class="nav-icon"><svg class="nv"><use href="#n-bell"/></svg></span>
       Rappels
     </div>
+    <div class="nav-link" onclick="nav('settings')">
+      <span class="nav-icon"><svg class="nv"><use href="#i-gear"/></svg></span>
+      Réglages
+    </div>
   </div>
 
   <div class="sidebar-footer">
@@ -1077,7 +1145,7 @@ function hideSplash() {
   </div>
   <div class="topbar-left">
     <div class="topbar-title" id="topbar-title">Vue d'ensemble</div>
-    <div class="topbar-sub" id="topbar-sub">IMRALDI · Adalimumab 40mg · 1 injection / 14 jours</div>
+    <div class="topbar-sub" id="topbar-sub">IMRALDI · Adalimumab 40mg · 1 injection / <span data-cfg="interval">14</span> jours</div>
   </div>
   <div class="topbar-actions">
     <div class="topbar-pill"><span class="topbar-pill-dot"></span><span id="topbar-inj-info">IMRALDI · J+14</span></div>
@@ -1122,6 +1190,22 @@ function hideSplash() {
       <button class="btn btn-secondary btn-sm" onclick="snoozeBackup()" title="Masquer jusqu'à demain">Plus tard</button>
     </div>
   </div>
+  <div class="card" id="dd-quick">
+    <div class="qa-row">
+      <button class="qa-btn hot" onclick="openExpress()"><svg class="nv"><use href="#n-eval"/></svg>BASDAI express</button>
+      <button class="qa-btn" onclick="openMorning()"><svg class="nv"><use href="#n-pulse"/></svg>Raideur</button>
+      <button class="qa-btn" onclick="openTemp()"><svg class="ic"><use href="#i-thermo"/></svg>Température</button>
+      <button class="qa-btn" onclick="document.getElementById('jr-text').focus()"><svg class="ic"><use href="#i-note"/></svg>Note</button>
+      <button class="qa-btn hot" id="qa-inj" style="display:none" onclick="openInjDone()"><svg class="nv"><use href="#n-syringe"/></svg>Injection faite</button>
+    </div>
+  </div>
+
+  <div class="card" id="dd-journal">
+    <div class="card-header"><div class="card-title"><span class="card-title-dot" style="background:var(--a5)"></span>Comment ça va aujourd'hui ?</div><span style="font-size:11px;color:var(--t3);" id="jr-saved"></span></div>
+    <div class="mood-row" id="jr-moods"></div>
+    <div style="display:flex;gap:8px;"><input type="text" class="form-input" id="jr-text" placeholder="Une ligne sur ta journée (facultatif)" maxlength="300" onkeydown="if(event.key==='Enter')saveJournal()"><button class="btn btn-primary" onclick="saveJournal()">OK</button></div>
+  </div>
+
   <div id="welcome-banner" class="card" style="display:none;border-color:rgba(39,174,96,0.4);background:rgba(39,174,96,0.06);">
     <div style="font-size:15px;font-weight:700;margin-bottom:6px;">Bienvenue dans Health K'</div>
     <div style="font-size:13px;color:var(--t2);margin-bottom:12px;">Pour retrouver ton suivi, importe ton fichier de données (<strong>mes_donnees.json</strong> ou une sauvegarde exportée). Tes données restent uniquement sur ce téléphone.</div>
@@ -1730,6 +1814,19 @@ function hideSplash() {
 
 <!-- ════════════════════════ TRAITEMENTS ════════════════════════ -->
 <div class="page" id="page-treatments">
+  <div class="card" id="stock-card">
+    <div class="card-header"><div class="card-title"><span class="card-title-dot" style="background:var(--a5)"></span>Stock de stylos IMRALDI</div><span class="badge badge-gray" id="stock-badge">—</span></div>
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+      <button class="btn btn-secondary" onclick="stockAdd(-1)" aria-label="Retirer un stylo">−</button>
+      <div class="stock-n" id="stock-n">0</div>
+      <button class="btn btn-secondary" onclick="stockAdd(1)" aria-label="Ajouter un stylo">+</button>
+      <div style="flex:1;min-width:180px;font-size:12px;color:var(--t2);line-height:1.5;" id="stock-info">Décompté automatiquement à chaque injection enregistrée.</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap;font-size:12px;color:var(--t2);">
+      Péremption du prochain stylo : <input type="date" class="form-input" id="stock-exp" style="width:auto;padding:6px 8px;" onchange="stockSaveExp()">
+      <button class="btn btn-secondary btn-sm" onclick="stockAdd(2)">+2 reçus</button>
+    </div>
+  </div>
   <div class="card" style="border-color:#bfdbfe;background:#eff6ff;">
     <div class="card-header">
       <div class="card-title"><span class="card-title-dot" style="background:var(--a5)"></span>Biothérapie principale</div>
@@ -1738,7 +1835,7 @@ function hideSplash() {
     <div class="grid-4">
       <div><div class="stat-label">Médicament</div><div style="font-size:16px;font-weight:800;color:var(--a);">IMRALDI 40mg</div></div>
       <div><div class="stat-label">Voie / Dose</div><div style="font-weight:600;">SC · 0,8 mL</div></div>
-      <div><div class="stat-label">Fréquence</div><div style="font-weight:600;">1 injection / 14 jours</div></div>
+      <div><div class="stat-label">Fréquence</div><div style="font-weight:600;">1 injection / <span data-cfg="interval">14</span> jours</div></div>
       <div><div class="stat-label">Prochaine injection</div><div style="font-size:16px;font-weight:800;color:var(--a5);font-family:var(--mono);" id="t-next-inj">—</div><button class="btn btn-secondary btn-sm" style="margin-top:6px;" onclick="openInjShift()">Décaler l'injection</button></div>
     </div>
     <div id="t-inj-note" style="display:none;flex-direction:column;gap:6px;margin-top:12px;"></div>
@@ -2336,6 +2433,39 @@ function hideSplash() {
   </div>
 </div>
 
+<!-- ════════════════════════ RÉGLAGES ════════════════════════ -->
+<div class="page" id="page-settings">
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-title-dot" style="background:var(--a3)"></span>Mon profil</div></div>
+    <div class="form-row-3 form-row">
+      <div class="form-group"><label class="form-label">Taille (cm)</label><input type="number" class="form-input" id="st-height" min="100" max="230"></div>
+      <div class="form-group"><label class="form-label">Poids de départ (kg)</label><input type="number" step="0.1" class="form-input" id="st-wstart"></div>
+      <div class="form-group"><label class="form-label">Objectif de poids (kg)</label><input type="number" step="0.1" class="form-input" id="st-wgoal"></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-title-dot" style="background:var(--a5)"></span>Traitement</div></div>
+    <div class="form-row-3 form-row">
+      <div class="form-group"><label class="form-label">Début de la prescription</label><input type="date" class="form-input" id="st-pstart"></div>
+      <div class="form-group"><label class="form-label">Durée (mois)</label><input type="number" class="form-input" id="st-pmonths" min="1" max="24"></div>
+      <div class="form-group"><label class="form-label">Une injection tous les (jours)</label><input type="number" class="form-input" id="st-interval" min="1" max="60"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Heure habituelle de l'injection</label><input type="time" class="form-input" id="st-injtime"></div>
+      <div class="form-group"><label class="form-label">Rappel « sortir le stylo du frigo »</label><select class="form-select" id="st-penout"><option value="0">Désactivé</option><option value="15">15 min avant</option><option value="30">30 min avant</option><option value="45">45 min avant</option><option value="60">1 h avant</option></select></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><span class="card-title-dot" style="background:var(--a6)"></span>Sauvegarde automatique</div><span class="badge badge-gray" id="st-ab-badge">—</span></div>
+    <div style="font-size:13px;color:var(--t2);line-height:1.5;margin-bottom:10px;" id="st-ab-info">Une sauvegarde complète chaque semaine, rangée sur le téléphone dans <b>Documents/HealthK</b> (les 6 dernières sont gardées).</div>
+    <label style="display:flex;align-items:center;gap:10px;font-size:13px;"><label class="sw" style="margin:0"><input type="checkbox" id="st-autobackup"><span></span></label> Activer la sauvegarde automatique</label>
+  </div>
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin-bottom:var(--block-gap);">
+    <button class="btn btn-secondary" onclick="renderSettings()">Annuler</button>
+    <button class="btn btn-primary" onclick="saveSettings()">Enregistrer les réglages</button>
+  </div>
+</div>
+
 <div class="page" id="page-alerts">
   <div class="urgency-grid" style="margin-bottom:24px;">
     <div class="urgency-card urg-r">
@@ -2519,7 +2649,7 @@ function hideSplash() {
     <div style="background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;padding:20px;font-size:12px;line-height:1.8;">
       <div style="font-size:14px;font-weight:800;color:var(--a2);margin-bottom:12px;">PATIENT SOUS BIOTHÉRAPIE ANTI-TNFα</div>
       <div class="grid-2" style="gap:12px;margin-bottom:12px;">
-        <div><strong>Traitement :</strong> IMRALDI 40mg (Adalimumab) — 1 injection SC / 14 jours</div>
+        <div><strong>Traitement :</strong> IMRALDI 40mg (Adalimumab) — 1 injection SC / <span data-cfg="interval">14</span> jours</div>
         <div><strong>Rhumatologue :</strong> _________________________ Tél : _____________</div>
       </div>
       <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:6px;padding:10px;color:#7f1d1d;">
@@ -2562,6 +2692,33 @@ function hideSplash() {
     <div class="form-label" style="margin-top:6px;">Historique des décalages</div>
     <div id="ish-history"></div>
     <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('m-inj-shift')">Annuler</button><button class="btn btn-primary" onclick="saveInjShift()">Décaler</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-express">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title"><svg class=ic><use href=#n-eval></use></svg>BASDAI express</div><button class="modal-close" onclick="closeModal('m-express')"><svg class=ic><use href=#i-x></use></svg></button></div>
+    <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;">
+      <input type="date" class="form-input" id="xp-date" style="width:auto;padding:6px 8px;">
+      <button class="btn btn-secondary btn-sm" onclick="xpLikeYesterday()">Comme la dernière fois</button>
+    </div>
+    <div id="xp-qs"></div>
+    <div class="xp-q"><label>Q6 — Durée de la raideur matinale <b id="xp-v6">0 min</b></label><input type="range" min="0" max="120" step="5" id="xp-q6" oninput="xpCalc()"></div>
+    <div class="xp-total" id="xp-total">—</div>
+    <div style="font-size:11px;color:var(--t3);text-align:center;margin-bottom:6px;">Pour les symptômes associés et les notes, utilise l'évaluation complète.</div>
+    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('m-express');nav('daily')">Évaluation complète</button><button class="btn btn-primary" onclick="saveExpress()">Enregistrer</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-temp">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title"><svg class=ic><use href=#i-thermo></use></svg>Température</div><button class="modal-close" onclick="closeModal('m-temp')"><svg class=ic><use href=#i-x></use></svg></button></div>
+    <div class="chrono" id="tp-big" style="color:var(--a6)">37,0 °C</div>
+    <input type="range" min="35" max="41" step="0.1" id="tp-val" style="width:100%;height:34px;" oninput="tpShow()">
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-bottom:10px;"><span>35</span><span>37</span><span>38</span><span>39</span><span>41</span></div>
+    <div id="tp-warn" style="font-size:12px;min-height:18px;margin-bottom:8px;"></div>
+    <div id="tp-last" style="font-size:12px;color:var(--t2);"></div>
+    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('m-temp')">Annuler</button><button class="btn btn-primary" onclick="saveTemp()">Enregistrer</button></div>
   </div>
 </div>
 
@@ -2985,7 +3142,7 @@ var _bioImportExtracted = {};
 
 // ═══ DATA ═══
 let D = { entries:[], symptoms:[], treatments:[], biology:[], imaging:[], consultations:[], infections:[], weights:[], wearable:[], alSymptoms:[] };
-const PAGES = { dashboard:'Vue d\'ensemble', daily:'Évaluation BASDAI', scores:'Historique BASDAI', symptoms:'Symptômes', treatments:'Traitements', biology:'Biologie', imaging:'Imagerie & Examens', consultations:'Consultations', history:'Historique médical', alerts:'Alertes infection', weight:'Poids & IMC', wearable:'Montre & activité', reminders:'Rappels' };
+const PAGES = { dashboard:'Vue d\'ensemble', daily:'Évaluation BASDAI', scores:'Historique BASDAI', symptoms:'Symptômes', treatments:'Traitements', biology:'Biologie', imaging:'Imagerie & Examens', consultations:'Consultations', history:'Historique médical', alerts:'Alertes infection', weight:'Poids & IMC', wearable:'Montre & activité', reminders:'Rappels', settings:'Réglages' };
 
 // ═══ SÉCURITÉ : tout texte venant d'un fichier, de l'OCR ou de l'IA est neutralisé ═══
 // (pas de balise HTML, pas de guillemet droit pouvant sortir d'un attribut, identifiants simples)
@@ -3037,7 +3194,7 @@ function nav(id) {
   if(id==='dashboard') renderDash();
   if(id==='scores') renderScores();
   if(id==='symptoms') renderSymptoms();
-  if(id==='treatments') renderTreatments();
+  if(id==='treatments') { renderTreatments(); renderStock(); }
   if(id==='consultations') renderCons();
   if(id==='biology') renderBioPage();
   if(id==='weight') renderWeight();
@@ -3045,6 +3202,7 @@ function nav(id) {
   if(id==='imaging') renderImaging();
   if(id==='wearable') renderWearable();
   if(id==='reminders') renderReminders();
+  if(id==='settings') renderSettings();
   if(id==='daily') prefillQ6();
   if(typeof isMobile === 'function' && isMobile()) {
     const mobileMap = { dashboard:'dashboard', daily:'daily', treatments:'treatments', wearable:'wearable' };
@@ -3083,12 +3241,19 @@ function openModal(id) { document.getElementById(id).classList.add('open'); sync
 function closeModal(id) { document.getElementById(id).classList.remove('open'); syncBackGuard(); }
 
 // ═══ TOAST ═══
-function toast(msg, type='success') {
+let toastTimer = null;
+function toast(msg, type='success', action) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.className = type;
-  t.style.display = 'block';
-  setTimeout(()=>t.style.display='none', 3000);
+  if (action) { const b = document.createElement('button'); b.textContent = action.label; b.onclick = () => { t.style.display = 'none'; action.fn(); }; t.appendChild(b); }
+  t.style.display = 'flex';
+  if (type === 'success' && navigator.vibrate) { try { navigator.vibrate(12); } catch(e) {} }
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.style.display='none', action ? 6000 : 3000);
 }
+// Annuler la dernière action : on garde une copie des données juste avant
+function undoPoint() { return JSON.stringify(D); }
+function undoTo(snap) { D = JSON.parse(snap); save(); applyCfg(); const cur = currentPageId(); nav(cur); if (cur !== 'dashboard') renderDash(); toast('Action annulée', 'warning'); }
+function toastUndo(msg, snap) { toast(msg, 'success', { label: 'Annuler', fn: () => undoTo(snap) }); }
 
 // ═══ SLIDERS ═══
 function sl(id, prefix='') {
@@ -3328,8 +3493,8 @@ function chartWidth(canvas, n) {
 // ═══ CALCUL INJECTION IMRALDI ═══
 // Date de référence modifiable (décalage possible en cas d'infection), intervalle 14 jours
 const INJ_DEFAULT_ANCHOR = null;
-const INJ_INTERVAL = 14;
-function CFG() { return Object.assign({}, CFG_DEFAULT, D.cfg || {}); }
+let INJ_INTERVAL = 14;   // réglable (Réglages) : D.cfg.injInterval
+function CFG() { const c = Object.assign({}, CFG_DEFAULT, D.cfg || {}); if (c.injInterval > 0) INJ_INTERVAL = +c.injInterval; return c; }
 function getPresc() { return D.presc || PRESC || null; }
 function persoHtml(k) { return (PERSO_HTML && PERSO_HTML[k]) || sanitizeHtml((D.perso || {})[k] || ''); }
 function applyPerso() {
@@ -3342,6 +3507,7 @@ function applyCfg() {
     const k = el.dataset.cfg;
     if (k === 'goal') el.textContent = c.weightGoal ? c.weightGoal + ' kg' : '—';
     else if (k === 'start') el.textContent = c.weightStart ? c.weightStart + ' kg' : '—';
+    else if (k === 'interval') el.textContent = INJ_INTERVAL;
     else if (k === 'goalDelta') el.textContent = (c.weightGoal && c.weightStart) ? '− ' + (Math.round((c.weightStart - c.weightGoal)*10)/10) + ' kg' : '';
   });
 }
@@ -3410,11 +3576,13 @@ function saveInjDone() {
   if(parseDay(v)>today){ toast('Une injection faite ne peut pas être dans le futur','error'); return; }
   if(injLog().some(x=>x.date===v)){ toast('⚠️ Une injection est déjà enregistrée le '+parseDay(v).toLocaleDateString('fr-FR'),'warning'); return; }
   const site=document.getElementById('ijd-site').value, note=document.getElementById('ijd-note').value.trim();
+  const snap = undoPoint();
   injLog().push({ id:Date.now(), date:v, site, note });
+  if (D.stock && D.stock.count > 0) D.stock.count--;
   const nx=parseDay(v); nx.setDate(nx.getDate()+INJ_INTERVAL);
   injSchedule().anchor=toISODay(nx);
   save(); closeModal('m-inj-done'); renderImraldiPanels(); renderDash();
-  toast(`✅ Injection du ${parseDay(v).toLocaleDateString('fr-FR')} enregistrée — prochaine le ${nx.toLocaleDateString('fr-FR')}`,'success');
+  toastUndo(`✓ Injection du ${parseDay(v).toLocaleDateString('fr-FR')} enregistrée — prochaine le ${nx.toLocaleDateString('fr-FR')}` + (D.stock ? ` · ${D.stock.count} stylo${D.stock.count > 1 ? 's' : ''} restant${D.stock.count > 1 ? 's' : ''}` : ''), snap);
 }
 function deleteInj(id) {
   if(!confirm('Supprimer cette injection de l\'historique ?')) return;
@@ -3556,8 +3724,9 @@ function renderDash() {
   const avgB=Math.round(last10.reduce((s,e)=>s+e.basdai,0)/last10.length*10)/10;
   const avgF=Math.round(last10.reduce((s,e)=>s+e.q1,0)/last10.length*10)/10;
   const avgR=Math.round(last10.reduce((s,e)=>s+(e.q6m||0),0)/last10.length);
-  const avgAbd=Math.round(last10.reduce((s,e)=>s+(e.abd||0),0)/last10.length*10)/10;
-  const avgRef=Math.round(last10.reduce((s,e)=>s+(e.reflux||0),0)/last10.length*10)/10;
+  const _wa=last10.filter(e=>e.abd!=null), _wr=last10.filter(e=>e.reflux!=null);
+  const avgAbd=_wa.length?Math.round(_wa.reduce((s,e)=>s+(e.abd||0),0)/_wa.length*10)/10:0;
+  const avgRef=_wr.length?Math.round(_wr.reduce((s,e)=>s+(e.reflux||0),0)/_wr.length*10)/10:0;
   document.getElementById('d-basdai').textContent=avgB;
   document.getElementById('d-fatigue').textContent=avgF;
   document.getElementById('d-raideur').textContent=avgR+' min';
@@ -3651,7 +3820,7 @@ function renderDash() {
       <div>Fatigue : <strong>${last.q1}/10</strong></div>
       <div>Douleur axiale : <strong>${last.q2}/10</strong></div>
       <div>Raideur : <strong>${last.q6m} min</strong></div>
-      <div>Abdomen : <strong>${last.abd}/10</strong></div>
+      <div>Abdomen : <strong>${last.abd!=null?last.abd+'/10':'—'}</strong></div>
     </div>
     <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;font-size:12px;font-weight:600;${
       last.inj==='oui' ? 'background:rgba(39,174,96,0.1);color:var(--a3);' :
@@ -3764,6 +3933,7 @@ function renderDash() {
 
   // ── Dashboard montre ──
   fillWkTiles('dw');
+  renderQuick();
 }
 
 // ═══ SCORES — Filter + Sort + Edit + Delete ═══
@@ -4061,7 +4231,7 @@ async function exportTreatmentPdf() {
     const J = await getJsPDF();
     const log = [...injLog()].sort((a,b) => a.date.localeCompare(b.date));
     const pr = getPresc(), inj = calcNextInjection(), sch = injSchedule();
-    const P = makePdf(J, 'Historique du traitement', `IMRALDI (adalimumab) 40 mg · 1 injection sous-cutanée / 14 jours  ·  édité le ${new Date().toLocaleDateString('fr-FR')}`);
+    const P = makePdf(J, 'Historique du traitement', `IMRALDI (adalimumab) 40 mg · 1 injection sous-cutanée / ${INJ_INTERVAL} jours  ·  édité le ${new Date().toLocaleDateString('fr-FR')}`);
     const today = new Date(); today.setHours(0,0,0,0);
     let remaining = 0;
     if (pr && inj) { const end = prescEnd(), d = new Date(inj.nextDate); while (d <= end) { remaining++; d.setDate(d.getDate() + INJ_INTERVAL); } }
@@ -6606,8 +6776,8 @@ function rmPlan() {
   const doneDays = new Set((D.entries || []).map(e => e.date));
   for (let i = 0; i < 30; i++) {
     const d = new Date(today0); d.setDate(d.getDate() + i); const k = toISODay(d);
-    if (R.basdai.on && !doneDays.has(k)) add(1000 + i, atTime(d, R.basdai.time), 'Évaluation BASDAI du soir', 'Prends 2 minutes pour noter ta journée.', { go: 'daily', date: k });
-    if (R.morning.on && !(D.morning || {})[k]) add(2000 + i, atTime(d, R.morning.time), 'Raideur matinale', 'Combien de temps dure ta raideur ce matin ? Note-la pour la Q6 du BASDAI.', { go: 'morning', date: k });
+    if (R.basdai.on && !doneDays.has(k)) add(1000 + i, atTime(d, R.basdai.time), 'Évaluation BASDAI du soir', 'Touche ici pour l\'évaluation express (30 secondes).', { go: 'express', date: k });
+    if (R.morning.on && !(D.morning || {})[k]) add(2000 + i, atTime(d, R.morning.time), 'Raideur matinale', 'Combien de temps dure ta raideur ce matin ? Réponds avec un bouton, ou touche ici pour le chrono.', { go: 'morning', date: k }, 'MORNING');
   }
   if (R.inj.on && typeof calcNextInjection === 'function') {
     const n = calcNextInjection();
@@ -6618,7 +6788,16 @@ function rmPlan() {
         if (R.inj.j3) { const d = new Date(n.nextDate); d.setDate(d.getDate() - 3); add(3003, atTime(d, R.inj.time), 'Injection IMRALDI dans 3 jours', `Prévue ${when}. Pense à commander ton stylo à la pharmacie.` + inf, { go: 'inj', date: k }, 'INJ'); }
         if (R.inj.j2) { const d = new Date(n.nextDate); d.setDate(d.getDate() - 2); add(3002, atTime(d, R.inj.time), 'Injection IMRALDI dans 2 jours', `Prévue ${when}. As-tu commandé ton stylo ?` + inf, { go: 'inj', date: k }, 'INJ'); }
       }
+      const C = CFG(), injT = C.injTime || '20:00', pen = +(C.penOut ?? 30);
+      if (!injLog().some(x => x.date === k)) {
+        if (pen > 0) { const t = atTime(n.nextDate, injT); add(3010, new Date(t.getTime() - pen * 60000), 'Sortir le stylo IMRALDI du frigo', `Injection prévue à ${injT.replace(':', ' h ')}. Le stylo doit revenir à température ambiante.` + inf, { go: 'inj', date: k }); }
+        add(3011, atTime(n.nextDate, injT), 'C\'est l\'heure de l\'injection IMRALDI', 'Touche « Faite » une fois l\'injection réalisée.' + inf, { go: 'injdone', date: k }, 'INJDAY');
+      }
     }
+  }
+  if (D.stock && D.stock.count <= 1) {
+    const d = new Date(today0); d.setDate(d.getDate() + 1);
+    add(3100, atTime(d, R.inj.time), D.stock.count ? 'Plus qu\'un stylo IMRALDI' : 'Plus aucun stylo IMRALDI', 'Pense à faire renouveler à la pharmacie (ordonnance en cours).', { go: 'stock' });
   }
   if (R.backup.on) {
     for (let w = 0, n = 0; w < 21 && n < 3; w++) {
@@ -6654,8 +6833,13 @@ async function remScheduleRun() {
 function rmHandleAction(d) {
   const n = d && d.notification, x = n && n.extra || {};
   if (d.actionId === 'ordered') { D.injOrdered = { ...(D.injOrdered || {}), [x.date]: true }; save(); toast('✓ Stylo IMRALDI noté comme commandé', 'success'); return; }
+  if (/^m(0|15|30)$/.test(d.actionId)) { const v = +d.actionId.slice(1), k = x.date || toISODay(new Date()); D.morning = { ...(D.morning || {}), [k]: v }; save(); toast('✓ Raideur matinale : ' + v + ' min', 'success'); return; }
+  if (d.actionId === 'injdone') { quickInjDone(); return; }
   setTimeout(() => {
     if (x.go === 'daily') { nav('daily'); }
+    else if (x.go === 'express') { openExpress(); }
+    else if (x.go === 'injdone') { openInjDone(); }
+    else if (x.go === 'stock') { nav('treatments'); }
     else if (x.go === 'morning') { openMorning(); }
     else if (x.go === 'inj') { nav('treatments'); }
     else if (x.go === 'backup') { openModal('m-backup'); }
@@ -6664,7 +6848,10 @@ function rmHandleAction(d) {
 async function remInit() {
   if (!IS_NATIVE) return;
   try {
-    await nativeCall('LocalNotifications', 'registerActionTypes', { types: [{ id: 'INJ', actions: [{ id: 'ordered', title: 'C\'est commandé' }] }] });
+    await nativeCall('LocalNotifications', 'registerActionTypes', { types: [
+      { id: 'INJ', actions: [{ id: 'ordered', title: 'C\'est commandé' }] },
+      { id: 'INJDAY', actions: [{ id: 'injdone', title: '✓ Faite' }] },
+      { id: 'MORNING', actions: [{ id: 'm0', title: 'Aucune' }, { id: 'm15', title: '15 min' }, { id: 'm30', title: '30 min' }] } ] });
     if (!rmListening && window.Capacitor.addListener) { rmListening = true; window.Capacitor.addListener('LocalNotifications', 'localNotificationActionPerformed', d => rmHandleAction(d)); }
     // Première ouverture : demander l'autorisation des notifications
     const perm = await nativeCall('LocalNotifications', 'checkPermissions');
@@ -6750,6 +6937,156 @@ function prefillQ6() {
   const k = (document.getElementById('e-date') || {}).value || toISODay(new Date()), v = (D.morning || {})[k], f = document.getElementById('q6m');
   if (!f || v == null || f.value !== '') return;
   f.value = v; calcQ6(); toast('Q6 : raideur de ' + v + ' min reprise de ta mesure du matin', 'success');
+}
+
+// ═══ BASDAI EXPRESS ═══
+const XP_Q = [['q1', 'Q1 — Fatigue'], ['q2', 'Q2 — Douleur cou / dos / hanches'], ['q3', 'Q3 — Douleur / gonflement des articulations'], ['q4', 'Q4 — Gêne aux points sensibles (talons, bassin…)'], ['q5', 'Q5 — Intensité de la raideur matinale']];
+function q6Score(min) { let s; if (min <= 30) s = min / 12; else if (min <= 60) s = 2.5 + (min - 30) / 12; else if (min <= 90) s = 5 + (min - 60) / 12; else if (min <= 120) s = 7.5 + (min - 90) / 12; else s = 10; return Math.min(10, Math.round(s * 10) / 10); }
+function openExpress() {
+  const date = basdaiDefaultDate();
+  document.getElementById('xp-date').value = date;
+  const ex = (D.entries || []).find(e => e.date === date);
+  document.getElementById('xp-qs').innerHTML = XP_Q.map(([k, l]) => `<div class="xp-q"><label>${l} <b id="xp-v-${k}">5</b></label><input type="range" min="0" max="10" step="1" value="5" id="xp-${k}" oninput="xpCalc()"></div>`).join('');
+  XP_Q.forEach(([k]) => { if (ex && ex[k] != null) document.getElementById('xp-' + k).value = ex[k]; });
+  const m = (D.morning || {})[date];
+  document.getElementById('xp-q6').value = ex ? (ex.q6m || 0) : (m != null ? m : 0);
+  xpCalc(); openModal('m-express');
+}
+function xpVals() { const v = {}; XP_Q.forEach(([k]) => v[k] = +document.getElementById('xp-' + k).value); v.q6m = +document.getElementById('xp-q6').value; v.q6 = q6Score(v.q6m); v.basdai = Math.round(((v.q1 + v.q2 + v.q3 + v.q4 + (v.q5 + v.q6) / 2) / 5) * 10) / 10; return v; }
+function xpCalc() {
+  const v = xpVals();
+  XP_Q.forEach(([k]) => document.getElementById('xp-v-' + k).textContent = v[k]);
+  document.getElementById('xp-v6').textContent = v.q6m + ' min';
+  const t = document.getElementById('xp-total'); t.textContent = 'BASDAI ' + String(v.basdai).replace('.', ',');
+  t.style.color = v.basdai < 4 ? 'var(--a3)' : v.basdai < 6 ? 'var(--a4)' : 'var(--a2)';
+}
+function xpLikeYesterday() {
+  const date = document.getElementById('xp-date').value, prev = [...(D.entries || [])].filter(e => e.date < date).sort((a, b) => b.date.localeCompare(a.date))[0];
+  if (!prev) { toast('Aucune évaluation précédente', 'warning'); return; }
+  XP_Q.forEach(([k]) => { if (prev[k] != null) document.getElementById('xp-' + k).value = prev[k]; });
+  if (prev.q6m != null && !(D.morning || {})[date]) document.getElementById('xp-q6').value = prev.q6m;
+  xpCalc(); toast('Valeurs du ' + parseDay(prev.date).toLocaleDateString('fr-FR') + ' reprises : ajuste si besoin', 'success');
+}
+function saveExpress() {
+  const date = document.getElementById('xp-date').value || basdaiDefaultDate(), v = xpVals();
+  const same = (D.entries || []).find(e => e.date === date);
+  if (same && !confirm('Une évaluation existe déjà pour le ' + parseDay(date).toLocaleDateString('fr-FR') + '. La remplacer ?')) return;
+  const snap = undoPoint();
+  if (same) D.entries = D.entries.filter(e => e !== same);
+  D.entries.push({ ...(same || {}), id: same ? same.id : Date.now(), date, ctx: (same && same.ctx) || 'RAS', ...v, express: !same || same.express });
+  save(); closeModal('m-express'); renderDash();
+  toastUndo('✓ BASDAI ' + String(v.basdai).replace('.', ',') + ' enregistré', snap);
+}
+
+// ═══ JOURNAL D'UNE LIGNE ═══
+const MOODS = [['😣', 'Très dur'], ['😕', 'Difficile'], ['😐', 'Moyen'], ['🙂', 'Bien'], ['😄', 'Très bien']];
+let jrMood = null;
+function renderJournal() {
+  const k = toISODay(new Date()), j = (D.journal || {})[k];
+  jrMood = j ? j.mood : null;
+  const box = document.getElementById('jr-moods'); if (!box) return;
+  box.innerHTML = MOODS.map(([e, l], i) => `<button class="mood${jrMood === i + 1 ? ' on' : ''}" onclick="pickMood(${i + 1})" aria-label="${l}">${e}<small>${l}</small></button>`).join('');
+  const tx = document.getElementById('jr-text'); if (tx && document.activeElement !== tx) tx.value = j && j.text || '';
+  document.getElementById('jr-saved').textContent = j ? 'Enregistré' : '';
+}
+function pickMood(m) { jrMood = m; document.querySelectorAll('#jr-moods .mood').forEach((b, i) => b.classList.toggle('on', i + 1 === m)); saveJournal(true); }
+function saveJournal(silent) {
+  const k = toISODay(new Date()), text = document.getElementById('jr-text').value.trim();
+  if (!jrMood && !text) { toast('Choisis une humeur ou écris une ligne', 'warning'); return; }
+  const snap = undoPoint();
+  D.journal = { ...(D.journal || {}), [k]: { mood: jrMood, text, at: new Date().toISOString() } };
+  save(); renderJournal();
+  if (!silent || text) toastUndo('✓ Journal du jour enregistré', snap); else if (navigator.vibrate) { try { navigator.vibrate(10); } catch(e) {} }
+}
+
+// ═══ TEMPÉRATURE ═══
+function openTemp() {
+  const last = [...(D.temps || [])].sort((a, b) => b.at.localeCompare(a.at))[0];
+  document.getElementById('tp-val').value = 37; tpShow();
+  document.getElementById('tp-last').textContent = last ? 'Dernière mesure : ' + String(last.value).replace('.', ',') + ' °C le ' + new Date(last.at).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';
+  openModal('m-temp');
+}
+function tpShow() {
+  const v = +document.getElementById('tp-val').value, w = document.getElementById('tp-warn');
+  document.getElementById('tp-big').textContent = v.toFixed(1).replace('.', ',') + ' °C';
+  document.getElementById('tp-big').style.color = v >= 38 ? 'var(--a2)' : v >= 37.5 ? 'var(--a4)' : 'var(--a6)';
+  w.innerHTML = v >= 38 ? '<span style="color:var(--a2);font-weight:600;">Fièvre : pas d\'injection IMRALDI sans avis médical.</span>' : v >= 37.5 ? '<span style="color:var(--a4);">Légère élévation : à surveiller.</span>' : '';
+}
+function saveTemp() {
+  const v = Math.round(+document.getElementById('tp-val').value * 10) / 10, snap = undoPoint();
+  D.temps = [...(D.temps || []), { id: Date.now(), at: new Date().toISOString(), date: toISODay(new Date()), value: v }];
+  save(); closeModal('m-temp'); renderDash();
+  toastUndo('✓ Température ' + String(v).replace('.', ',') + ' °C enregistrée', snap);
+}
+
+// ═══ STOCK DE STYLOS ═══
+function renderStock() {
+  const st = D.stock || { count: 0 }, n = document.getElementById('stock-n'); if (!n) return;
+  n.textContent = st.count;
+  const b = document.getElementById('stock-badge');
+  b.className = 'badge ' + (st.count <= 0 ? 'badge-red' : st.count <= 1 ? 'badge-yellow' : 'badge-green');
+  b.textContent = st.count <= 0 ? 'Stock vide' : st.count <= 1 ? 'À renouveler' : 'OK';
+  const nx = calcNextInjection(), weeks = Math.round(st.count * INJ_INTERVAL / 7);
+  document.getElementById('stock-info').textContent = st.count > 0 ? `De quoi tenir environ ${weeks} semaine${weeks > 1 ? 's' : ''}` + (nx ? ` (dernière injection couverte : ${new Date(nx.nextDate.getTime() + (st.count - 1) * INJ_INTERVAL * 86400000).toLocaleDateString('fr-FR')}).` : '.') : 'Plus de stylo : pense à la pharmacie.';
+  document.getElementById('stock-exp').value = st.exp || '';
+}
+function stockAdd(d) { const st = D.stock || { count: 0 }; st.count = Math.max(0, (st.count || 0) + d); D.stock = st; save(); renderStock(); toast(st.count + ' stylo' + (st.count > 1 ? 's' : '') + ' en stock', 'success'); }
+function stockSaveExp() { D.stock = { ...(D.stock || { count: 0 }), exp: document.getElementById('stock-exp').value }; save(); }
+function quickInjDone() {
+  const k = toISODay(new Date());
+  if (injLog().some(x => x.date === k)) { toast('Injection d\'aujourd\'hui déjà enregistrée', 'warning'); return; }
+  openInjDone(); setTimeout(() => saveInjDone(), 50);
+}
+
+// ═══ ACCUEIL : ACTIONS RAPIDES ═══
+function renderQuick() {
+  const n = typeof calcNextInjection === 'function' ? calcNextInjection() : null, b = document.getElementById('qa-inj');
+  if (b) b.style.display = n && n.daysLeft <= 0 && !injLog().some(x => x.date === toISODay(new Date())) ? 'flex' : 'none';
+  renderJournal();
+}
+
+// ═══ RÉGLAGES ═══
+function renderSettings() {
+  const c = CFG(), p = getPresc() || {}, set = (id, v) => { const e = document.getElementById(id); if (!e) return; if (e.type === 'checkbox') e.checked = !!v; else e.value = v ?? ''; };
+  set('st-height', c.height); set('st-wstart', c.weightStart); set('st-wgoal', c.weightGoal);
+  set('st-pstart', p.start); set('st-pmonths', p.months); set('st-interval', c.injInterval || INJ_INTERVAL);
+  set('st-injtime', c.injTime || '20:00'); set('st-penout', String(c.penOut ?? 30));
+  set('st-autobackup', D.autoBackup !== false);
+  const b = document.getElementById('st-ab-badge');
+  b.textContent = !IS_NATIVE ? 'Appli Android' : D.autoBackupLast ? 'Dernière : ' + parseDay(D.autoBackupLast).toLocaleDateString('fr-FR') : 'Pas encore faite';
+  b.className = 'badge ' + (D.autoBackupLast ? 'badge-green' : 'badge-gray');
+}
+function saveSettings() {
+  const g = id => document.getElementById(id).value, num = id => { const v = parseFloat(g(id)); return isNaN(v) ? undefined : v; };
+  const snap = undoPoint();
+  D.cfg = { ...(D.cfg || {}), height: num('st-height'), weightStart: num('st-wstart'), weightGoal: num('st-wgoal'),
+    injInterval: Math.max(1, Math.round(num('st-interval') || 14)), injTime: g('st-injtime') || '20:00', penOut: +g('st-penout') };
+  Object.keys(D.cfg).forEach(k => D.cfg[k] === undefined && delete D.cfg[k]);
+  // Nouveau rythme : la prochaine injection repart de la dernière injection faite
+  const oldInt = INJ_INTERVAL, newInt = D.cfg.injInterval, lastInj = [...injLog()].sort((a, b) => b.date.localeCompare(a.date))[0];
+  if (newInt !== oldInt && lastInj) { const nx = parseDay(lastInj.date); nx.setDate(nx.getDate() + newInt); injSchedule().anchor = toISODay(nx); }
+  if (g('st-pstart')) D.presc = { ...(getPresc() || {}), start: g('st-pstart'), months: Math.max(1, Math.round(num('st-pmonths') || 6)) };
+  D.autoBackup = document.getElementById('st-autobackup').checked;
+  save(); applyCfg(); renderDash();
+  toastUndo('✓ Réglages enregistrés', snap);
+}
+
+// ═══ SAUVEGARDE AUTOMATIQUE (appli Android, une fois par semaine) ═══
+async function autoBackup() {
+  if (!IS_NATIVE || D.autoBackup === false || !hasAnyData()) return;
+  const today = toISODay(new Date());
+  if (D.autoBackupLast && (parseDay(today) - parseDay(D.autoBackupLast)) / 86400000 < 7) return;
+  try {
+    const name = `HealthK/sauvegarde_${today}.json`;
+    const json = JSON.stringify({ ...D, _export: { app: "Health K'", date: new Date().toISOString(), auto: true } });
+    await nativeCall('Filesystem', 'writeFile', { path: name, data: json, directory: 'DOCUMENTS', encoding: 'utf8', recursive: true });
+    D.autoBackupLast = today; save();
+    try {   // on garde les 6 dernières
+      const r = await nativeCall('Filesystem', 'readdir', { path: 'HealthK', directory: 'DOCUMENTS' });
+      const files = (r.files || []).map(f => f.name || f).filter(n => /^sauvegarde_\d{4}-\d\d-\d\d\.json$/.test(n)).sort();
+      for (const f of files.slice(0, Math.max(0, files.length - 6))) await nativeCall('Filesystem', 'deleteFile', { path: 'HealthK/' + f, directory: 'DOCUMENTS' });
+    } catch (e) {}
+  } catch (e) { console.warn('Sauvegarde automatique', e); }
 }
 
 // ═══ RAPPEL DE SAUVEGARDE ═══
@@ -7733,7 +8070,8 @@ window.addEventListener('resize', () => {
 });
 
 // ═══ RESPONSIVE UI ═══
-function isMobile() { return window.innerWidth <= 768; }
+// Interface tactile du téléphone : écrans étroits, et aussi pliables ouverts / tablettes tactiles jusqu'à 1180 px
+function isMobile() { return window.innerWidth <= 768 || (window.matchMedia && matchMedia('(pointer: coarse) and (max-width: 1180px)').matches); }
 
 function checkMobileUI() {
   // CSS handles hamburger/bottom-nav visibility via media queries
@@ -7769,6 +8107,7 @@ syncBackGuard();
 hideSplash();
 hcAutoSync();
 remInit();
+autoBackup();
 
 // ═══ IMPORT PDF / IMAGE BIOLOGIE — OCR AUTO ═══
 
