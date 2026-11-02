@@ -7938,7 +7938,7 @@ async function widgetPushNow() {
 // ═══ MONTRE (Galaxy Watch) : questions interactives, sans appli sur la montre ═══
 // Le module natif HealthKWatch (APK ≥ 1.10) envoie des notifications auxquelles on répond depuis la montre.
 // Les réponses attendent dans le téléphone et sont reprises ici à l'ouverture (watchTake).
-let watchOK = false;
+let watchOK = false, watchApp = false, watchLsn = false;
 function watchActive() { return IS_NATIVE && watchOK && RM().watch.on; }
 async function watchPushNow() {
   if (!IS_NATIVE) return;
@@ -7950,11 +7950,13 @@ async function watchPushNow() {
     const since = toISODay(new Date(Date.now() - 3 * 86400000)), morning = {};
     Object.entries(D.morning || {}).forEach(([k, v]) => { if (k >= since && v != null) morning[k] = v; });
     const lastInj = [...injLog()].sort((a, b) => b.date.localeCompare(a.date))[0];
-    await nativeCall('HealthKWatch', 'configure', {
+    const r = await nativeCall('HealthKWatch', 'configure', {
       on: !!R.watch.on, basdaiOn: !!R.basdai.on, basdaiTime: R.basdai.time, morningOn: !!R.morning.on, morningTime: R.morning.time,
       hubOn: !!R.watch.hub, hubTime: R.watch.hubTime, injDate: n ? toISODay(n.nextDate) : '', injName: 'IMRALDI', lastInj: lastInj ? lastInj.date : '',
       done, morning, last: last ? { q1: last.q1, q2: last.q2, q3: last.q3, q4: last.q4, q5: last.q5 } : null });
-    watchOK = true;
+    watchOK = true; watchApp = !!(r && r.wearApp);
+    // Réponses arrivées de l'appli de la montre pendant que Health K' est ouverte
+    if (!watchLsn && window.Capacitor.addListener) { watchLsn = true; try { window.Capacitor.addListener('HealthKWatch', 'pending', () => watchTake()); } catch (e) {} }
   } catch (e) { watchOK = false; /* ancienne version de l'appli Android : pas de module montre */ }
 }
 async function watchInit() {
@@ -8011,11 +8013,14 @@ function renderWatchCard() {
     act.innerHTML = `<a class="btn btn-primary btn-sm" href="${APK_URL}" target="_blank" rel="noopener" style="text-decoration:none;">${IC('download')} Mettre à jour</a>`; return;
   }
   const R = RM();
-  st.innerHTML = R.watch.on ? '<span class="wk-dot" style="background:var(--a3)"></span>Activé. Les questions arrivent aussi sur le téléphone si la montre n\'est pas portée.' : '<span class="wk-dot" style="background:var(--t3)"></span>Désactivé : les rappels BASDAI et raideur restent sur le téléphone.';
-  act.innerHTML = R.watch.on ? `<button class="btn btn-primary btn-sm" onclick="watchNow('startBasdai')">Faire le BASDAI sur la montre</button><button class="btn btn-secondary btn-sm" onclick="watchNow('showHub')">Envoyer le menu</button>` : '';
+  const guide = `<a class="btn btn-secondary btn-sm" href="${APK_URL}#montre" target="_blank" rel="noopener" style="text-decoration:none;">${IC('download')} ${watchApp ? 'Mettre à jour l\'appli montre' : 'Installer l\'appli montre'}</a>`;
+  st.innerHTML = !R.watch.on ? '<span class="wk-dot" style="background:var(--t3)"></span>Désactivé : les rappels BASDAI et raideur restent sur le téléphone.'
+    : watchApp ? '<span class="wk-dot" style="background:var(--a3)"></span>Appli Health K\' installée sur la montre : c\'est elle qui pose les questions (tuile, complications, rappels).'
+    : '<span class="wk-dot" style="background:var(--a3)"></span>Activé par notifications. Pour une vraie appli sur la montre (tuile, complications), installe l\'appli montre.';
+  act.innerHTML = R.watch.on ? `<button class="btn btn-primary btn-sm" onclick="watchNow('startBasdai')">Faire le BASDAI sur la montre</button>${watchApp ? '' : `<button class="btn btn-secondary btn-sm" onclick="watchNow('showHub')">Envoyer le menu</button>`}${guide}` : guide;
 }
 async function watchNow(m) {
-  try { await watchPushNow(); await nativeCall('HealthKWatch', m); toast(m === 'showHub' ? '✓ Menu envoyé sur la montre' : '✓ Question 1 envoyée sur la montre', 'success'); }
+  try { await watchPushNow(); await nativeCall('HealthKWatch', m); toast(m === 'showHub' ? '✓ Menu envoyé sur la montre' : watchApp ? '✓ Envoyé sur la montre : touche la notification pour commencer' : '✓ Question 1 envoyée sur la montre', 'success'); }
   catch (e) { toast('Montre indisponible : mets à jour l\'appli Android', 'warning'); }
 }
 

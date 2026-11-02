@@ -15,6 +15,10 @@
   ol{text-align:left;background:var(--card);border-radius:14px;padding:18px 18px 18px 36px;margin:26px 0 0}
   li{margin:0 0 10px} li:last-child{margin:0}
   b{color:#fff}
+  h2{font-size:20px;margin:40px 0 4px}
+  .dl2{background:#5B4BB7;box-shadow:0 6px 18px rgba(91,75,183,.35)}
+  h3{font-size:15px;margin:22px 0 0;text-align:left;color:#34D3C3}
+  ol.s{margin-top:8px}
   .note{color:var(--t2);font-size:13px;margin-top:18px;text-align:left}
 </style></head><body><main>
 <img src="favicon.svg" alt="">
@@ -30,4 +34,31 @@
 </ol>
 <p class="note">Ouvre cette page directement dans ton navigateur (Chrome, Brave, Samsung Internet), pas depuis une autre appli, sinon le téléchargement peut rester bloqué.</p>
 <p class="note">Le téléchargement reste bloqué ? Le fichier est souvent déjà là : ouvre <b>Mes fichiers → Téléchargements</b> et touche le fichier <b>health-k</b> le plus récent.</p>
+
+<h2 id="montre">Appli pour la montre</h2>
+<p class="sub">Galaxy Watch 4 ou plus récente : BASDAI complet, chrono de raideur, température, injection, tuile et complications du cadran.</p>
+<a class="dl dl2" href="health-k-montre.apk" download="health-k-montre.apk" type="application/vnd.android.package-archive">Télécharger l'appli montre (APK)</a>
+<div class="size">Fichier health-k-montre.apk · à installer sur la montre depuis le téléphone</div>
+<p class="note">Samsung ne permet pas d'ouvrir ce fichier directement sur la montre. On l'installe une fois avec le mode développeur, en 10 minutes, depuis le téléphone seul. Il faut aussi la dernière version de l'appli du téléphone (bouton du haut).</p>
+<h3>1. Sur la montre</h3>
+<ol class="s">
+  <li><b>Paramètres → À propos de la montre → Informations sur le logiciel</b> : touche <b>7 fois</b> « Version du logiciel » jusqu'au message « Mode développeur activé ».</li>
+  <li>Reviens dans <b>Paramètres → Options de développement</b> : active <b>Débogage ADB</b>, puis <b>Débogage via Wi-Fi</b> (la montre et le téléphone doivent être sur le <b>même Wi-Fi</b>).</li>
+  <li>Touche <b>Débogage via Wi-Fi → Associer un nouvel appareil</b> : la montre affiche un <b>code à 6 chiffres</b> et une adresse du type <b>192.168.1.23:41234</b>. Laisse cet écran ouvert.</li>
+</ol>
+<h3>2. Sur le téléphone</h3>
+<ol class="s">
+  <li>Touche <b>Télécharger l'appli montre</b> ci-dessus.</li>
+  <li>Installe l'appli gratuite <b>Wear Installer 2</b> depuis le Play Store, et ouvre-la.</li>
+  <li>Entre l'<b>adresse IP</b> de la montre (la partie avant les « : »), puis associe-la avec le <b>port</b> et le <b>code</b> affichés sur la montre.</li>
+  <li>Choisis <b>Custom APK</b> (fichier personnalisé), sélectionne <b>health-k-montre.apk</b> dans Téléchargements, et touche <b>Installer</b>. Accepte sur la montre si elle le demande.</li>
+  <li>C'est installé : sur la montre, désactive <b>Débogage ADB</b> (Options de développement) pour la batterie.</li>
+</ol>
+<h3>3. Premiers pas</h3>
+<ol class="s">
+  <li>Ouvre <b>Health K'</b> sur le téléphone, puis sur la montre : elles se relient toutes seules (« Synchronisé à … »).</li>
+  <li><b>Tuile</b> : depuis le cadran, glisse vers la gauche jusqu'au bout, touche <b>+ Ajouter</b>, choisis <b>Health K'</b>.</li>
+  <li><b>Complication</b> : appui long sur le cadran → <b>Personnaliser</b> → une zone → <b>Health K'</b> (« BASDAI du jour » ou « Prochaine injection »).</li>
+</ol>
+<p class="note">Mises à jour de l'appli montre : rares. Il suffit de refaire la partie 2 (le code d'association change à chaque fois).</p>
 </main></body></html>

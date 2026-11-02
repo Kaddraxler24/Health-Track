@@ -61,4 +61,12 @@ Deux versions vivent en parallèle et doivent **toujours** être livrées ensemb
   les réponses attendent dans les préférences `healthk_watch` et sont reprises par `watchTake()` (valeurs vérifiées) à l'ouverture.
   `watchPushNow()` envoie horaires / BASDAI déjà faits / dernière évaluation / injection. Quand la montre est active, les rappels
   BASDAI et raideur du téléphone (LocalNotifications) sont remplacés (`watchActive()`).
+- **Appli montre Wear OS (`wear-app/`)** : projet Gradle séparé (Java, sans Capacitor), **même applicationId et même clé** que
+  l'appli du téléphone (obligatoire pour la couche de données Google). Écrans : menu, BASDAI Q1→Q6 (lunette rotative), chrono raideur,
+  température, injection ; tuile `HkTile` ; complications `BasdaiComplication` / `InjComplication` ; rappels sur la montre.
+  Synchro : téléphone → montre `/hk/state` (`WearSync.pushState`) ; montre → téléphone un élément `/hk/out/<id>` par réponse,
+  vérifié par `WatchFlow.applyFromWatch` puis effacé (= accusé de réception), puis événement `pending` → `watchTake()`.
+  Si la montre s'est manifestée ces 14 jours (`wearSeen`), le téléphone ne pose plus les questions par notification.
+  Construit par le même workflow → `health-k-montre.apk` (release + site). Installation : mode développeur + Wear Installer 2 (voir `android.html#montre`).
+  Icônes : `node tools/build_wear_icons.js`.
 - Icônes Android : `node tools/build_android_icons.js`. Tests : simuler `window.Capacitor` (isNativePlatform + nativePromise) dans Playwright.
