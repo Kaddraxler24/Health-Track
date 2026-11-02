@@ -943,9 +943,13 @@ tbody tr:hover td { background: var(--bg3); }
 @media (max-width: 768px) { .wk-tiles { grid-template-columns: 1fr 1fr; } .wk-tile-value { font-size: 20px; } }
 
 /* ═══ ACCUEIL : ACTIONS RAPIDES & JOURNAL ═══ */
-.qa-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.qa-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.qa-btn span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.qa-btn .ls { display: none; }
+@media (max-width: 380px) { .qa-btn .ll { display: none; } .qa-btn .ls { display: inline; } .qa-btn { font-size: 10px !important; padding: 10px 2px; } }
 .qa-btn.done { background: rgba(39,174,96,.1); border-color: rgba(39,174,96,.45); color: var(--a3); }
-.qa-btn { font-size: 11px !important; }
+.qa-btn { font-size: 11px !important; white-space: nowrap; min-height: 74px; justify-content: center; }
+.qa-btn .nv, .qa-btn .ic { width: 24px !important; height: 24px !important; }
 .qa-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 6px; border-radius: 12px; border: 1px solid var(--bdr);
   background: var(--bg3); color: var(--t); font: 600 12px var(--sans); cursor: pointer; transition: transform .1s, background .15s; }
 .qa-btn:active { transform: scale(.96); }
@@ -1018,6 +1022,8 @@ tbody tr:hover td { background: var(--bg3); }
 #page-dashboard.active { display: flex; flex-direction: column; }
 #page-dashboard.active > * { flex-shrink: 0; }
 .dash-hidden { display: none !important; }
+#dd-month { order: 10; }   /* juste après les actions rapides */
+#dd-quick { order: 9 !important; }
 
 /* ═══ MODE SOMBRE ═══ */
 html[data-theme="dark"] { color-scheme: dark; }
@@ -1305,20 +1311,15 @@ function hideSplash() {
   <div id="flare-banner" class="alert al-red" style="display:none;align-items:center;flex-wrap:wrap;margin-bottom:var(--block-gap);"></div>
   <div class="card" id="dd-quick" data-dash="quick">
     <div class="qa-row">
-      <button class="qa-btn hot" id="qa-basdai" onclick="openExpress()"><svg class="nv"><use href="#n-eval"/></svg><span id="qa-basdai-l">BASDAI express</span></button>
-      <button class="qa-btn" onclick="openTemp()"><svg class="ic"><use href="#i-thermo"/></svg>Température</button>
-      <button class="qa-btn" onclick="openMed()"><svg class="ic"><use href="#i-pill"/></svg>Médicament</button>
-      <button class="qa-btn" onclick="nav('calendar')"><svg class="nv"><use href="#n-cal"/></svg>Calendrier</button>
+      <button class="qa-btn" id="qa-basdai" onclick="openExpress()"><svg class="nv"><use href="#n-eval"/></svg><span id="qa-basdai-l">BASDAI</span></button>
+      <button class="qa-btn" onclick="openTemp()"><svg class="ic"><use href="#i-thermo"/></svg><span class="ll">Température</span><span class="ls">Temp.</span></button>
+      <button class="qa-btn" onclick="openMed()"><svg class="ic"><use href="#i-pill"/></svg><span class="ll">Médicament</span><span class="ls">Médic.</span></button>
+      <button class="qa-btn" onclick="nav('calendar')"><svg class="nv"><use href="#n-cal"/></svg><span>Calendrier</span></button>
     </div>
   </div>
 
   <div class="card" id="dd-month" style="display:none"></div>
 
-  <div class="card" id="dd-journal" data-dash="journal">
-    <div class="card-header"><div class="card-title"><span class="card-title-dot" style="background:var(--a5)"></span>Comment ça va aujourd'hui ?</div><span style="font-size:11px;color:var(--t3);" id="jr-saved"></span></div>
-    <div class="mood-row" id="jr-moods"></div>
-    <div style="display:flex;gap:8px;"><input type="text" class="form-input" id="jr-text" placeholder="Une ligne sur ta journée (facultatif)" maxlength="300" onkeydown="if(event.key==='Enter')saveJournal()"><button class="btn btn-secondary" onclick="voiceNote()" title="Dicter" aria-label="Dicter"><svg class="ic"><use href="#i-mic"/></svg></button><button class="btn btn-primary" onclick="saveJournal()">OK</button></div>
-  </div>
 
   <div id="welcome-banner" class="card" style="display:none;border-color:rgba(39,174,96,0.4);background:rgba(39,174,96,0.06);">
     <div style="font-size:15px;font-weight:700;margin-bottom:6px;">Bienvenue dans Health K'</div>
@@ -7349,7 +7350,7 @@ function quickInjDone() {
 // ═══ ACCUEIL : ACTIONS RAPIDES ═══
 function renderQuick() {
   const ex = (D.entries || []).find(e => e.date === basdaiDefaultDate()), qb = document.getElementById('qa-basdai');
-  if (qb) { qb.classList.toggle('done', !!ex); qb.classList.toggle('hot', !ex); document.getElementById('qa-basdai-l').textContent = ex ? 'BASDAI ' + fr1(ex.basdai) + ' ✓' : 'BASDAI express'; }
+  if (qb) document.getElementById('qa-basdai-l').textContent = ex ? 'BASDAI ' + fr1(ex.basdai) + ' ✓' : 'BASDAI';
   renderJournal();
 }
 
@@ -7494,10 +7495,10 @@ function monthStats(y, m) {
     wDelta: ws.length >= 2 ? ws[ws.length - 1].kg - ws[0].kg : null, any: ent.length || wd.length || moods.length || injLog().some(x => inM(x.date)) };
 }
 function monthSummaryHtml(y, m) {
-  const st = monthStats(y, m), name = new Date(y, m, 1).toLocaleDateString('fr-FR', { month: 'long' });
-  if (!st.any) return `<div class="card-title"><span class="card-title-dot" style="background:var(--a6)"></span>Résumé de ${name}</div><div style="font-size:13px;color:var(--t3);margin-top:8px;">Pas de données ce mois-ci.</div>`;
+  const st = monthStats(y, m), mn = new Date(y, m, 1).toLocaleDateString('fr-FR', { month: 'long' }), name = (/^[aeiouh]/i.test(mn) ? 'd\'' : 'de ') + mn;
+  if (!st.any) return `<div class="card-title"><span class="card-title-dot" style="background:var(--a6)"></span>Résumé ${name}</div><div style="font-size:13px;color:var(--t3);margin-top:8px;">Pas de données ce mois-ci.</div>`;
   const cell = (l, v, c) => `<div class="sum-cell"><span>${l}</span><b style="color:${c || 'var(--t)'}">${v}</b></div>`;
-  return `<div class="card-header"><div class="card-title"><span class="card-title-dot" style="background:var(--a6)"></span>Résumé de ${name}</div></div><div class="sum-grid">`
+  return `<div class="card-header"><div class="card-title"><span class="card-title-dot" style="background:var(--a6)"></span>Résumé ${name}</div></div><div class="sum-grid">`
     + cell('BASDAI moyen', st.basdai != null ? fr1(st.basdai) : '—', st.basdai != null ? bdColor(st.basdai) : '')
     + cell('Évaluations', st.n) + cell('Injections faites', st.inj, 'var(--a5)') + cell('Jours difficiles', st.hard, st.hard ? 'var(--a4)' : '')
     + cell('Raideur moyenne', st.stiff != null ? Math.round(st.stiff) + ' min' : '—') + (st.flares ? cell('Poussées', st.flares, 'var(--a2)') : '')
@@ -7794,7 +7795,7 @@ function applyLook(theme, size) {
 if (window.matchMedia) try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => applyLook()); } catch (e) {}
 
 // ═══ ACCUEIL PERSONNALISABLE ═══
-const DASH_BLOCKS = [['quick', 'Actions rapides'], ['journal', 'Comment ça va aujourd\'hui ?'], ['stats', 'Statistiques BASDAI'], ['chart', 'Courbe BASDAI et dernière saisie'], ['inj', 'Suivi IMRALDI'], ['weight', 'Poids'], ['wear', 'Montre & activité']];
+const DASH_BLOCKS = [['quick', 'Actions rapides'], ['stats', 'Statistiques BASDAI'], ['chart', 'Courbe BASDAI et dernière saisie'], ['inj', 'Suivi IMRALDI'], ['weight', 'Poids'], ['wear', 'Montre & activité']];
 function dashCfg() { const c = D.dash || {}; const order = (c.order || []).filter(k => DASH_BLOCKS.some(b => b[0] === k)); DASH_BLOCKS.forEach(([k]) => { if (!order.includes(k)) order.push(k); }); return { order, hidden: c.hidden || [] }; }
 function applyDash() {
   const c = dashCfg();
@@ -7838,7 +7839,6 @@ function routeLink(url) {
     else if (go === 'morning') openMorning();
     else if (go === 'temp') openTemp();
     else if (go === 'injection') openInjDone();
-    else if (go === 'note') { nav('dashboard'); setTimeout(() => document.getElementById('jr-text').focus(), 200); }
     else nav('dashboard');
   }, 350);
 }
