@@ -59,7 +59,7 @@ for key in perso:
 ICON_V = hashlib.sha1(b''.join((OUT / f).read_bytes() for f in
           ['icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png'])).hexdigest()[:8]
 HEAD = f'''<link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#1c1f2e">
+<meta name="theme-color" content="#FFFFFF">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -128,7 +128,7 @@ self.addEventListener('fetch', e => {{
     "id": "./",   # identité fixe de l'appli installée
     "name": "Health K'", "short_name": "Health K'", "lang": "fr",
     "start_url": "./", "scope": "./", "display": "standalone", "orientation": "portrait",
-    "background_color": "#1c1f2e", "theme_color": "#1c1f2e",
+    "background_color": "#0E3B43", "theme_color": "#FFFFFF",
     "icons": [
         {"src": f"icon-192.png?v={ICON_V}", "sizes": "192x192", "type": "image/png", "purpose": "any"},
         {"src": f"icon-512.png?v={ICON_V}", "sizes": "512x512", "type": "image/png", "purpose": "any"},

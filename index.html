@@ -8,32 +8,37 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:       #f7f5f0;
-  --bg2:      #fdfcf9;
-  --bg3:      #f0ede6;
-  --bg4:      #e8e3d8;
-  --sidebar:  #1c1f2e;
-  --sidebar2: #252940;
+  --bg:       #FFFFFF;
+  --bg2:      #FFFFFF;
+  --bg3:      #F4F8F7;
+  --bg4:      #E7F1EF;
+  --sidebar:  #0E3B43;
+  --sidebar2: #13505A;
+  --top-bg:   #FFFFFF;
+  --nav-bg:   #FFFFFF;
+  --nav-t:    #7E9B96;
+  --nav-on:   #0E3B43;
+  --ink:      #121A19;
   --sidebar3: rgba(255,255,255,0.06);
 
-  --a:   #c0392b;
-  --a2:  #e74c3c;
-  --a3:  #27ae60;
-  --a4:  #e67e22;
-  --a5:  #8e44ad;
-  --a6:  #2980b9;
+  --a:   #0F9F9A;
+  --a2:  #F2685E;
+  --a3:  #22A06B;
+  --a4:  #F0A030;
+  --a5:  #7C6BD6;
+  --a6:  #2A8FD6;
 
-  --t:   #1a1612;
-  --t2:  #6b6560;
-  --t3:  #a09890;
-  --t4:  #d5cfc5;
+  --t:   #121A19;
+  --t2:  #5F6B69;
+  --t3:  #8CA5A1;
+  --t4:  #CFDCD9;
 
-  --bdr: #e2ddd4;
-  --bdr2: #d0c9bd;
+  --bdr: #ECF1F0;
+  --bdr2: #D6E3E0;
 
-  --shadow-sm: 0 1px 4px rgba(80,60,40,0.07), 0 1px 2px rgba(80,60,40,0.04);
-  --shadow:    0 4px 16px rgba(80,60,40,0.09), 0 2px 4px rgba(80,60,40,0.04);
-  --shadow-lg: 0 10px 32px rgba(80,60,40,0.11), 0 4px 8px rgba(80,60,40,0.05);
+  --shadow-sm: 0 1px 3px rgba(14,59,67,0.05);
+  --shadow:    0 4px 16px rgba(14,59,67,0.07);
+  --shadow-lg: 0 10px 32px rgba(14,59,67,0.10);
 
   --mono: 'JetBrains Mono', monospace;
   --sans: 'Inter', sans-serif;
@@ -61,7 +66,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { font-size: 14px; }
 body { font-family: var(--sans); background: var(--bg); color: var(--t); min-height: 100vh; display: flex; }
-body::before { content:''; position:fixed; inset:0; background: radial-gradient(ellipse 80% 60% at 70% 10%, rgba(192,57,43,0.04) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 20% 90%, rgba(230,200,150,0.07) 0%, transparent 60%); pointer-events:none; z-index:0; }
+body::before { content:''; position:fixed; inset:0; background: radial-gradient(ellipse 80% 60% at 70% 10%, rgba(15,159,154,0.04) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 20% 90%, rgba(230,200,150,0.07) 0%, transparent 60%); pointer-events:none; z-index:0; }
 .main { position:relative; z-index:1; }
 
 /* ═══ SIDEBAR ═══ */
@@ -122,7 +127,7 @@ body::before { content:''; position:fixed; inset:0; background: radial-gradient(
   white-space: nowrap;
 }
 .nav-link:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.88); }
-.nav-link.active { background: linear-gradient(90deg,rgba(192,57,43,0.35),rgba(192,57,43,0.15)); color: #fff; border-left: 2px solid #e74c3c; margin-left: -2px; padding-left: 12px; }
+.nav-link.active { background: linear-gradient(90deg,rgba(52,211,195,0.30),rgba(52,211,195,0.10)); color: #fff; border-left: 2px solid #34D3C3; margin-left: -2px; padding-left: 12px; }
 .nav-link.active .nav-icon { color: #f5a59b; }
 .nv { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; display: block; }
 .nav-icon { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -222,8 +227,8 @@ body::before { content:''; position:fixed; inset:0; background: radial-gradient(
   transition: all .15s;
   white-space: nowrap;
 }
-.btn-primary { background: linear-gradient(135deg,#c0392b,#e74c3c); color: #fff; box-shadow: 0 1px 4px rgba(192,57,43,0.35); }
-.btn-primary:hover { background: linear-gradient(135deg,#a93226,#c0392b); box-shadow: 0 2px 8px rgba(192,57,43,0.45); transform: translateY(-1px); }
+.btn-primary { background: var(--ink); color: #fff; box-shadow: none; }
+.btn-primary:hover { background: #0E3B43; box-shadow: 0 2px 8px rgba(14,59,67,0.25); transform: translateY(-1px); }
 .btn-secondary { background: var(--bg2); color: var(--t2); border: 1px solid var(--bdr2); }
 .btn-secondary:hover { background: var(--bg3); color: var(--t); }
 .btn-danger { background: #fef2f2; color: var(--a2); border: 1px solid #fecaca; }
@@ -295,9 +300,9 @@ body::before { content:''; position:fixed; inset:0; background: radial-gradient(
   opacity: .06;
   transform: translate(20px, 20px);
 }
-.sc-blue::before { background: linear-gradient(90deg,#c0392b,#e74c3c); }
-.sc-blue::after  { background: #c0392b; }
-.sc-red::before  { background: linear-gradient(90deg,#e74c3c,#c0392b); }
+.sc-blue::before { background: linear-gradient(90deg,#0F9F9A,#34D3C3); }
+.sc-blue::after  { background: #0F9F9A; }
+.sc-red::before  { background: linear-gradient(90deg,#F2685E,#F58A7F); }
 .sc-red::after   { background: #e74c3c; }
 .sc-green::before { background: linear-gradient(90deg,#27ae60,#2ecc71); }
 .sc-green::after  { background: #27ae60; }
@@ -841,7 +846,7 @@ tbody tr:hover td { background: var(--bg3); }
   }
   .bottom-nav-item .nv { width: 22px; height: 22px; padding: 4px 12px; box-sizing: content-box; border-radius: 999px; transition: background .2s, color .2s; }
   .bottom-nav-item.active { color: #fff; }
-  .bottom-nav-item.active .nv { background: linear-gradient(135deg, #c0392b, #e74c3c); color: #fff; box-shadow: 0 2px 8px rgba(231,76,60,.35); }
+  .bottom-nav-item.active .nv { background: linear-gradient(135deg, #5EE0CF, #0F9F9A); color: #fff; box-shadow: 0 2px 8px rgba(15,159,154,.3); }
   .bottom-nav-item:hover { color: rgba(255,255,255,.75); }
 
   /* ── Timeline ── */
@@ -922,7 +927,7 @@ tbody tr:hover td { background: var(--bg3); }
     font-size: 11px; font-weight: 600; letter-spacing: .03em; padding: 6px 4px; border-radius: 10px; flex: 0 1 140px; white-space: nowrap; }
   .bottom-nav-item .nv { width: 22px; height: 22px; padding: 4px 14px; box-sizing: content-box; border-radius: 999px; transition: background .2s; }
   .bottom-nav-item.active { color: #fff; }
-  .bottom-nav-item.active .nv { background: linear-gradient(135deg, #c0392b, #e74c3c); color: #fff; box-shadow: 0 2px 8px rgba(231,76,60,.35); }
+  .bottom-nav-item.active .nv { background: linear-gradient(135deg, #5EE0CF, #0F9F9A); color: #fff; box-shadow: 0 2px 8px rgba(15,159,154,.3); }
   .modal-box { max-height: 88vh; overflow-y: auto; }
 }
 /* Pliable fermé / très petits écrans (≤ 380 px) */
@@ -955,10 +960,10 @@ tbody tr:hover td { background: var(--bg3); }
   background: var(--bg3); color: var(--t); font: 600 12px var(--sans); cursor: pointer; transition: transform .1s, background .15s; }
 .qa-btn:active { transform: scale(.96); }
 .qa-btn .nv, .qa-btn .ic { width: 22px; height: 22px; }
-.qa-btn.hot { background: rgba(192,57,43,.1); border-color: rgba(192,57,43,.4); color: var(--a); }
+.qa-btn.hot { background: rgba(15,159,154,.1); border-color: rgba(15,159,154,.4); color: var(--a); }
 .mood-row { display: flex; gap: 6px; justify-content: space-between; margin-bottom: 10px; }
 .mood { flex: 1; font-size: 26px; line-height: 1; padding: 8px 0; border-radius: 12px; border: 2px solid transparent; background: var(--bg3); cursor: pointer; transition: transform .1s; }
-.mood.on { border-color: var(--a); background: rgba(192,57,43,.08); transform: scale(1.06); }
+.mood.on { border-color: var(--a); background: rgba(15,159,154,.08); transform: scale(1.06); }
 .mood small { display: block; font: 600 10px var(--sans); color: var(--t2); margin-top: 4px; }
 .xp-q { margin-bottom: 14px; }
 .xp-q label { display: flex; justify-content: space-between; font-weight: 600; font-size: 13px; margin-bottom: 6px; }
@@ -1023,18 +1028,21 @@ tbody tr:hover td { background: var(--bg3); }
 #page-dashboard.active { display: flex; flex-direction: column; }
 #page-dashboard.active > * { flex-shrink: 0; }
 .dash-hidden { display: none !important; }
-#dd-month { order: 10; }   /* juste après les actions rapides */
-#dd-quick { order: 9 !important; }
+#dd-month { order: 13; }   /* juste après les actions rapides (réglé par applyDash) */
+/* ordre par défaut (avant le premier applyDash, ex. appli vierge) */
+[data-dash="stats"] { order: 10; } [data-dash="quick"] { order: 12; } [data-dash="chart"] { order: 14; }
+[data-dash="inj"] { order: 16; } [data-dash="weight"] { order: 18; } [data-dash="wear"] { order: 20; }
 
 /* ═══ MODE SOMBRE ═══ */
 html[data-theme="dark"] { color-scheme: dark; }
 html[data-theme="dark"] {
   --bg: #12141d; --bg2: #1a1d29; --bg3: #222636; --bg4: #2b3044; --t: #ece9e4; --t2: #a9a6b3; --t3: #7d7a88; --t4: #4a4d5e;
-  --bdr: #2e3245; --bdr2: #3b4057; --a: #e05a4b; --a6: #4ea1dc; --a5: #a970c9;
+  --bdr: #2e3245; --bdr2: #3b4057; --a: #2CC5B4; --a6: #4ea1dc; --a5: #a970c9;
+  --sidebar: #0B1F23; --sidebar2: #12302F; --top-bg: #12141d; --nav-bg: #161925; --nav-t: #8A9A98; --nav-on: #E8F5F3; --ink: #ece9e4;
   --shadow-sm: 0 1px 3px rgba(0,0,0,.4); --shadow: 0 4px 14px rgba(0,0,0,.45); --shadow-lg: 0 10px 30px rgba(0,0,0,.5); }
 html[data-theme="dark"] body { background: var(--bg); color: var(--t); }
 html[data-theme="dark"] .card, html[data-theme="dark"] .stat-card, html[data-theme="dark"] .modal { background: var(--bg2) !important; border-color: var(--bdr) !important; color: var(--t); }
-html[data-theme="dark"] .card[style*="background"], html[data-theme="dark"] [style*="background:#eff6ff"], html[data-theme="dark"] [style*="background:#f0fdf4"] { background: var(--bg2) !important; }
+html[data-theme="dark"] .card[style*="background"], html[data-theme="dark"] [style*="background:#eff6ff"], html[data-theme="dark"] [style*="background:#F1FAF8"], html[data-theme="dark"] [style*="background:#f0fdf4"] { background: var(--bg2) !important; }
 html[data-theme="dark"] .form-input, html[data-theme="dark"] .form-select, html[data-theme="dark"] textarea { background: var(--bg3); color: var(--t); border-color: var(--bdr2); }
 html[data-theme="dark"] table th { background: var(--bg3); color: var(--t2); }
 html[data-theme="dark"] table td { border-color: var(--bdr); }
@@ -1058,7 +1066,7 @@ html[data-theme="dark"] .stat-card::after, html[data-theme="dark"] .stat-card::b
 .q-row .form-input { margin-top: 6px; font-size: 12px; padding: 6px 8px; }
 
 /* ═══ VERROUILLAGE ═══ */
-#lock { position: fixed; inset: 0; z-index: 10001; background: radial-gradient(circle at 50% 38%, #2a2f4d 0%, #1c1f2e 62%);
+#lock { position: fixed; inset: 0; z-index: 10001; background: radial-gradient(circle at 50% 38%, #13505A 0%, #0E3B43 62%);
   display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; }
 
 /* ═══ RAPPELS ═══ */
@@ -1082,16 +1090,45 @@ html[data-theme="dark"] .stat-card::after, html[data-theme="dark"] .stat-card::b
 .rm-next div { display: flex; gap: 8px; } .rm-next b { color: var(--t); font-weight: 600; min-width: 128px; font-family: var(--mono); font-size: 11.5px; }
 .chrono { font-family: var(--mono); font-size: 34px; font-weight: 800; text-align: center; color: var(--a4); margin: 6px 0 12px; }
 
+/* ═══ THÈME MENTHE (agencement épuré, façon Bumble) ═══ */
+body { background: var(--bg); }
+.topbar { background: var(--top-bg); border-bottom: 1px solid var(--bdr); }
+.topbar-title { color: var(--ink); font-size: 22px; font-weight: 800; letter-spacing: -.4px; }
+.topbar-sub { color: var(--t3); }
+.topbar-date { color: var(--t3); }
+.topbar-pill { color: var(--t2); background: var(--bg3); border-color: var(--bdr); }
+.card { background: var(--bg2); border: 1px solid var(--bdr); border-radius: 22px; box-shadow: none; }
+.stat-card { background: var(--bg2); border-radius: 22px; box-shadow: none; }
+.stat-card::before { border-radius: 22px 22px 0 0; }
+.card-header { border-bottom: 0; padding-bottom: 0; }
+.card-title { font-size: 16px; font-weight: 800; letter-spacing: -.2px; color: var(--ink); }
+.card-title-dot { display: none; }
+.btn { border-radius: 999px; }
+.btn-secondary { background: var(--bg3); border-color: transparent; color: var(--t); }
+.qa-btn { border-radius: 20px; border: 0; background: var(--bg3); color: var(--ink); }
+.qa-btn .nv, .qa-btn .ic { color: var(--a); }
+@media (max-width: 768px), (pointer: coarse) and (max-width: 1180px) {
+  .topbar { border-bottom: 0; padding-top: 18px; padding-bottom: 10px; }
+  .topbar-title { font-size: 28px; line-height: 1.1; }
+  .topbar-logo svg { width: 30px; height: 30px; }
+  .bottom-nav { background: var(--nav-bg); border-top: 1px solid var(--bdr); box-shadow: 0 -6px 20px rgba(14,59,67,.06); }
+  .bottom-nav-item { color: var(--nav-t); }
+  .bottom-nav-item.active { color: var(--nav-on); }
+  .bottom-nav-item:hover { color: var(--nav-on); }
+}
+@media (max-width: 380px) { .topbar-title { font-size: 22px; } }
+html[data-theme="dark"] .btn-primary { background: var(--a); color: #06201D; }
+
 /* ═══ ÉCRAN D'OUVERTURE ═══ */
 #splash { position: fixed; inset: 0; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
-  background: radial-gradient(circle at 50% 38%, #2a2f4d 0%, #1c1f2e 62%); transition: opacity .35s ease, visibility .35s; }
+  background: radial-gradient(circle at 50% 38%, #13505A 0%, #0E3B43 62%); transition: opacity .35s ease, visibility .35s; }
 #splash.hide { opacity: 0; visibility: hidden; }
-#splash svg { width: 112px; height: 112px; filter: drop-shadow(0 8px 24px rgba(231,76,60,.35)); animation: splashPop .5s cubic-bezier(.2,.8,.3,1.2); }
+#splash svg { width: 112px; height: 112px; filter: drop-shadow(0 8px 24px rgba(52,211,195,.35)); animation: splashPop .5s cubic-bezier(.2,.8,.3,1.2); }
 #splash .splash-name { color: #fff; font: 700 20px/1 var(--sans); letter-spacing: .3px; }
 @keyframes splashPop { from { transform: scale(.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 </style>
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#1c1f2e">
+<meta name="theme-color" content="#FFFFFF">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -1100,7 +1137,7 @@ html[data-theme="dark"] .stat-card::after, html[data-theme="dark"] .stat-card::b
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=180122dd">
 </head>
 <body>
-<div id="splash" aria-hidden="true"><svg viewBox="0 0 38 38"><defs><linearGradient id="lgSplash" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ef5b4a"/><stop offset="1" stop-color="#b8322a"/></linearGradient></defs>
+<div id="splash" aria-hidden="true"><svg viewBox="0 0 38 38"><defs><linearGradient id="lgSplash" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34D3C3"/><stop offset="1" stop-color="#0E7C86"/></linearGradient></defs>
 <path d="M19 2.6 32.9 10.6v16.8L19 35.4 5.1 27.4V10.6Z" fill="url(#lgSplash)" stroke="url(#lgSplash)" stroke-width="2.4" stroke-linejoin="round"/>
 <path d="M19 28.2c-4.8-3.2-8.4-6.4-8.4-10.4 0-2.7 2-4.7 4.4-4.7 1.7 0 3.1.9 4 2.4.9-1.5 2.3-2.4 4-2.4 2.4 0 4.4 2 4.4 4.7 0 4-3.6 7.2-8.4 10.4Z" fill="none" stroke="#fff" stroke-width="2.1" stroke-linejoin="round"/>
 <path d="M8.4 19.4h5l1.6-3.4 2.4 6.6 2.2-4.8 1.2 1.6h8.8" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="splash-name">Health K'</div></div>
@@ -1122,14 +1159,14 @@ function hideSplash() {
   <button class="btn btn-primary" onclick="unlockApp()">Déverrouiller</button>
 </div>
 <!-- ═══ ICÔNES (sprite SVG) ═══ -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9L9.6 3.9A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-alert-octagon" viewBox="0 0 24 24"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></symbol><symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/></symbol><symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol><symbol id="i-shift" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3.5"/></symbol><symbol id="i-bone" viewBox="0 0 24 24"><path d="M17 10c.7-.7 1.7 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .8.7 1.8 0 2.5l-7 7c-.7.7-1.7 0-2.5 0a2.5 2.5 0 0 0 0 5c.3 0 .5.2.5.5a2.5 2.5 0 1 0 5 0c0-.8-.7-1.8 0-2.5Z"/></symbol><symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 10v4M6 6v12M10 3v18M14 8v8M18 5v14M22 10v4"/></symbol><symbol id="i-microscope" viewBox="0 0 24 24"><path d="M6 18h8M3 22h18M14 22a7 7 0 1 0 0-14h-1M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></symbol><symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 9V3"/><path d="M7 15h10"/></symbol><symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2.7s6 6.3 6 11.3a6 6 0 0 1-12 0c0-5 6-11.3 6-11.3z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-stetho" viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></symbol><symbol id="n-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="9" rx="2"/><rect x="13.5" y="3" width="7.5" height="5.5" rx="2"/><rect x="13.5" y="11.5" width="7.5" height="9.5" rx="2"/><rect x="3" y="15" width="7.5" height="6" rx="2"/></symbol><symbol id="n-eval" viewBox="0 0 24 24"><rect x="4.5" y="4" width="15" height="17.5" rx="2.5"/><path d="M9 4V3.2c0-.7.5-1.2 1.2-1.2h3.6c.7 0 1.2.5 1.2 1.2V4"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/><circle cx="12.5" cy="10.5" r="1.3" fill="currentColor"/><circle cx="10" cy="14" r="1.3" fill="currentColor"/></symbol><symbol id="n-chart" viewBox="0 0 24 24"><path d="M3.5 3.5v15a2 2 0 0 0 2 2h15"/><path d="m7.5 14.5 3.5-4.5 3 3 5.5-6.5"/><circle cx="19.5" cy="6.5" r="1.4" fill="currentColor"/></symbol><symbol id="n-scale" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M7.5 10.5a6 6 0 0 1 9 0"/><path d="m12 11 1.6-2.4"/><path d="M9 16.5h6"/></symbol><symbol id="n-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="n-flask" viewBox="0 0 24 24"><path d="M9.5 2.5v6.8L4.3 18.4A2.2 2.2 0 0 0 6.2 21.5h11.6a2.2 2.2 0 0 0 1.9-3.1L14.5 9.3V2.5"/><path d="M8 2.5h8"/><path d="M6.6 15h10.8"/></symbol><symbol id="n-scan" viewBox="0 0 24 24"><path d="M3 7.5V5.5a2.5 2.5 0 0 1 2.5-2.5h2M16.5 3h2A2.5 2.5 0 0 1 21 5.5v2M21 16.5v2a2.5 2.5 0 0 1-2.5 2.5h-2M7.5 21h-2A2.5 2.5 0 0 1 3 18.5v-2"/><path d="M12 7v10M9 9.5c1 .6 2 .9 3 .9s2-.3 3-.9M9 14.5c1-.6 2-.9 3-.9s2 .3 3 .9"/></symbol><symbol id="n-stetho" viewBox="0 0 24 24"><path d="M5 2.5H4a1.5 1.5 0 0 0-1.5 1.5v5a5.5 5.5 0 0 0 11 0V4A1.5 1.5 0 0 0 12 2.5h-1"/><path d="M8 14.5v1a5.5 5.5 0 0 0 11 0V12"/><circle cx="19" cy="10" r="2"/></symbol><symbol id="n-file" viewBox="0 0 24 24"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5"/><path d="M12 18.2c-2-1.3-3.4-2.6-3.4-4.2 0-1.1.8-1.9 1.8-1.9.7 0 1.3.4 1.6 1 .3-.6.9-1 1.6-1 1 0 1.8.8 1.8 1.9 0 1.6-1.4 2.9-3.4 4.2Z"/></symbol><symbol id="n-pulse" viewBox="0 0 24 24"><path d="M2.5 12h4l2.5-6 4 13 3-9 1.5 2h4"/></symbol><symbol id="n-shield" viewBox="0 0 24 24"><path d="M12 21.5s7.5-3.4 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 6.1 7.5 9.5 7.5 9.5Z"/><path d="M12 8v4.5M12 16h.01"/></symbol><symbol id="n-watch" viewBox="0 0 24 24"><rect x="5.5" y="6" width="13" height="12" rx="3.5"/><path d="M8.5 6l.7-3.2h5.6L15.5 6M8.5 18l.7 3.2h5.6l.7-3.2"/><path d="M12 9.5V12l1.8 1.2"/></symbol><symbol id="i-sync" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.4 6.4L3 16"/><path d="M3 21v-5h5"/><path d="M3 12a9 9 0 0 1 15.4-6.4L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol><symbol id="n-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol><symbol id="i-thermo" viewBox="0 0 24 24"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/><path d="M11.5 17.5v-6"/></symbol><symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></symbol><symbol id="i-note" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M3 5h13M3 10h13M3 15h7"/></symbol><symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></symbol><symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol><symbol id="n-cal" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M7.5 13.5h2M11 13.5h2M14.5 13.5h2M7.5 17h2M11 17h2"/></symbol><symbol id="n-doctor" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M12 7.5v5M9.5 10h5"/><path d="M8 16.5h8"/></symbol><symbol id="i-pill" viewBox="0 0 24 24"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></symbol><symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 21.5s7.5-3.4 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 6.1 7.5 9.5 7.5 9.5Z"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="i-folder2" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9L9.6 3.9A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></symbol><symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol><symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></symbol><symbol id="n-lock-logo" viewBox="0 0 38 38"><path d="M19 2.6 32.9 10.6v16.8L19 35.4 5.1 27.4V10.6Z" fill="#c0392b" stroke="#c0392b" stroke-width="2.4" stroke-linejoin="round"/><path d="M19 28.2c-4.8-3.2-8.4-6.4-8.4-10.4 0-2.7 2-4.7 4.4-4.7 1.7 0 3.1.9 4 2.4.9-1.5 2.3-2.4 4-2.4 2.4 0 4.4 2 4.4 4.7 0 4-3.6 7.2-8.4 10.4Z" fill="none" stroke="#fff" stroke-width="2.1" stroke-linejoin="round"/><path d="M8.4 19.4h5l1.6-3.4 2.4 6.6 2.2-4.8 1.2 1.6h8.8" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="n-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="19" cy="12" r="1.7" fill="currentColor"/></symbol></defs></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v6M14 11v6"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-folder" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9L9.6 3.9A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol><symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-alert-octagon" viewBox="0 0 24 24"><path d="M7.9 2h8.2L22 7.9v8.2L16.1 22H7.9L2 16.1V7.9z"/><path d="M12 8v4M12 16h.01"/></symbol><symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol><symbol id="i-undo" viewBox="0 0 24 24"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/></symbol><symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol><symbol id="i-shift" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3.5"/></symbol><symbol id="i-bone" viewBox="0 0 24 24"><path d="M17 10c.7-.7 1.7 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .8.7 1.8 0 2.5l-7 7c-.7.7-1.7 0-2.5 0a2.5 2.5 0 0 0 0 5c.3 0 .5.2.5.5a2.5 2.5 0 1 0 5 0c0-.8-.7-1.8 0-2.5Z"/></symbol><symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 10v4M6 6v12M10 3v18M14 8v8M18 5v14M22 10v4"/></symbol><symbol id="i-microscope" viewBox="0 0 24 24"><path d="M6 18h8M3 22h18M14 22a7 7 0 1 0 0-14h-1M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></symbol><symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6L4.5 19a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 9V3"/><path d="M7 15h10"/></symbol><symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2.7s6 6.3 6 11.3a6 6 0 0 1-12 0c0-5 6-11.3 6-11.3z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-stetho" viewBox="0 0 24 24"><path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6 6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/><path d="M8 15v1a6 6 0 0 0 6 6 6 6 0 0 0 6-6v-4"/><circle cx="20" cy="10" r="2"/></symbol><symbol id="n-dash" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="9" rx="2"/><rect x="13.5" y="3" width="7.5" height="5.5" rx="2"/><rect x="13.5" y="11.5" width="7.5" height="9.5" rx="2"/><rect x="3" y="15" width="7.5" height="6" rx="2"/></symbol><symbol id="n-eval" viewBox="0 0 24 24"><rect x="4.5" y="4" width="15" height="17.5" rx="2.5"/><path d="M9 4V3.2c0-.7.5-1.2 1.2-1.2h3.6c.7 0 1.2.5 1.2 1.2V4"/><path d="M8.5 10.5h7M8.5 14h7M8.5 17.5h4"/><circle cx="12.5" cy="10.5" r="1.3" fill="currentColor"/><circle cx="10" cy="14" r="1.3" fill="currentColor"/></symbol><symbol id="n-chart" viewBox="0 0 24 24"><path d="M3.5 3.5v15a2 2 0 0 0 2 2h15"/><path d="m7.5 14.5 3.5-4.5 3 3 5.5-6.5"/><circle cx="19.5" cy="6.5" r="1.4" fill="currentColor"/></symbol><symbol id="n-scale" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M7.5 10.5a6 6 0 0 1 9 0"/><path d="m12 11 1.6-2.4"/><path d="M9 16.5h6"/></symbol><symbol id="n-syringe" viewBox="0 0 24 24"><path d="m18 2 4 4"/><path d="m17 7 3-3"/><path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5"/><path d="m9 11 4 4"/><path d="m5 19-3 3"/><path d="m14 4 6 6"/></symbol><symbol id="n-flask" viewBox="0 0 24 24"><path d="M9.5 2.5v6.8L4.3 18.4A2.2 2.2 0 0 0 6.2 21.5h11.6a2.2 2.2 0 0 0 1.9-3.1L14.5 9.3V2.5"/><path d="M8 2.5h8"/><path d="M6.6 15h10.8"/></symbol><symbol id="n-scan" viewBox="0 0 24 24"><path d="M3 7.5V5.5a2.5 2.5 0 0 1 2.5-2.5h2M16.5 3h2A2.5 2.5 0 0 1 21 5.5v2M21 16.5v2a2.5 2.5 0 0 1-2.5 2.5h-2M7.5 21h-2A2.5 2.5 0 0 1 3 18.5v-2"/><path d="M12 7v10M9 9.5c1 .6 2 .9 3 .9s2-.3 3-.9M9 14.5c1-.6 2-.9 3-.9s2 .3 3 .9"/></symbol><symbol id="n-stetho" viewBox="0 0 24 24"><path d="M5 2.5H4a1.5 1.5 0 0 0-1.5 1.5v5a5.5 5.5 0 0 0 11 0V4A1.5 1.5 0 0 0 12 2.5h-1"/><path d="M8 14.5v1a5.5 5.5 0 0 0 11 0V12"/><circle cx="19" cy="10" r="2"/></symbol><symbol id="n-file" viewBox="0 0 24 24"><path d="M14 2.5H6.5a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V8z"/><path d="M14 2.5V8h5.5"/><path d="M12 18.2c-2-1.3-3.4-2.6-3.4-4.2 0-1.1.8-1.9 1.8-1.9.7 0 1.3.4 1.6 1 .3-.6.9-1 1.6-1 1 0 1.8.8 1.8 1.9 0 1.6-1.4 2.9-3.4 4.2Z"/></symbol><symbol id="n-pulse" viewBox="0 0 24 24"><path d="M2.5 12h4l2.5-6 4 13 3-9 1.5 2h4"/></symbol><symbol id="n-shield" viewBox="0 0 24 24"><path d="M12 21.5s7.5-3.4 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 6.1 7.5 9.5 7.5 9.5Z"/><path d="M12 8v4.5M12 16h.01"/></symbol><symbol id="n-watch" viewBox="0 0 24 24"><rect x="5.5" y="6" width="13" height="12" rx="3.5"/><path d="M8.5 6l.7-3.2h5.6L15.5 6M8.5 18l.7 3.2h5.6l.7-3.2"/><path d="M12 9.5V12l1.8 1.2"/></symbol><symbol id="i-sync" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.4 6.4L3 16"/><path d="M3 21v-5h5"/><path d="M3 12a9 9 0 0 1 15.4-6.4L21 8"/><path d="M21 3v5h-5"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol><symbol id="n-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol><symbol id="i-thermo" viewBox="0 0 24 24"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/><path d="M11.5 17.5v-6"/></symbol><symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></symbol><symbol id="i-note" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M3 5h13M3 10h13M3 15h7"/></symbol><symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></symbol><symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol><symbol id="n-cal" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/><path d="M7.5 13.5h2M11 13.5h2M14.5 13.5h2M7.5 17h2M11 17h2"/></symbol><symbol id="n-doctor" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M12 7.5v5M9.5 10h5"/><path d="M8 16.5h8"/></symbol><symbol id="i-pill" viewBox="0 0 24 24"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></symbol><symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 21.5s7.5-3.4 7.5-9.5V5.3L12 2.5 4.5 5.3V12c0 6.1 7.5 9.5 7.5 9.5Z"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="i-folder2" viewBox="0 0 24 24"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.7-.9L9.6 3.9A2 2 0 0 0 7.9 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol><symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></symbol><symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol><symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></symbol><symbol id="n-lock-logo" viewBox="0 0 38 38"><path d="M19 2.6 32.9 10.6v16.8L19 35.4 5.1 27.4V10.6Z" fill="#0F9F9A" stroke="#0F9F9A" stroke-width="2.4" stroke-linejoin="round"/><path d="M19 28.2c-4.8-3.2-8.4-6.4-8.4-10.4 0-2.7 2-4.7 4.4-4.7 1.7 0 3.1.9 4 2.4.9-1.5 2.3-2.4 4-2.4 2.4 0 4.4 2 4.4 4.7 0 4-3.6 7.2-8.4 10.4Z" fill="none" stroke="#fff" stroke-width="2.1" stroke-linejoin="round"/><path d="M8.4 19.4h5l1.6-3.4 2.4 6.6 2.2-4.8 1.2 1.6h8.8" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></symbol><symbol id="n-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="19" cy="12" r="1.7" fill="currentColor"/></symbol></defs></svg>
 
 <!-- ═══════════ SIDEBAR ═══════════ -->
 <aside class="sidebar">
   <div class="sidebar-brand">
     <div class="brand-icon">
       <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs><linearGradient id="lgSide" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ef5b4a"/><stop offset="1" stop-color="#b8322a"/></linearGradient></defs>
+      <defs><linearGradient id="lgSide" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34D3C3"/><stop offset="1" stop-color="#0E7C86"/></linearGradient></defs>
       <path d="M19 2.6 32.9 10.6v16.8L19 35.4 5.1 27.4V10.6Z" fill="url(#lgSide)" stroke="url(#lgSide)" stroke-width="2.4" stroke-linejoin="round"/>
       <path d="M19 28.2c-4.8-3.2-8.4-6.4-8.4-10.4 0-2.7 2-4.7 4.4-4.7 1.7 0 3.1.9 4 2.4.9-1.5 2.3-2.4 4-2.4 2.4 0 4.4 2 4.4 4.7 0 4-3.6 7.2-8.4 10.4Z" fill="none" stroke="#fff" stroke-width="2.1" stroke-linejoin="round"/>
       <path d="M8.4 19.4h5l1.6-3.4 2.4 6.6 2.2-4.8 1.2 1.6h8.8" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1256,7 +1293,7 @@ function hideSplash() {
 <div class="topbar">
   <div class="topbar-logo" onclick="nav('dashboard');setBottomNav('dashboard')" title="Health K' — accueil">
     <svg width="34" height="34" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs><linearGradient id="lgTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ef5b4a"/><stop offset="1" stop-color="#b8322a"/></linearGradient></defs>
+      <defs><linearGradient id="lgTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34D3C3"/><stop offset="1" stop-color="#0E7C86"/></linearGradient></defs>
       <path d="M19 2.6 32.9 10.6v16.8L19 35.4 5.1 27.4V10.6Z" fill="url(#lgTop)" stroke="url(#lgTop)" stroke-width="2.4" stroke-linejoin="round"/>
       <path d="M19 28.2c-4.8-3.2-8.4-6.4-8.4-10.4 0-2.7 2-4.7 4.4-4.7 1.7 0 3.1.9 4 2.4.9-1.5 2.3-2.4 4-2.4 2.4 0 4.4 2 4.4 4.7 0 4-3.6 7.2-8.4 10.4Z" fill="none" stroke="#fff" stroke-width="2.1" stroke-linejoin="round"/>
       <path d="M8.4 19.4h5l1.6-3.4 2.4 6.6 2.2-4.8 1.2 1.6h8.8" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1964,7 +2001,7 @@ function hideSplash() {
       <button class="btn btn-secondary btn-sm" onclick="stockAdd(2)">+2 reçus</button>
     </div>
   </div>
-  <div class="card" style="border-color:#bfdbfe;background:#eff6ff;">
+  <div class="card" style="border-color:#CDEBE6;background:#F1FAF8;">
     <div class="card-header">
       <div class="card-title"><span class="card-title-dot" style="background:var(--a5)"></span>Biothérapie principale</div>
       <span class="badge badge-purple">En cours</span>
@@ -2514,7 +2551,7 @@ function hideSplash() {
 <div class="page" id="page-reminders">
   <div class="card" id="rm-perm-card">
     <div class="wk-sync">
-      <div class="wk-sync-ic" style="background:rgba(192,57,43,.1);color:var(--a);"><svg class="nv"><use href="#n-bell"/></svg></div>
+      <div class="wk-sync-ic" style="background:rgba(15,159,154,.1);color:var(--a);"><svg class="nv"><use href="#n-bell"/></svg></div>
       <div style="flex:1;min-width:200px;">
         <div style="font-weight:700;font-size:15px;">Notifications</div>
         <div class="wk-status" id="rm-status">—</div>
@@ -2551,7 +2588,7 @@ function hideSplash() {
     </div>
 
     <div class="rm-item">
-      <div class="rm-ic" style="background:rgba(192,57,43,.1);color:var(--a);"><svg class="nv"><use href="#n-eval"/></svg></div>
+      <div class="rm-ic" style="background:rgba(15,159,154,.1);color:var(--a);"><svg class="nv"><use href="#n-eval"/></svg></div>
       <div class="rm-body">
         <div class="rm-title">Évaluation BASDAI du soir</div>
         <div class="rm-desc">Seulement si l'évaluation du jour n'est pas encore faite.</div>
@@ -4069,13 +4106,13 @@ function renderDash() {
       });
       ctx.lineTo(toX(last10.length-1),PAD.t+cH);ctx.lineTo(toX(0),PAD.t+cH);ctx.closePath();
       const ag=ctx.createLinearGradient(0,PAD.t,0,PAD.t+cH);
-      ag.addColorStop(0,'rgba(192,57,43,0.12)');ag.addColorStop(1,'rgba(192,57,43,0.01)');
+      ag.addColorStop(0,'rgba(15,159,154,0.12)');ag.addColorStop(1,'rgba(15,159,154,0.01)');
       ctx.fillStyle=ag;ctx.fill();
     }
     // Courbe
     if(last10.length>=2){
       ctx.beginPath();ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.lineCap='round';
-      ctx.strokeStyle='#c0392b';
+      ctx.strokeStyle='#0F9F9A';
       last10.forEach((_,i)=>{
         if(!i) ctx.moveTo(toX(i),toY(vals[i]));
         else{const cp=(toX(i-1)+toX(i))/2;ctx.bezierCurveTo(cp,toY(vals[i-1]),cp,toY(vals[i]),toX(i),toY(vals[i]));}
@@ -7563,7 +7600,7 @@ function openConsult() {
   h += `<div class="cs-sec"><h3><svg class=ic><use href=#n-doctor></use></svg>Mes questions</h3><div id="cs-q">${questionsHtml(true)}</div></div>`;
   document.getElementById('cs-body').innerHTML = h;
   openModal('m-consult');
-  setTimeout(() => drawWkChart(document.getElementById('cs-basdai'), ent.map(e => ({ d: e.date, v: e.basdai })), { type: 'line', color: '#c0392b', ref: 4, fmt: v => fr1(v) }), 60);
+  setTimeout(() => drawWkChart(document.getElementById('cs-basdai'), ent.map(e => ({ d: e.date, v: e.basdai })), { type: 'line', color: '#0F9F9A', ref: 4, fmt: v => fr1(v) }), 60);
 }
 
 // ═══ SITES D'INJECTION (rotation) ═══
@@ -7796,11 +7833,14 @@ function applyLook(theme, size) {
 if (window.matchMedia) try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => applyLook()); } catch (e) {}
 
 // ═══ ACCUEIL PERSONNALISABLE ═══
-const DASH_BLOCKS = [['quick', 'Actions rapides'], ['stats', 'Statistiques BASDAI'], ['chart', 'Courbe BASDAI et dernière saisie'], ['inj', 'Suivi IMRALDI'], ['weight', 'Poids'], ['wear', 'Montre & activité']];
-function dashCfg() { const c = D.dash || {}; const order = (c.order || []).filter(k => DASH_BLOCKS.some(b => b[0] === k)); DASH_BLOCKS.forEach(([k]) => { if (!order.includes(k)) order.push(k); }); return { order, hidden: c.hidden || [] }; }
+const DASH_BLOCKS = [['stats', 'Statistiques BASDAI'], ['quick', 'Actions rapides'], ['chart', 'Courbe BASDAI et dernière saisie'], ['inj', 'Suivi IMRALDI'], ['weight', 'Poids'], ['wear', 'Montre & activité']];
+function dashCfg() { const c = D.dash || {}; let order = (c.order || []).filter(k => DASH_BLOCKS.some(b => b[0] === k)); DASH_BLOCKS.forEach(([k]) => { if (!order.includes(k)) order.push(k); });
+  if ((c.v || 1) < 2) order = ['stats', ...order.filter(k => k !== 'stats')];   // v2 : les 4 petits blocs passent en premier
+  return { order, hidden: c.hidden || [], v: 2 }; }
 function applyDash() {
   const c = dashCfg();
-  document.querySelectorAll('#page-dashboard [data-dash]').forEach(el => { const k = el.dataset.dash; el.style.order = 10 + c.order.indexOf(k); el.classList.toggle('dash-hidden', c.hidden.includes(k)); });
+  document.querySelectorAll('#page-dashboard [data-dash]').forEach(el => { const k = el.dataset.dash; el.style.order = 10 + 2 * c.order.indexOf(k); el.classList.toggle('dash-hidden', c.hidden.includes(k)); });
+  const m = document.getElementById('dd-month'); if (m) m.style.order = 11 + 2 * c.order.indexOf('quick');   // résumé du mois juste après les actions rapides
 }
 function renderDashSettings() {
   const c = dashCfg(), el = document.getElementById('st-dash'); if (!el) return;
@@ -8328,14 +8368,14 @@ function drawWeightCurve(canvas, sorted, H2 = 220) {
     ctx.lineTo(toX(0),PAD.t+cH);
     ctx.closePath();
     const areaGrad=ctx.createLinearGradient(0,PAD.t,0,PAD.t+cH);
-    areaGrad.addColorStop(0,'rgba(192,57,43,0.15)');
-    areaGrad.addColorStop(1,'rgba(192,57,43,0.02)');
+    areaGrad.addColorStop(0,'rgba(15,159,154,0.15)');
+    areaGrad.addColorStop(1,'rgba(15,159,154,0.02)');
     ctx.fillStyle=areaGrad;ctx.fill();
   }
   // Courbe principale (bezier)
   if(sorted.length>=2){
     ctx.beginPath();
-    ctx.strokeStyle='#c0392b';ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.lineCap='round';
+    ctx.strokeStyle='#0F9F9A';ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.lineCap='round';
     sorted.forEach((_,i)=>{
       if(i===0) ctx.moveTo(toX(i),toY(vals[i]));
       else{const p={x:toX(i-1),y:toY(vals[i-1])},c={x:toX(i),y:toY(vals[i])},cp=(p.x+c.x)/2;ctx.bezierCurveTo(cp,p.y,cp,c.y,c.x,c.y);}
@@ -8348,10 +8388,10 @@ function drawWeightCurve(canvas, sorted, H2 = 220) {
     const x=toX(i),y=toY(vals[i]);
     // Halo
     ctx.beginPath();ctx.arc(x,y,6,0,Math.PI*2);
-    ctx.fillStyle='rgba(192,57,43,0.12)';ctx.fill();
+    ctx.fillStyle='rgba(15,159,154,0.12)';ctx.fill();
     // Point
     ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);
-    ctx.fillStyle='#c0392b';ctx.fill();
+    ctx.fillStyle='#0F9F9A';ctx.fill();
     ctx.beginPath();ctx.arc(x,y,2,0,Math.PI*2);
     ctx.fillStyle='#fff';ctx.fill();
     // Valeur
@@ -8785,11 +8825,11 @@ function renderWearable() {
   set('wk-avg-hr', aH != null ? 'moy. ' + Math.round(aH) + ' bpm' : '');
   set('wk-avg-steps', aP != null ? 'moy. ' + Math.round(aP).toLocaleString('fr-FR') : '');
   drawWkChart(document.getElementById('wk-c-sleep'), sl, { type:'bar', color:'#8e44ad', ref:7, refLabel:'7 h', fmt: v => fmtH(v) });
-  drawWkChart(document.getElementById('wk-c-hr'), hr, { type:'line', color:'#c0392b', fmt: v => Math.round(v) });
+  drawWkChart(document.getElementById('wk-c-hr'), hr, { type:'line', color:'#F2685E', fmt: v => Math.round(v) });
   drawWkChart(document.getElementById('wk-c-steps'), st, { type:'bar', color:'#27ae60', ref:7000, refLabel:'7 000', fmt: v => v >= 1000 ? (v/1000).toFixed(1).replace('.', ',') + 'k' : Math.round(v) });
   drawWkChart(document.getElementById('wk-c-spo2'), sp, { type:'line', color:'#2980b9', ref:95, fmt: v => Math.round(v) });
   drawWkChart(document.getElementById('wk-c-ex'), ex, { type:'bar', color:'#e67e22', fmt: v => Math.round(v) });
-  drawWkChart(document.getElementById('wk-c-cal'), ca, { type:'bar', color:'#c0392b', fmt: v => v >= 1000 ? (v/1000).toFixed(1).replace('.', ',') + 'k' : Math.round(v) });
+  drawWkChart(document.getElementById('wk-c-cal'), ca, { type:'bar', color:'#F0A030', fmt: v => v >= 1000 ? (v/1000).toFixed(1).replace('.', ',') + 'k' : Math.round(v) });
   const aSp = avg(sp), aE = avg(ex), aC = avg(ca);
   set('wk-avg-spo2', aSp != null ? 'moy. ' + String(Math.round(aSp * 10) / 10).replace('.', ',') + ' %' : '');
   set('wk-avg-ex', aE != null ? 'moy. ' + Math.round(aE) + ' min/séance' : '');
