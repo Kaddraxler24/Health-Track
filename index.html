@@ -946,9 +946,10 @@ tbody tr:hover td { background: var(--bg3); }
 .qa-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
 .qa-btn span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 .qa-btn .ls { display: none; }
-@media (max-width: 380px) { .qa-btn .ll { display: none; } .qa-btn .ls { display: inline; } .qa-btn { font-size: 10px !important; padding: 10px 2px; } }
+@media (max-width: 360px) { .qa-btn .ll { display: none; } .qa-btn .ls { display: inline; } }
 .qa-btn.done { background: rgba(39,174,96,.1); border-color: rgba(39,174,96,.45); color: var(--a3); }
-.qa-btn { font-size: 11px !important; white-space: nowrap; min-height: 74px; justify-content: center; }
+.qa-btn { font-size: 10.5px !important; white-space: nowrap; min-height: 74px; justify-content: center; padding: 10px 2px !important; gap: 5px !important; letter-spacing: -.1px; }
+.qa-btn small { display: block; font: 700 11px var(--mono); color: var(--a3); margin-top: -2px; }
 .qa-btn .nv, .qa-btn .ic { width: 24px !important; height: 24px !important; }
 .qa-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 6px; border-radius: 12px; border: 1px solid var(--bdr);
   background: var(--bg3); color: var(--t); font: 600 12px var(--sans); cursor: pointer; transition: transform .1s, background .15s; }
@@ -1311,7 +1312,7 @@ function hideSplash() {
   <div id="flare-banner" class="alert al-red" style="display:none;align-items:center;flex-wrap:wrap;margin-bottom:var(--block-gap);"></div>
   <div class="card" id="dd-quick" data-dash="quick">
     <div class="qa-row">
-      <button class="qa-btn" id="qa-basdai" onclick="openExpress()"><svg class="nv"><use href="#n-eval"/></svg><span id="qa-basdai-l">BASDAI</span></button>
+      <button class="qa-btn" id="qa-basdai" onclick="openExpress()"><svg class="nv"><use href="#n-eval"/></svg><span id="qa-basdai-l">BASDAI</span><small id="qa-basdai-s" style="display:none"></small></button>
       <button class="qa-btn" onclick="openTemp()"><svg class="ic"><use href="#i-thermo"/></svg><span class="ll">Température</span><span class="ls">Temp.</span></button>
       <button class="qa-btn" onclick="openMed()"><svg class="ic"><use href="#i-pill"/></svg><span class="ll">Médicament</span><span class="ls">Médic.</span></button>
       <button class="qa-btn" onclick="nav('calendar')"><svg class="nv"><use href="#n-cal"/></svg><span>Calendrier</span></button>
@@ -7350,7 +7351,7 @@ function quickInjDone() {
 // ═══ ACCUEIL : ACTIONS RAPIDES ═══
 function renderQuick() {
   const ex = (D.entries || []).find(e => e.date === basdaiDefaultDate()), qb = document.getElementById('qa-basdai');
-  if (qb) document.getElementById('qa-basdai-l').textContent = ex ? 'BASDAI ' + fr1(ex.basdai) + ' ✓' : 'BASDAI';
+  if (qb) { document.getElementById('qa-basdai-l').textContent = ex ? 'BASDAI ✓' : 'BASDAI'; const sm = document.getElementById('qa-basdai-s'); sm.style.display = ex ? 'block' : 'none'; sm.textContent = ex ? fr1(ex.basdai) : ''; sm.style.color = ex ? bdColor(ex.basdai) : ''; }
   renderJournal();
 }
 
