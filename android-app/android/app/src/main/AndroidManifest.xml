@@ -44,6 +44,17 @@
 
         <!-- Montre : réponses aux notifications interactives (BASDAI, chrono, température, injection) -->
         <receiver android:name=".WatchFlow" android:exported="false" />
+        <!-- Appli Health K' de la montre (Wear OS) : réponses reçues par la couche de données Google -->
+        <service android:name=".WearListener" android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <data android:scheme="wear" android:host="*" android:pathPrefix="/hk/out" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+                <data android:scheme="wear" android:host="*" android:pathPrefix="/hk/hello" />
+            </intent-filter>
+        </service>
         <receiver android:name=".WatchBoot" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

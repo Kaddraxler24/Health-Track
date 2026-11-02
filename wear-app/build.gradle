@@ -1,0 +1,4 @@
+// Appli Health K' pour la montre (Wear OS, Galaxy Watch 4 et plus récentes)
+plugins {
+    id 'com.android.application' version '8.13.0' apply false
+}

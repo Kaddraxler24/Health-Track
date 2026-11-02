@@ -8,6 +8,7 @@ on:
     branches: [main]
     paths:
       - 'android-app/**'
+      - 'wear-app/**'
       - '.github/workflows/android.yml'
   workflow_dispatch:
 
@@ -49,13 +50,22 @@ jobs:
           test "${PIPESTATUS[0]}" -eq 0
           cp app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/health-k.apk"
 
+      # Appli de la montre (Wear OS) : même identifiant et même clé que l'appli du téléphone
+      - name: Construire l'appli montre
+        working-directory: wear-app
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon --stacktrace 2>&1 | tee "$RUNNER_TEMP/build.log"
+          test "${PIPESTATUS[0]}" -eq 0
+          cp app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/health-k-montre.apk"
+
       - name: Publier l'APK
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           # Release recréée à chaque construction : la date affichée sur GitHub est celle de la dernière version
           gh release delete android --yes --cleanup-tag >/dev/null 2>&1 || true
-          gh release create android "$RUNNER_TEMP/health-k.apk" --title "Health K' 1.${GITHUB_RUN_NUMBER} pour Android" --latest \
+          gh release create android "$RUNNER_TEMP/health-k.apk" "$RUNNER_TEMP/health-k-montre.apk" --title "Health K' 1.${GITHUB_RUN_NUMBER} pour Android" --latest \
             --notes "Appli Android de Health K', reliée à Santé Connect. Version 1.${GITHUB_RUN_NUMBER} construite le $(TZ=Europe/Paris date +%d/%m/%Y) à $(TZ=Europe/Paris date +%H:%M) (heure de Paris). Téléchargement le plus simple : https://kaddraxler24.github.io/Health-Track/android.html"
 
       # Copie aussi l'APK sur le site (même adresse que l'appli) : téléchargement direct, sans redirection
@@ -64,7 +74,8 @@ jobs:
           git clone -q --depth 1 "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git" "$RUNNER_TEMP/site"
           cd "$RUNNER_TEMP/site"
           cp "$RUNNER_TEMP/health-k.apk" health-k.apk
-          git add health-k.apk
+          cp "$RUNNER_TEMP/health-k-montre.apk" health-k-montre.apk
+          git add health-k.apk health-k-montre.apk
           git -c user.name=github-actions -c user.email=actions@github.com commit -qm "APK Health K' 1.${GITHUB_RUN_NUMBER}" || exit 0
           git push -q origin HEAD:main
 

@@ -62,14 +62,14 @@ public class WatchFlow extends BroadcastReceiver {
             switch (a) {
                 case A_ALARM_BASDAI:
                     scheduleAll(ctx);
-                    if (!isDone(ctx, today())) startBasdai(ctx, false);
+                    if (!isDone(ctx, today()) && !wearAppRecent(ctx)) startBasdai(ctx, false);
                     break;
                 case A_ALARM_MORNING:
                     scheduleAll(ctx);
-                    if (morningMin(ctx, today()) < 0) postMorning(ctx);
+                    if (morningMin(ctx, today()) < 0 && !wearAppRecent(ctx)) postMorning(ctx);
                     break;
                 case A_ALARM_HUB:
-                    scheduleAll(ctx); postHub(ctx, false); break;
+                    scheduleAll(ctx); if (!wearAppRecent(ctx)) postHub(ctx, false); break;
                 case A_HUB: postHub(ctx, false); break;
                 case A_BASDAI: startBasdai(ctx, true); break;
                 case A_ANSWER: answer(ctx, in.getIntExtra("step", 0), readValue(in, in.getIntExtra("v", -1))); break;
@@ -148,6 +148,7 @@ public class WatchFlow extends BroadcastReceiver {
         w.putString("basdai", fr1(b)).putString("basdaiDate", d.substring(8, 10) + "/" + d.substring(5, 7)).apply();
         HealthKWidget.refreshAll(ctx);
         refreshHubIfShown(ctx);
+        WearSync.pushState(ctx);
     }
 
     static void postQuestion(Context ctx, int step, JSONObject flow) throws Exception {
@@ -328,6 +329,82 @@ public class WatchFlow extends BroadcastReceiver {
         JSONArray a = pending(ctx).optJSONArray("inj");
         if (a != null) for (int i = 0; i < a.length(); i++) if (d.equals(a.optString(i))) return true;
         return d.equals(cfg.optString("lastInj", ""));
+    }
+
+
+    // ─────────────────────────── Appli montre (Wear OS) ───────────────────────────
+    /** L'appli Health K' de la montre s'est manifestée ces 14 derniers jours : c'est elle qui pose les questions. */
+    static boolean wearAppRecent(Context ctx) {
+        return System.currentTimeMillis() - prefs(ctx).getLong("wearSeen", 0) < 14L * 86400000L;
+    }
+
+    /** Réponse envoyée par l'appli de la montre : vérifiée puis mise en attente pour Health K'. Renvoie un résumé ou null. */
+    static String applyFromWatch(Context ctx, JSONObject o) throws Exception {
+        String type = o.optString("type"), date = o.optString("date", "");
+        prefs(ctx).edit().putLong("wearSeen", System.currentTimeMillis()).apply();
+        boolean okDate = date.matches("\\d{4}-\\d{2}-\\d{2}") && date.compareTo(today()) <= 0;
+        JSONObject p = pending(ctx);
+        switch (type) {
+            case "basdai": {
+                if (!okDate || isDone(ctx, date)) return null;
+                int[] q = new int[6];
+                for (int i = 1; i <= 5; i++) { q[i] = o.optInt("q" + i, -1); if (q[i] < 0 || q[i] > 10) return null; }
+                int q6m = o.optInt("q6m", -1); if (q6m < 0 || q6m > 600) return null;
+                double q6 = q6Score(q6m);
+                double b = Math.round(((q[1] + q[2] + q[3] + q[4] + (q[5] + q6) / 2.0) / 5.0) * 10) / 10.0;
+                JSONObject e = new JSONObject();
+                e.put("date", date);
+                for (int i = 1; i <= 5; i++) e.put("q" + i, q[i]);
+                e.put("q6m", q6m); e.put("q6", q6); e.put("basdai", b); e.put("at", System.currentTimeMillis());
+                JSONArray entries = p.optJSONArray("entries"); if (entries == null) entries = new JSONArray();
+                entries.put(e); p.put("entries", entries);
+                prefs(ctx).edit().putString("pending", p.toString()).apply();
+                SharedPreferences.Editor w = ctx.getSharedPreferences(HealthKWidget.PREFS, Context.MODE_PRIVATE).edit();
+                w.putString("basdai", fr1(b)).putString("basdaiDate", date.substring(8, 10) + "/" + date.substring(5, 7)).apply();
+                HealthKWidget.refreshAll(ctx);
+                return "BASDAI " + fr1(b);
+            }
+            case "morning": {
+                int m = o.optInt("min", -1);
+                if (!okDate || m < 0 || m > 600) return null;
+                saveMorning(ctx, date, m);
+                return "raideur " + m + " min";
+            }
+            case "temp": {
+                double v = o.optDouble("value", -1);
+                if (!okDate || v < 34 || v > 43) return null;
+                JSONArray t = p.optJSONArray("temps"); if (t == null) t = new JSONArray();
+                JSONObject x = new JSONObject(); x.put("value", Math.round(v * 10) / 10.0); x.put("at", o.optLong("at", System.currentTimeMillis())); x.put("date", date);
+                t.put(x); p.put("temps", t);
+                prefs(ctx).edit().putString("pending", p.toString()).apply();
+                return "température " + fr1(v) + " °C";
+            }
+            case "inj": {
+                if (!okDate) return null;
+                JSONArray a = p.optJSONArray("inj"); if (a == null) a = new JSONArray();
+                for (int i = 0; i < a.length(); i++) if (date.equals(a.optString(i))) return null;
+                a.put(date); p.put("inj", a);
+                prefs(ctx).edit().putString("pending", p.toString()).apply();
+                return "injection";
+            }
+        }
+        return null;
+    }
+
+    /** État envoyé à la montre : réglages + réponses pas encore reprises par l'appli. */
+    static JSONObject stateForWatch(Context ctx) throws Exception {
+        JSONObject c = cfg(ctx), p = pending(ctx);
+        JSONObject done = c.optJSONObject("done"); if (done == null) done = new JSONObject();
+        JSONArray e = p.optJSONArray("entries");
+        if (e != null) for (int i = 0; i < e.length(); i++) { JSONObject o = e.optJSONObject(i); if (o != null) done.put(o.optString("date"), o.optDouble("basdai")); }
+        c.put("done", done);
+        JSONObject m = c.optJSONObject("morning"); if (m == null) m = new JSONObject();
+        JSONObject pm = p.optJSONObject("morning");
+        if (pm != null) for (java.util.Iterator<String> it = pm.keys(); it.hasNext(); ) { String k = it.next(); m.put(k, pm.optInt(k)); }
+        c.put("morning", m);
+        JSONArray inj = p.optJSONArray("inj");
+        if (inj != null) for (int i = 0; i < inj.length(); i++) if (inj.optString(i).compareTo(c.optString("lastInj", "")) > 0) c.put("lastInj", inj.optString(i));
+        return c;
     }
 
     // ─────────────────────────── Alarmes ───────────────────────────
