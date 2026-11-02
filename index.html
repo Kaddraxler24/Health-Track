@@ -943,7 +943,8 @@ tbody tr:hover td { background: var(--bg3); }
 @media (max-width: 768px) { .wk-tiles { grid-template-columns: 1fr 1fr; } .wk-tile-value { font-size: 20px; } }
 
 /* ═══ ACCUEIL : ACTIONS RAPIDES & JOURNAL ═══ */
-.qa-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(68px, 1fr)); gap: 8px; }
+.qa-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.qa-btn.done { background: rgba(39,174,96,.1); border-color: rgba(39,174,96,.45); color: var(--a3); }
 .qa-btn { font-size: 11px !important; }
 .qa-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 6px; border-radius: 12px; border: 1px solid var(--bdr);
   background: var(--bg3); color: var(--t); font: 600 12px var(--sans); cursor: pointer; transition: transform .1s, background .15s; }
@@ -1016,6 +1017,7 @@ tbody tr:hover td { background: var(--bg3); }
 .dash-order span { flex: 1; }
 #page-dashboard.active { display: flex; flex-direction: column; }
 #page-dashboard.active > * { flex-shrink: 0; }
+.dash-hidden { display: none !important; }
 
 /* ═══ MODE SOMBRE ═══ */
 html[data-theme="dark"] { color-scheme: dark; }
@@ -1303,14 +1305,10 @@ function hideSplash() {
   <div id="flare-banner" class="alert al-red" style="display:none;align-items:center;flex-wrap:wrap;margin-bottom:var(--block-gap);"></div>
   <div class="card" id="dd-quick" data-dash="quick">
     <div class="qa-row">
-      <button class="qa-btn hot" onclick="openExpress()"><svg class="nv"><use href="#n-eval"/></svg>BASDAI express</button>
-      <button class="qa-btn" onclick="openMorning()"><svg class="nv"><use href="#n-pulse"/></svg>Raideur</button>
+      <button class="qa-btn hot" id="qa-basdai" onclick="openExpress()"><svg class="nv"><use href="#n-eval"/></svg><span id="qa-basdai-l">BASDAI express</span></button>
       <button class="qa-btn" onclick="openTemp()"><svg class="ic"><use href="#i-thermo"/></svg>Température</button>
-      <button class="qa-btn" onclick="document.getElementById('jr-text').focus()"><svg class="ic"><use href="#i-note"/></svg>Note</button>
-      <button class="qa-btn" onclick="openFlare()"><svg class="ic"><use href="#i-bolt"/></svg>Poussée</button>
       <button class="qa-btn" onclick="openMed()"><svg class="ic"><use href="#i-pill"/></svg>Médicament</button>
       <button class="qa-btn" onclick="nav('calendar')"><svg class="nv"><use href="#n-cal"/></svg>Calendrier</button>
-      <button class="qa-btn hot" id="qa-inj" style="display:none" onclick="openInjDone()"><svg class="nv"><use href="#n-syringe"/></svg>Injection faite</button>
     </div>
   </div>
 
@@ -2983,11 +2981,14 @@ function hideSplash() {
       <input type="date" class="form-input" id="xp-date" style="width:auto;padding:6px 8px;">
       <button class="btn btn-secondary btn-sm" onclick="xpLikeYesterday()">Comme la dernière fois</button>
     </div>
+    <div id="xp-form">
     <div id="xp-qs"></div>
     <div class="xp-q"><label>Q6 — Durée de la raideur matinale <b id="xp-v6">0 min</b></label><input type="range" min="0" max="120" step="5" id="xp-q6" oninput="xpCalc()"></div>
     <div class="xp-total" id="xp-total">—</div>
     <div style="font-size:11px;color:var(--t3);text-align:center;margin-bottom:6px;">Pour les symptômes associés et les notes, utilise l'évaluation complète.</div>
     <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('m-express');nav('daily')">Évaluation complète</button><button class="btn btn-primary" onclick="saveExpress()">Enregistrer</button></div>
+    </div>
+    <div id="xp-result" style="display:none"></div>
   </div>
 </div>
 
@@ -7238,11 +7239,26 @@ function openExpress(forDate) {
   const date = typeof forDate === 'string' ? forDate : basdaiDefaultDate();
   document.getElementById('xp-date').value = date;
   const ex = (D.entries || []).find(e => e.date === date);
+  // Déjà fait aujourd'hui (action rapide, notification) : on montre le résultat, pas de nouvelle saisie
+  const showResult = !!ex && typeof forDate !== 'string';
+  document.getElementById('xp-form').style.display = showResult ? 'none' : '';
+  document.getElementById('xp-result').style.display = showResult ? '' : 'none';
+  document.querySelector('#m-express .modal-header + div').style.display = showResult ? 'none' : 'flex';
+  if (showResult) { document.getElementById('xp-result').innerHTML = xpResultHtml(ex); openModal('m-express'); return; }
   document.getElementById('xp-qs').innerHTML = XP_Q.map(([k, l]) => `<div class="xp-q"><label>${l} <b id="xp-v-${k}">5</b></label><input type="range" min="0" max="10" step="1" value="5" id="xp-${k}" oninput="xpCalc()"></div>`).join('');
   XP_Q.forEach(([k]) => { if (ex && ex[k] != null) document.getElementById('xp-' + k).value = ex[k]; });
   const m = (D.morning || {})[date];
   document.getElementById('xp-q6').value = ex ? (ex.q6m || 0) : (m != null ? m : 0);
   xpCalc(); openModal('m-express');
+}
+function xpResultHtml(e) {
+  const rows = [...XP_Q.map(([k, l]) => [l, e[k] != null ? e[k] + '/10' : '—']), ['Q6 — Durée de la raideur matinale', (e.q6m ?? '—') + ' min']];
+  return `<div style="text-align:center;margin:4px 0 10px;"><div style="font-size:12px;color:var(--t2);">Évaluation du ${parseDay(e.date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}</div>
+    <div class="xp-total" style="color:${bdColor(e.basdai)}">BASDAI ${fr1(e.basdai)}</div>
+    <div style="font-size:12px;color:var(--t2);">${e.basdai < 4 ? 'Sous le seuil d\'activité (4)' : e.basdai < 6 ? 'Maladie active (4 à 6)' : 'Maladie très active (plus de 6)'}</div></div>`
+    + rows.map(([l, v]) => `<div class="li-row"><div class="li-main">${l}</div><b style="font-family:var(--mono)">${v}</b></div>`).join('')
+    + `<div style="font-size:11px;color:var(--t3);text-align:center;margin:10px 0 4px;">Une évaluation par jour : la prochaine sera possible demain.</div>
+    <div class="modal-footer"><button class="btn btn-secondary" onclick="closeModal('m-express');nav('scores')">Voir l'historique</button><button class="btn btn-primary" onclick="closeModal('m-express')">Fermer</button></div>`;
 }
 function xpVals() { const v = {}; XP_Q.forEach(([k]) => v[k] = +document.getElementById('xp-' + k).value); v.q6m = +document.getElementById('xp-q6').value; v.q6 = q6Score(v.q6m); v.basdai = Math.round(((v.q1 + v.q2 + v.q3 + v.q4 + (v.q5 + v.q6) / 2) / 5) * 10) / 10; return v; }
 function xpCalc() {
@@ -7266,7 +7282,7 @@ function saveExpress() {
   const snap = undoPoint();
   if (same) D.entries = D.entries.filter(e => e !== same);
   D.entries.push({ ...(same || {}), id: same ? same.id : Date.now(), date, ctx: (same && same.ctx) || 'RAS', ...v, express: !same || same.express });
-  save(); closeModal('m-express'); renderDash();
+  save(); closeModal('m-express'); renderDash(); renderQuick();
   toastUndo('✓ BASDAI ' + String(v.basdai).replace('.', ',') + ' enregistré', snap);
 }
 
@@ -7332,8 +7348,8 @@ function quickInjDone() {
 
 // ═══ ACCUEIL : ACTIONS RAPIDES ═══
 function renderQuick() {
-  const n = typeof calcNextInjection === 'function' ? calcNextInjection() : null, b = document.getElementById('qa-inj');
-  if (b) b.style.display = n && n.daysLeft <= 0 && !injLog().some(x => x.date === toISODay(new Date())) ? 'flex' : 'none';
+  const ex = (D.entries || []).find(e => e.date === basdaiDefaultDate()), qb = document.getElementById('qa-basdai');
+  if (qb) { qb.classList.toggle('done', !!ex); qb.classList.toggle('hot', !ex); document.getElementById('qa-basdai-l').textContent = ex ? 'BASDAI ' + fr1(ex.basdai) + ' ✓' : 'BASDAI express'; }
   renderJournal();
 }
 
@@ -7782,7 +7798,7 @@ const DASH_BLOCKS = [['quick', 'Actions rapides'], ['journal', 'Comment ça va a
 function dashCfg() { const c = D.dash || {}; const order = (c.order || []).filter(k => DASH_BLOCKS.some(b => b[0] === k)); DASH_BLOCKS.forEach(([k]) => { if (!order.includes(k)) order.push(k); }); return { order, hidden: c.hidden || [] }; }
 function applyDash() {
   const c = dashCfg();
-  document.querySelectorAll('#page-dashboard [data-dash]').forEach(el => { const k = el.dataset.dash; el.style.order = 10 + c.order.indexOf(k); if (c.hidden.includes(k)) el.style.setProperty('display', 'none', 'important'); else el.style.removeProperty('display'); });
+  document.querySelectorAll('#page-dashboard [data-dash]').forEach(el => { const k = el.dataset.dash; el.style.order = 10 + c.order.indexOf(k); el.classList.toggle('dash-hidden', c.hidden.includes(k)); });
 }
 function renderDashSettings() {
   const c = dashCfg(), el = document.getElementById('st-dash'); if (!el) return;
