@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Petite icône des notifications (monochrome) : cœur + pouls du logo Health K' -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp" android:viewportWidth="38" android:viewportHeight="38">
+    <path android:fillColor="#00000000" android:strokeColor="#FFFFFFFF" android:strokeWidth="2.6" android:strokeLineJoin="round"
+        android:pathData="M19,28.2c-4.8,-3.2 -8.4,-6.4 -8.4,-10.4 0,-2.7 2,-4.7 4.4,-4.7 1.7,0 3.1,0.9 4,2.4 0.9,-1.5 2.3,-2.4 4,-2.4 2.4,0 4.4,2 4.4,4.7 0,4 -3.6,7.2 -8.4,10.4Z"/>
+    <path android:fillColor="#00000000" android:strokeColor="#FFFFFFFF" android:strokeWidth="2.6" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M4.4,19.4h9l1.6,-3.4 2.4,6.6 2.2,-4.8 1.2,1.6h12.8"/>
+</vector>

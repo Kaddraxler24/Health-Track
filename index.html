@@ -2608,6 +2608,29 @@ function hideSplash() {
     </div>
   </div>
 
+  <div class="card" id="rm-watch-card">
+    <div class="card-header"><div class="card-title"><span class="card-title-dot" style="background:var(--a)"></span>Sur la montre</div></div>
+    <div class="rm-item">
+      <div class="rm-ic" style="background:rgba(15,159,154,.1);color:var(--a);"><svg class="nv"><use href="#n-watch"/></svg></div>
+      <div class="rm-body">
+        <div class="rm-title">Questions sur la Galaxy Watch</div>
+        <div class="rm-desc">Le BASDAI du soir (Q1 à Q6) et la raideur du matin arrivent comme des questions : tu réponds en touchant un chiffre sur la montre, sans ouvrir l'appli. Les réponses s'ajoutent à Health K' à sa prochaine ouverture. Aucune appli à installer sur la montre.</div>
+      </div>
+      <label class="sw"><input type="checkbox" id="rm-watch-on" onchange="rmSave()"><span></span></label>
+    </div>
+    <div class="rm-item">
+      <div class="rm-ic" style="background:rgba(42,143,214,.1);color:var(--a6);"><svg class="nv"><use href="#n-dash"/></svg></div>
+      <div class="rm-body">
+        <div class="rm-title">Menu du jour sur la montre</div>
+        <div class="rm-desc">Une notification « Health K' » reste sur la montre avec le BASDAI du jour et la prochaine injection. Ses boutons : faire le BASDAI, chrono de raideur, température, injection faite.</div>
+        <div class="rm-opts">tous les jours à <input type="time" class="form-input" id="rm-watch-hubtime" onchange="rmSave()"></div>
+      </div>
+      <label class="sw"><input type="checkbox" id="rm-watch-hub" onchange="rmSave()"><span></span></label>
+    </div>
+    <div class="wk-status" id="rm-watch-status" style="margin:8px 0;">—</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;" id="rm-watch-actions"></div>
+  </div>
+
   <div class="card">
     <div class="card-header">
       <div class="card-title"><span class="card-title-dot" style="background:var(--a6)"></span>Prochains rappels</div>
@@ -7091,7 +7114,7 @@ function drawWkChart(canvas, pts, o) {
 }
 
 // ═══ RAPPELS & NOTIFICATIONS (appli Android) ═══
-const RM_DEFAULT = { inj: { on: true, j3: true, j2: true, time: '10:00' }, morning: { on: true, time: '08:00' }, basdai: { on: true, time: '21:00' }, backup: { on: true, dow: 0, time: '18:00' } };
+const RM_DEFAULT = { inj: { on: true, j3: true, j2: true, time: '10:00' }, morning: { on: true, time: '08:00' }, basdai: { on: true, time: '21:00' }, backup: { on: true, dow: 0, time: '18:00' }, watch: { on: true, hub: true, hubTime: '07:30' } };
 function RM() { const r = D.reminders || {}; const o = {}; Object.keys(RM_DEFAULT).forEach(k => o[k] = { ...RM_DEFAULT[k], ...(r[k] || {}) }); return o; }
 const DOW_FR = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
 let rmTimer = null, rmPermission = null, rmListening = false;
@@ -7107,8 +7130,8 @@ function rmPlan() {
   const doneDays = new Set((D.entries || []).map(e => e.date));
   for (let i = 0; i < 30; i++) {
     const d = new Date(today0); d.setDate(d.getDate() + i); const k = toISODay(d);
-    if (R.basdai.on && !doneDays.has(k)) add(1000 + i, atTime(d, R.basdai.time), 'Évaluation BASDAI du soir', 'Touche ici pour l\'évaluation express (30 secondes).', { go: 'express', date: k });
-    if (R.morning.on && !(D.morning || {})[k]) add(2000 + i, atTime(d, R.morning.time), 'Raideur matinale', 'Combien de temps dure ta raideur ce matin ? Réponds avec un bouton, ou touche ici pour le chrono.', { go: 'morning', date: k }, 'MORNING');
+    if (R.basdai.on && !doneDays.has(k) && !watchActive()) add(1000 + i, atTime(d, R.basdai.time), 'Évaluation BASDAI du soir', 'Touche ici pour l\'évaluation express (30 secondes).', { go: 'express', date: k });
+    if (R.morning.on && (D.morning || {})[k] == null && !watchActive()) add(2000 + i, atTime(d, R.morning.time), 'Raideur matinale', 'Combien de temps dure ta raideur ce matin ? Réponds avec un bouton, ou touche ici pour le chrono.', { go: 'morning', date: k }, 'MORNING');
   }
   if (R.inj.on && typeof calcNextInjection === 'function') {
     const n = calcNextInjection();
@@ -7190,6 +7213,7 @@ async function remInit() {
     rmPermission = perm.display;
     if (perm.display === 'prompt' && !D.rmAsked) { D.rmAsked = true; save(); await rmAskPermission(true); }
   } catch (e) { console.warn('Rappels', e); }
+  await watchInit();
   remScheduleNow();
 }
 async function rmAskPermission(silent) {
@@ -7215,6 +7239,7 @@ function renderReminders() {
   set('rm-morning-on', R.morning.on); set('rm-morning-time', R.morning.time);
   set('rm-basdai-on', R.basdai.on); set('rm-basdai-time', R.basdai.time);
   set('rm-backup-on', R.backup.on); set('rm-backup-dow', R.backup.dow); set('rm-backup-time', R.backup.time);
+  set('rm-watch-on', R.watch.on); set('rm-watch-hub', R.watch.hub); set('rm-watch-hubtime', R.watch.hubTime); renderWatchCard();
   const st = document.getElementById('rm-status'), act = document.getElementById('rm-actions'), IC = n => `<svg class=ic><use href=#i-${n}></use></svg>`;
   if (!st) return;
   if (!IS_NATIVE) {
@@ -7238,6 +7263,7 @@ function rmSave() {
   R.morning = { on: g('rm-morning-on').checked, time: g('rm-morning-time').value || '08:00' };
   R.basdai = { on: g('rm-basdai-on').checked, time: g('rm-basdai-time').value || '21:00' };
   R.backup = { on: g('rm-backup-on').checked, dow: +g('rm-backup-dow').value, time: g('rm-backup-time').value || '18:00' };
+  R.watch = { on: g('rm-watch-on').checked, hub: g('rm-watch-hub').checked, hubTime: g('rm-watch-hubtime').value || '07:30' };
   D.reminders = R; save(); renderReminders();
 }
 
@@ -7906,6 +7932,91 @@ async function widgetPushNow() {
       stock: D.stock ? D.stock.count + ' stylo' + (D.stock.count > 1 ? 's' : '') : null,
       flare: f ? 'Poussée jour ' + (Math.round((parseDay(toISODay(new Date())) - parseDay(f.start)) / 86400000) + 1) : null });
   } catch (e) { /* ancienne version de l'appli Android : pas de widget */ }
+  watchPushNow();
+}
+
+// ═══ MONTRE (Galaxy Watch) : questions interactives, sans appli sur la montre ═══
+// Le module natif HealthKWatch (APK ≥ 1.10) envoie des notifications auxquelles on répond depuis la montre.
+// Les réponses attendent dans le téléphone et sont reprises ici à l'ouverture (watchTake).
+let watchOK = false;
+function watchActive() { return IS_NATIVE && watchOK && RM().watch.on; }
+async function watchPushNow() {
+  if (!IS_NATIVE) return;
+  try {
+    const R = RM(), n = calcNextInjection();
+    const ents = [...(D.entries || [])].filter(e => e.basdai != null).sort((a, b) => b.date.localeCompare(a.date));
+    const done = {}; ents.slice(0, 10).forEach(e => { done[e.date] = e.basdai; });
+    const last = ents.find(e => [1, 2, 3, 4, 5].every(i => e['q' + i] != null));
+    const since = toISODay(new Date(Date.now() - 3 * 86400000)), morning = {};
+    Object.entries(D.morning || {}).forEach(([k, v]) => { if (k >= since && v != null) morning[k] = v; });
+    const lastInj = [...injLog()].sort((a, b) => b.date.localeCompare(a.date))[0];
+    await nativeCall('HealthKWatch', 'configure', {
+      on: !!R.watch.on, basdaiOn: !!R.basdai.on, basdaiTime: R.basdai.time, morningOn: !!R.morning.on, morningTime: R.morning.time,
+      hubOn: !!R.watch.hub, hubTime: R.watch.hubTime, injDate: n ? toISODay(n.nextDate) : '', injName: 'IMRALDI', lastInj: lastInj ? lastInj.date : '',
+      done, morning, last: last ? { q1: last.q1, q2: last.q2, q3: last.q3, q4: last.q4, q5: last.q5 } : null });
+    watchOK = true;
+  } catch (e) { watchOK = false; /* ancienne version de l'appli Android : pas de module montre */ }
+}
+async function watchInit() {
+  if (!IS_NATIVE) return;
+  await watchPushNow();
+  await watchTake();
+}
+// Reprend les réponses données sur la montre (chaque valeur est vérifiée avant d'entrer dans les données)
+async function watchTake() {
+  if (!IS_NATIVE || !watchOK) return;
+  let p; try { p = await nativeCall('HealthKWatch', 'takePending'); } catch (e) { return; }
+  if (!p || typeof p !== 'object') return;
+  const okDay = v => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) && !isNaN(parseDay(v)) && v <= toISODay(new Date());
+  const num = (v, lo, hi) => { v = Number(v); return Number.isFinite(v) && v >= lo && v <= hi ? v : null; };
+  const got = []; let changed = false;
+  (Array.isArray(p.entries) ? p.entries : []).forEach(e => {
+    if (!e || !okDay(e.date) || (D.entries || []).some(x => x.date === e.date)) return;   // une seule évaluation par jour : celle de l'appli prime
+    const v = {}; for (const k of ['q1', 'q2', 'q3', 'q4', 'q5']) { v[k] = num(e[k], 0, 10); if (v[k] == null) return; }
+    v.q6m = num(e.q6m, 0, 600); if (v.q6m == null) return;
+    v.q6 = q6Score(v.q6m); v.basdai = Math.round(((v.q1 + v.q2 + v.q3 + v.q4 + (v.q5 + v.q6) / 2) / 5) * 10) / 10;
+    D.entries = D.entries || [];
+    D.entries.push({ id: Date.now() + D.entries.length, date: e.date, ctx: 'RAS', ...v, express: true, watch: true });
+    got.push('BASDAI ' + fr1(v.basdai)); changed = true;
+  });
+  if (p.morning && typeof p.morning === 'object') Object.entries(p.morning).forEach(([k, m]) => {
+    m = num(m, 0, 600); if (!okDay(k) || m == null || (D.morning || {})[k] != null) return;
+    D.morning = { ...(D.morning || {}), [k]: m }; got.push('raideur ' + m + ' min'); changed = true;
+  });
+  (Array.isArray(p.temps) ? p.temps : []).forEach(t => {
+    const v = t && num(t.value, 34, 43), at = t && num(t.at, 1e12, Date.now() + 864e5);
+    if (v == null || at == null || !okDay(t.date)) return;
+    D.temps = [...(D.temps || []), { id: Math.round(at), at: new Date(at).toISOString(), date: t.date, value: Math.round(v * 10) / 10 }];
+    got.push('température ' + fr1(v) + ' °C'); changed = true;
+  });
+  (Array.isArray(p.inj) ? p.inj : []).forEach(k => {
+    if (!okDay(k) || injLog().some(x => x.date === k)) return;
+    injLog().push({ id: Date.now(), date: k, site: '', note: 'Notée depuis la montre' });
+    if (D.stock && D.stock.count > 0) D.stock.count--;
+    const nx = parseDay(k); nx.setDate(nx.getDate() + INJ_INTERVAL); injSchedule().anchor = toISODay(nx);
+    got.push('injection'); changed = true;
+  });
+  if (!changed) return;
+  save(); renderDash(); if (typeof renderQuick === 'function') renderQuick();
+  if (typeof renderImraldiPanels === 'function') renderImraldiPanels();
+  toast('⌚ Reçu de la montre : ' + got.join(', '), 'success');
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') watchTake(); });
+function renderWatchCard() {
+  const st = document.getElementById('rm-watch-status'), act = document.getElementById('rm-watch-actions'); if (!st) return;
+  const IC = n => `<svg class=ic><use href=#i-${n}></use></svg>`;
+  if (!IS_NATIVE) { st.innerHTML = '<span class="wk-dot" style="background:var(--a4)"></span>Fonctionne avec l\'appli Android Health K\' et une Galaxy Watch.'; act.innerHTML = ''; return; }
+  if (!watchOK) {
+    st.innerHTML = '<span class="wk-dot" style="background:var(--a4)"></span>Mets à jour l\'appli Android pour activer la montre.';
+    act.innerHTML = `<a class="btn btn-primary btn-sm" href="${APK_URL}" target="_blank" rel="noopener" style="text-decoration:none;">${IC('download')} Mettre à jour</a>`; return;
+  }
+  const R = RM();
+  st.innerHTML = R.watch.on ? '<span class="wk-dot" style="background:var(--a3)"></span>Activé. Les questions arrivent aussi sur le téléphone si la montre n\'est pas portée.' : '<span class="wk-dot" style="background:var(--t3)"></span>Désactivé : les rappels BASDAI et raideur restent sur le téléphone.';
+  act.innerHTML = R.watch.on ? `<button class="btn btn-primary btn-sm" onclick="watchNow('startBasdai')">Faire le BASDAI sur la montre</button><button class="btn btn-secondary btn-sm" onclick="watchNow('showHub')">Envoyer le menu</button>` : '';
+}
+async function watchNow(m) {
+  try { await watchPushNow(); await nativeCall('HealthKWatch', m); toast(m === 'showHub' ? '✓ Menu envoyé sur la montre' : '✓ Question 1 envoyée sur la montre', 'success'); }
+  catch (e) { toast('Montre indisponible : mets à jour l\'appli Android', 'warning'); }
 }
 
 // ═══ VERROUILLAGE PAR EMPREINTE (appli Android) ═══

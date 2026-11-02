@@ -55,4 +55,10 @@ Deux versions vivent en parallèle et doivent **toujours** être livrées ensemb
   App (liens `healthk://express|morning|temp|injection|note` du widget et des raccourcis), NativeBiometric (verrouillage),
   et `HealthKWidget` (plugin maison `android-app/android/app/src/main/java/.../WidgetPlugin.java` + `HealthKWidget.java`, widget d'écran d'accueil).
   Le code web tolère un ancien APK (module absent → la fonction est simplement ignorée, jamais de blocage).
+- **Montre (Galaxy Watch) sans appli sur la montre** : `WatchFlow.java` (+ `WatchPlugin.java` = module `HealthKWatch`, `WatchBoot.java`)
+  envoie des notifications interactives reprises par la montre : BASDAI Q1→Q6 (une notification par question, boutons 0–10),
+  raideur du matin (chrono), température, injection faite, et un « menu du jour ». Tout est traité en natif, l'appli n'est pas ouverte ;
+  les réponses attendent dans les préférences `healthk_watch` et sont reprises par `watchTake()` (valeurs vérifiées) à l'ouverture.
+  `watchPushNow()` envoie horaires / BASDAI déjà faits / dernière évaluation / injection. Quand la montre est active, les rappels
+  BASDAI et raideur du téléphone (LocalNotifications) sont remplacés (`watchActive()`).
 - Icônes Android : `node tools/build_android_icons.js`. Tests : simuler `window.Capacitor` (isNativePlatform + nativePromise) dans Playwright.
