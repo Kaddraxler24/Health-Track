@@ -3,7 +3,7 @@
 const {chromium}=require('playwright');const path=require('path');
 const RES=path.resolve(__dirname,'..','android-app','android','app','src','main','res');
 const LOGO=require('./logo.js');
-const BG='radial-gradient(circle at 50% 50%, #2a2f4d 0%, #1c1f2e 55%)';
+const BG='radial-gradient(circle at 50% 50%, #13505A 0%, #0E3B43 55%)';
 const D={mdpi:1,hdpi:1.5,xhdpi:2,xxhdpi:3,xxxhdpi:4};
 (async()=>{const b=await chromium.launch();const p=await b.newPage();
 const shot=async(file,size,scale,bg,round)=>{

@@ -8,7 +8,7 @@
     "cleartext": false
   },
   "android": {
-    "backgroundColor": "#1c1f2e"
+    "backgroundColor": "#0E3B43"
   },
   "plugins": {
     "SystemBars": {

@@ -2,8 +2,8 @@
 // Usage : node tools/build_icons.js
 const {chromium}=require('playwright');const path=require('path');const fs=require('fs');
 const ROOT=path.resolve(__dirname,'..');const LOGO=require('./logo.js');
-// Bords exactement #1c1f2e (= couleur de fond de l'écran d'ouverture) : l'icône s'y fond sans cadre visible
-const BG='radial-gradient(circle at 50% 50%, #2a2f4d 0%, #1c1f2e 55%)';
+// Bords exactement #0E3B43 (= couleur de fond de l'écran d'ouverture) : l'icône s'y fond sans cadre visible
+const BG='radial-gradient(circle at 50% 50%, #13505A 0%, #0E3B43 55%)';
 const ICONS=[ // [fichier, taille, part du logo, fond]
   ['icon-192.png',192,0.84,BG], ['icon-512.png',512,0.84,BG],
   ['icon-maskable-512.png',512,0.62,BG],      // zone de sécurité Android (cercle 80 %)
