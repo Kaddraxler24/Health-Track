@@ -21,8 +21,9 @@ import android.widget.TextView;
 /** Base des écrans : fond noir, cartes arrondies, boutons « pilule », molette / lunette rotative. */
 public abstract class HkActivity extends Activity {
 
-    static final int MINT = 0xFF34D3C3, TEAL = 0xFF0F9F9A, CARD = 0xFF111A1A, GREY = 0xFF1E2A29, T2 = 0xFF8FA5A2, WHITE = 0xFFFFFFFF,
-        VIOLET = 0xFF9D8CFF, ORANGE = 0xFFF0A030, CORAL = 0xFFF2685E, GREEN = 0xFF22C17A, BLUE = 0xFF5AB0F0;
+    // Thème « Menthe sapin » : fond noir, cartes vert sapin, bouton menthe plein (texte foncé)
+    static final int MINT = 0xFF34D3C3, TEAL = 0xFF34D3C3, ON_MINT = 0xFF062A2E, CARD = 0xFF0E3B43, GREY = 0xFF185159, DONE = 0xFF1F7F7A,
+        T2 = 0xFF9CC7C1, WHITE = 0xFFFFFFFF, VIOLET = 0xFFB3A4FF, ORANGE = 0xFFF7B34C, CORAL = 0xFFFF7A6E, GREEN = 0xFF3DDC97, BLUE = 0xFF6BC1FF;
     protected LinearLayout col;
     protected View root;
     private float rotAcc = 0;
@@ -151,8 +152,8 @@ public abstract class HkActivity extends Activity {
         TextView b = new TextView(this);
         b.setText(s);
         b.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-        b.setTextColor(fg);
-        b.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        b.setTextColor(bg == TEAL ? ON_MINT : fg);
+        b.setTypeface(Typeface.create("sans-serif", bg == TEAL ? Typeface.BOLD : Typeface.NORMAL));
         b.setGravity(Gravity.CENTER);
         b.setMinHeight(dp(42));
         b.setPadding(dp(12), dp(4), dp(12), dp(4));
@@ -221,7 +222,7 @@ public abstract class HkActivity extends Activity {
         for (int i = 1; i <= n; i++) {
             View d = new View(this);
             GradientDrawable g = new GradientDrawable(); g.setCornerRadius(dp(3));
-            g.setColor(i < current ? TEAL : i == current ? MINT : GREY);
+            g.setColor(i < current ? DONE : i == current ? MINT : GREY);
             d.setBackground(g);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dp(i == current ? 14 : 6), dp(6));
             lp.leftMargin = dp(2); lp.rightMargin = dp(2);

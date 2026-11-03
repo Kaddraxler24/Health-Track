@@ -42,7 +42,7 @@ public class HkTile extends TileService {
             .build();
     }
 
-    private LayoutElementBuilders.LayoutElement chip(String label, int bg, ModifiersBuilders.Clickable click) {
+    private LayoutElementBuilders.LayoutElement chip(String label, int bg, int fg, ModifiersBuilders.Clickable click) {
         return new LayoutElementBuilders.Box.Builder()
             .setWidth(DimensionBuilders.dp(130))
             .setHeight(DimensionBuilders.dp(40))
@@ -55,7 +55,7 @@ public class HkTile extends TileService {
                     .build())
                 .setClickable(click)
                 .build())
-            .addContent(text(label, 14, 0xFFFFFFFF, true))
+            .addContent(text(label, 14, fg, true))
             .build();
     }
 
@@ -72,12 +72,12 @@ public class HkTile extends TileService {
             .setModifiers(new ModifiersBuilders.Modifiers.Builder().setClickable(launch("menu", MainActivity.class)).build())
             .addContent(text("Health K'", 13, 0xFF34D3C3, true))
             .addContent(gap(4))
-            .addContent(text("BASDAI du jour", 12, 0xFFA9BDBA, false))
+            .addContent(text("BASDAI du jour", 12, 0xFF9CC7C1, false))
             .addContent(s >= 0 ? text(Store.fr1(s), 34, Store.color(s), true) : text("à faire", 22, 0xFFFFFFFF, true));
-        if (inj != null) col.addContent(text(inj, 12, 0xFFB7A8FF, false));
+        if (inj != null) col.addContent(text(inj, 12, 0xFFB3A4FF, false));
         col.addContent(gap(8));
-        col.addContent(s >= 0 ? chip("Raideur · Temp.", 0xFF22302F, launch("menu2", MainActivity.class))
-                              : chip("Faire le BASDAI", 0xFF0F9F9A, launch("basdai", BasdaiActivity.class)));
+        col.addContent(s >= 0 ? chip("Raideur · Temp.", 0xFF0E3B43, 0xFFFFFFFF, launch("menu2", MainActivity.class))
+                              : chip("Faire le BASDAI", 0xFF34D3C3, 0xFF062A2E, launch("basdai", BasdaiActivity.class)));
         LayoutElementBuilders.Box root = new LayoutElementBuilders.Box.Builder()
             .setWidth(DimensionBuilders.expand()).setHeight(DimensionBuilders.expand())
             .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)

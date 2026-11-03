@@ -220,7 +220,7 @@ public final class Store {
     static double basdai(int[] q, int q6m) {
         return Math.round(((q[1] + q[2] + q[3] + q[4] + (q[5] + q6Score(q6m)) / 2.0) / 5.0) * 10) / 10.0;
     }
-    static int color(double b) { return b < 4 ? 0xFF22C17A : b < 6 ? 0xFFF0A030 : 0xFFF2685E; }
+    static int color(double b) { return b < 4 ? 0xFF3DDC97 : b < 6 ? 0xFFF7B34C : 0xFFFF7A6E; }
     static String level(double b) { return b < 4 ? "Sous le seuil d'activité" : b < 6 ? "Maladie active (4 à 6)" : "Maladie très active (> 6)"; }
 
     static String fr1(double v) { return String.format(Locale.FRENCH, "%.1f", v).replace(".", ","); }

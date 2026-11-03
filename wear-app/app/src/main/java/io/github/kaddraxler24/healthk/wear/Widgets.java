@@ -23,10 +23,10 @@ final class Widgets {
         Ring(Context c, float strokeDp) {
             super(c);
             stroke = dp(c, strokeDp);
-            track.setStyle(Paint.Style.STROKE); track.setStrokeWidth(stroke); track.setColor(0xFF1E2A29);
+            track.setStyle(Paint.Style.STROKE); track.setStrokeWidth(stroke); track.setColor(0xFF185159);
             arc.setStyle(Paint.Style.STROKE); arc.setStrokeWidth(stroke); arc.setStrokeCap(Paint.Cap.ROUND);
             txt.setTextAlign(Paint.Align.CENTER); txt.setTypeface(Typeface.create("sans-serif", Typeface.BOLD)); txt.setColor(0xFFFFFFFF);
-            cap.setTextAlign(Paint.Align.CENTER); cap.setColor(0xFF8FA5A2); cap.setLetterSpacing(0.08f);
+            cap.setTextAlign(Paint.Align.CENTER); cap.setColor(0xFF9CC7C1); cap.setLetterSpacing(0.08f);
         }
 
         void set(float f, int col, String v, String c) { frac = Math.max(0, Math.min(1, f)); color = col; value = v; caption = c; invalidate(); }
@@ -80,7 +80,7 @@ final class Widgets {
 
     /** Barre de progression arrondie. */
     static class Progress extends View {
-        float frac = 0; int color = 0xFF9D8CFF;
+        float frac = 0; int color = 0xFFB3A4FF;
         private final Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
         private final RectF r = new RectF();
         Progress(Context c) { super(c); }
@@ -88,7 +88,7 @@ final class Widgets {
         @Override
         protected void onDraw(Canvas cv) {
             float w = getWidth(), h = getHeight();
-            p.setColor(0xFF1E2A29); r.set(0, 0, w, h); cv.drawRoundRect(r, h / 2, h / 2, p);
+            p.setColor(0xFF185159); r.set(0, 0, w, h); cv.drawRoundRect(r, h / 2, h / 2, p);
             if (frac > 0) { p.setColor(color); r.set(0, 0, Math.max(h, w * frac), h); cv.drawRoundRect(r, h / 2, h / 2, p); }
         }
     }

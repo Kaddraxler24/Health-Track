@@ -75,7 +75,7 @@ public class Reminders extends BroadcastReceiver {
         channels(c);
         PendingIntent pi = open(c, cls, id);
         NotificationCompat.Builder nb = new NotificationCompat.Builder(c, CH)
-            .setSmallIcon(R.drawable.ic_stat_hk).setColor(0xFF0F9F9A)
+            .setSmallIcon(R.drawable.ic_stat_hk).setColor(0xFF34D3C3)
             .setContentTitle(title).setContentText(text)
             .setContentIntent(pi).setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)

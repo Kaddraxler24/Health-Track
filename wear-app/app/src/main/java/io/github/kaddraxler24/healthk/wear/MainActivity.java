@@ -123,7 +123,7 @@ public class MainActivity extends HkActivity {
                 stat(r4, Store.num1(inj, "reflux"), "Reflux moy.", BLUE);
             }
             if (days != Integer.MIN_VALUE && days <= 0 && !Store.injDoneToday(this)) {
-                TextView ib = button(c3, "Injection faite", 0xFF4A3DA0, WHITE, null);
+                TextView ib = button(c3, "Injection faite", 0xFF5B4BB7, WHITE, null);
                 ib.setOnClickListener(v -> {
                     if (!injConfirm) { injConfirm = true; ib.setText("Confirmer l'injection ?"); return; }
                     try { Store.saveInj(this); } catch (Exception ignored) {}
