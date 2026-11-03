@@ -75,6 +75,9 @@ public class HkTile extends TileService {
             .addContent(text("BASDAI du jour", 12, 0xFFA9BDBA, false))
             .addContent(s >= 0 ? text(Store.fr1(s), 34, Store.color(s), true) : text("à faire", 22, 0xFFFFFFFF, true));
         if (inj != null) col.addContent(text(inj, 12, 0xFFB7A8FF, false));
+        org.json.JSONObject avg = Store.hist(this).optJSONObject("avg");
+        if (avg != null && avg.has("basdai") && !avg.isNull("basdai"))
+            col.addContent(text("Moyenne 10 j : " + Store.fr1(avg.optDouble("basdai")), 11, 0xFF8FA5A2, false));
         col.addContent(gap(8));
         col.addContent(s >= 0 ? chip("Raideur · Temp.", 0xFF22302F, launch("menu2", MainActivity.class))
                               : chip("Faire le BASDAI", 0xFF0F9F9A, launch("basdai", BasdaiActivity.class)));

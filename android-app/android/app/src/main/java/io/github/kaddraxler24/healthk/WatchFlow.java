@@ -356,6 +356,7 @@ public class WatchFlow extends BroadcastReceiver {
                 e.put("date", date);
                 for (int i = 1; i <= 5; i++) e.put("q" + i, q[i]);
                 e.put("q6m", q6m); e.put("q6", q6); e.put("basdai", b); e.put("at", System.currentTimeMillis());
+                for (String k : new String[] { "abd", "reflux" }) { int x = o.optInt(k, -1); if (x >= 0 && x <= 10) e.put(k, x); }
                 JSONArray entries = p.optJSONArray("entries"); if (entries == null) entries = new JSONArray();
                 entries.put(e); p.put("entries", entries);
                 prefs(ctx).edit().putString("pending", p.toString()).apply();

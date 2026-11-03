@@ -83,10 +83,55 @@ public final class Store {
         return injName(c) + " en retard de " + (-n) + " j";
     }
 
+    // ─────────────── Historique (envoyé par le téléphone) ───────────────
+    static JSONObject hist(Context c) { JSONObject h = state(c).optJSONObject("hist"); return h != null ? h : new JSONObject(); }
+
+    /** Derniers BASDAI (du plus ancien au plus récent), y compris ceux notés sur la montre et pas encore synchronisés. */
+    static java.util.List<double[]> series(Context c) {
+        java.util.TreeMap<String, Double> m = new java.util.TreeMap<>();
+        org.json.JSONArray a = hist(c).optJSONArray("series");
+        if (a != null) for (int i = 0; i < a.length(); i++) { JSONObject o = a.optJSONObject(i); if (o != null) m.put(o.optString("d"), o.optDouble("b")); }
+        JSONObject l = local(c).optJSONObject("done");
+        if (l != null) for (Iterator<String> it = l.keys(); it.hasNext(); ) { String k = it.next(); m.put(k, l.optDouble(k)); }
+        java.util.List<double[]> out = new java.util.ArrayList<>();
+        for (java.util.Map.Entry<String, Double> e : m.entrySet()) out.add(new double[] { dayNum(e.getKey()), e.getValue() });
+        while (out.size() > 14) out.remove(0);
+        return out;
+    }
+    static java.util.List<String> seriesDays(Context c) {
+        java.util.TreeSet<String> s = new java.util.TreeSet<>();
+        org.json.JSONArray a = hist(c).optJSONArray("series");
+        if (a != null) for (int i = 0; i < a.length(); i++) { JSONObject o = a.optJSONObject(i); if (o != null) s.add(o.optString("d")); }
+        JSONObject l = local(c).optJSONObject("done");
+        if (l != null) for (Iterator<String> it = l.keys(); it.hasNext(); ) s.add(it.next());
+        java.util.List<String> out = new java.util.ArrayList<>(s);
+        while (out.size() > 14) out.remove(0);
+        return out;
+    }
+    static boolean isLocal(Context c, String day) {
+        JSONObject l = local(c).optJSONObject("done");
+        if (l == null || !l.has(day)) return false;
+        org.json.JSONArray a = hist(c).optJSONArray("series");
+        if (a != null) for (int i = 0; i < a.length(); i++) { JSONObject o = a.optJSONObject(i); if (o != null && day.equals(o.optString("d"))) return false; }
+        return true;
+    }
+    static double dayNum(String d) { try { return parse(d).getTimeInMillis() / 86400000.0; } catch (Exception e) { return 0; } }
+
+    static final String[] DOW = { "dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam." };
+    static final String[] MON = { "janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc." };
+    /** « ven. 30 oct. » */
+    static String dayLabel(String d) {
+        try { Calendar c = parse(d); return DOW[c.get(Calendar.DAY_OF_WEEK) - 1] + " " + c.get(Calendar.DAY_OF_MONTH) + " " + MON[c.get(Calendar.MONTH)]; }
+        catch (Exception e) { return d; }
+    }
+    /** « 05/11 » */
+    static String short2(String d) { return d != null && d.length() == 10 ? d.substring(8, 10) + "/" + d.substring(5, 7) : "—"; }
+    static String num1(JSONObject o, String k) { return o != null && o.has(k) && !o.isNull(k) ? fr1(o.optDouble(k)) : "—"; }
+
     static int waiting(Context c) { return prefs(c).getStringSet("out", new HashSet<>()).size(); }
 
     // ─────────────── Écriture ───────────────
-    static void saveBasdai(Context c, String day, int[] q, int q6m, double score) throws Exception {
+    static void saveBasdai(Context c, String day, int[] q, int q6m, double score, int abd, int reflux) throws Exception {
         JSONObject l = local(c);
         JSONObject d = l.optJSONObject("done"); if (d == null) d = new JSONObject();
         d.put(day, score); l.put("done", d);
@@ -95,6 +140,8 @@ public final class Store {
         JSONObject o = new JSONObject(); o.put("type", "basdai"); o.put("date", day);
         for (int i = 1; i <= 5; i++) o.put("q" + i, q[i]);
         o.put("q6m", q6m);
+        if (abd >= 0) o.put("abd", abd);
+        if (reflux >= 0) o.put("reflux", reflux);
         send(c, o);
     }
 
