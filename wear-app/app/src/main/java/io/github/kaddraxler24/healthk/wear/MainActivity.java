@@ -8,11 +8,10 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/** Accueil Health K' : BASDAI du jour, actions rapides, 10 derniers jours, dernière saisie, IMRALDI, RDV. */
+/** Accueil Health K' : BASDAI du jour, actions rapides, dernière saisie, IMRALDI, RDV. */
 public class MainActivity extends HkActivity {
 
     private boolean injConfirm = false;
@@ -63,39 +62,11 @@ public class MainActivity extends HkActivity {
         boolean running = Store.prefs(this).getString("chrono", null) != null;
         action(acts, R.drawable.ic_timer, ORANGE, running ? "En cours" : m >= 0 ? Store.minutes(m) : "Raideur", v -> open(ChronoActivity.class));
         action(acts, R.drawable.ic_thermo, CORAL, "Temp.", v -> open(TempActivity.class));
-        action(acts, R.drawable.ic_chart, MINT, "Historique", v -> open(HistoryActivity.class));
-
-        // ── 10 derniers jours ──
-        JSONObject avg = h.optJSONObject("avg");
-        LinearLayout c1 = card(v -> open(HistoryActivity.class));
-        label(c1, "10 derniers jours", T2);
-        if (avg != null && avg.has("basdai") && !avg.isNull("basdai")) {
-            double ab = avg.optDouble("basdai");
-            TextView big = text(c1, Store.fr1(ab), 30, Store.color(ab), true);
-            big.setPadding(0, dp(4), 0, 0);
-            text(c1, "BASDAI moyen · " + (ab >= 4 ? "au-dessus du seuil" : "sous le seuil (4)"), 10, T2, false);
-        }
-        List<double[]> ser = Store.series(this);
-        if (!ser.isEmpty()) {
-            double[] vals = new double[ser.size()];
-            for (int i = 0; i < vals.length; i++) vals[i] = ser.get(i)[1];
-            Widgets.Bars bars = new Widgets.Bars(this);
-            bars.set(vals);
-            LinearLayout.LayoutParams bl = new LinearLayout.LayoutParams(-1, dp(38));
-            bl.topMargin = dp(8);
-            c1.addView(bars, bl);
-        }
-        if (avg != null) {
-            LinearLayout r1 = statRow(c1);
-            stat(r1, Store.num1(avg, "fatigue"), "Fatigue", CORAL);
-            stat(r1, avg.has("raideur") && !avg.isNull("raideur") ? avg.optInt("raideur") + " min" : "—", "Raideur", ORANGE);
-            stat(r1, String.valueOf(avg.optInt("days", 0)), "Jours", GREEN);
-        } else if (ser.isEmpty()) text(c1, "Ouvre Health K' sur le téléphone pour voir ton historique.", 11, T2, false);
 
         // ── Dernière saisie ──
         JSONObject last = h.optJSONObject("last");
         if (last != null) {
-            LinearLayout c2 = card(v -> open(HistoryActivity.class));
+            LinearLayout c2 = card(null);
             label(c2, "Dernière saisie", T2);
             LinearLayout top = new LinearLayout(this);
             top.setOrientation(LinearLayout.HORIZONTAL);

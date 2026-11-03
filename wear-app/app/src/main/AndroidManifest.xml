@@ -29,7 +29,6 @@
         <activity android:name=".BasdaiActivity" android:exported="false" />
         <activity android:name=".ChronoActivity" android:exported="false" />
         <activity android:name=".TempActivity" android:exported="false" />
-        <activity android:name=".HistoryActivity" android:exported="false" />
 
         <receiver android:name=".Reminders" android:exported="true">
             <intent-filter>
@@ -59,24 +58,5 @@
             <meta-data android:name="androidx.wear.tiles.PREVIEW" android:resource="@drawable/tile_preview" />
         </service>
 
-        <!-- Complications du cadran -->
-        <service android:name=".BasdaiComplication" android:exported="true" android:label="BASDAI du jour"
-            android:icon="@drawable/ic_stat_hk"
-            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
-            <intent-filter>
-                <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
-            </intent-filter>
-            <meta-data android:name="android.support.wearable.complications.SUPPORTED_TYPES" android:value="SHORT_TEXT" />
-            <meta-data android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS" android:value="1800" />
-        </service>
-        <service android:name=".InjComplication" android:exported="true" android:label="Prochaine injection"
-            android:icon="@drawable/ic_stat_hk"
-            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
-            <intent-filter>
-                <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
-            </intent-filter>
-            <meta-data android:name="android.support.wearable.complications.SUPPORTED_TYPES" android:value="SHORT_TEXT" />
-            <meta-data android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS" android:value="1800" />
-        </service>
     </application>
 </manifest>

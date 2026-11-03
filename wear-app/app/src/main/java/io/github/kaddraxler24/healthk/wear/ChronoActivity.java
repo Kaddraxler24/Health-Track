@@ -68,7 +68,7 @@ public class ChronoActivity extends HkActivity {
         long st = start();
         if (elapsed == null || st <= 0) return;
         int min = (int) ((System.currentTimeMillis() - st) / 60000);
-        elapsed.valueSp = 28;
+        elapsed.valueSp = 22;
         elapsed.set(((System.currentTimeMillis() - st) % 3600000) / 3600000f, ORANGE, Store.minutes(min), "minutes");
     }
 

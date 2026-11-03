@@ -1,10 +1,8 @@
 package io.github.kaddraxler24.healthk.wear;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.wear.tiles.TileService;
-import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.Wearable;
@@ -210,8 +208,6 @@ public final class Store {
 
     static void refreshSurfaces(Context c) {
         try { TileService.getUpdater(c).requestUpdate(HkTile.class); } catch (Throwable ignored) {}
-        try { ComplicationDataSourceUpdateRequester.create(c, new ComponentName(c, BasdaiComplication.class)).requestUpdateAll(); } catch (Throwable ignored) {}
-        try { ComplicationDataSourceUpdateRequester.create(c, new ComponentName(c, InjComplication.class)).requestUpdateAll(); } catch (Throwable ignored) {}
     }
 
     // ─────────────── Calculs ───────────────

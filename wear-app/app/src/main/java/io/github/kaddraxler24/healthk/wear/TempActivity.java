@@ -34,7 +34,7 @@ public class TempActivity extends HkActivity {
     private void show() {
         double v = t / 10.0;
         int c = v >= 38 ? CORAL : v >= 37.5 ? ORANGE : BLUE;
-        value.valueSp = 27;
+        value.valueSp = 23;
         value.set((float) ((v - 35) / 7), c, Store.fr1(v) + "°", "");
         warn.setText(v >= 38 ? "Fièvre : pas d'injection sans avis médical" : v >= 37.5 ? "Légère élévation" : "Normale");
         warn.setTextColor(v >= 38 ? CORAL : v >= 37.5 ? ORANGE : T2);

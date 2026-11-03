@@ -7940,6 +7940,27 @@ async function widgetPushNow() {
 // Les réponses attendent dans le téléphone et sont reprises ici à l'ouverture (watchTake).
 let watchOK = false, watchApp = false, watchLsn = false;
 function watchActive() { return IS_NATIVE && watchOK && RM().watch.on; }
+// Historique affiché sur la montre (mêmes calculs que l'Accueil)
+function watchHist(n, lastInj) {
+  const E = D.entries || [], l10 = E.slice(-10), avg = (a, f) => a.length ? Math.round(a.reduce((s, e) => s + (f(e) || 0), 0) / a.length * 10) / 10 : null;
+  const wa = l10.filter(e => e.abd != null), wr = l10.filter(e => e.reflux != null);
+  const sorted = [...E].filter(e => e.basdai != null).sort((a, b) => a.date.localeCompare(b.date)), le = sorted[sorted.length - 1];
+  const txt = el => el ? el.textContent.replace(/\s+/g, ' ').trim() : '';
+  const rdv = [...document.querySelectorAll('[data-perso="consult' + 'Next"] > .card')].map(c => ({ tag: txt(c.querySelector('.badge')), when: txt(c.querySelector('.card-header + div')), note: txt(c.querySelector('.card-header + div + div')) })).filter(r => r.when && !/^—$|Aucun RDV/.test(r.when));
+  const today0 = new Date(); today0.setHours(0, 0, 0, 0);
+  (D.consultations || []).filter(c => c.date && parseDay(c.date) >= today0).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 3).forEach(c => {
+    const when = parseDay(c.date).toLocaleDateString('fr-FR', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+    if (!rdv.some(r => r.when.toLowerCase() === when.toLowerCase())) rdv.push({ tag: c.type || 'RDV', when, note: c.motif || '' });
+  });
+  const tp = [...(D.temps || [])].sort((a, b) => b.at.localeCompare(a.at))[0];
+  return {
+    avg: { basdai: avg(l10, e => e.basdai), fatigue: avg(l10, e => e.q1), raideur: l10.length ? Math.round(l10.reduce((s, e) => s + (e.q6m || 0), 0) / l10.length) : null, days: E.length },
+    series: sorted.slice(-14).map(e => ({ d: e.date, b: e.basdai })),
+    last: le ? { date: le.date, basdai: le.basdai, q1: le.q1, q2: le.q2, q6m: le.q6m, abd: le.abd ?? null, ctx: le.ctx || 'RAS', inj: le.inj || '' } : null,
+    inj: { last: lastInj ? lastInj.date : '', next: n ? toISODay(n.nextDate) : '', total: injLog().length, abd: avg(wa, e => e.abd), reflux: avg(wr, e => e.reflux), interval: INJ_INTERVAL },
+    rdv: rdv.slice(0, 4),
+    temp: tp ? { v: tp.value, at: tp.at } : null };
+}
 async function watchPushNow() {
   if (!IS_NATIVE) return;
   try {
@@ -7953,7 +7974,7 @@ async function watchPushNow() {
     const r = await nativeCall('HealthKWatch', 'configure', {
       on: !!R.watch.on, basdaiOn: !!R.basdai.on, basdaiTime: R.basdai.time, morningOn: !!R.morning.on, morningTime: R.morning.time,
       hubOn: !!R.watch.hub, hubTime: R.watch.hubTime, injDate: n ? toISODay(n.nextDate) : '', injName: 'IMRALDI', lastInj: lastInj ? lastInj.date : '',
-      done, morning, last: last ? { q1: last.q1, q2: last.q2, q3: last.q3, q4: last.q4, q5: last.q5 } : null });
+      done, morning, last: last ? { q1: last.q1, q2: last.q2, q3: last.q3, q4: last.q4, q5: last.q5 } : null, hist: watchHist(n, lastInj) });
     watchOK = true; watchApp = !!(r && r.wearApp);
     // Réponses arrivées de l'appli de la montre pendant que Health K' est ouverte
     if (!watchLsn && window.Capacitor.addListener) { watchLsn = true; try { window.Capacitor.addListener('HealthKWatch', 'pending', () => watchTake()); } catch (e) {} }
@@ -7976,6 +7997,7 @@ async function watchTake() {
     if (!e || !okDay(e.date) || (D.entries || []).some(x => x.date === e.date)) return;   // une seule évaluation par jour : celle de l'appli prime
     const v = {}; for (const k of ['q1', 'q2', 'q3', 'q4', 'q5']) { v[k] = num(e[k], 0, 10); if (v[k] == null) return; }
     v.q6m = num(e.q6m, 0, 600); if (v.q6m == null) return;
+    for (const k of ['abd', 'reflux']) { const x = num(e[k], 0, 10); if (x != null) v[k] = Math.round(x); }
     v.q6 = q6Score(v.q6m); v.basdai = Math.round(((v.q1 + v.q2 + v.q3 + v.q4 + (v.q5 + v.q6) / 2) / 5) * 10) / 10;
     D.entries = D.entries || [];
     D.entries.push({ id: Date.now() + D.entries.length, date: e.date, ctx: 'RAS', ...v, express: true, watch: true });
