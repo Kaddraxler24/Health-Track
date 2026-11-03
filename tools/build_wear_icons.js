@@ -14,7 +14,7 @@ for(const [d,k] of Object.entries(D)) await shot(path.join(RES,'mipmap-'+d,'ic_l
 // Aperçu de la tuile (liste des tuiles de la montre)
 await p.setViewportSize({width:300,height:300});
 await p.setContent(`<html><body style="margin:0;background:transparent"><div style="width:300px;height:300px;border-radius:50%;background:#000;color:#fff;font-family:sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
-<div style="color:#34D3C3;font-weight:700;font-size:20px">Health K'</div><div style="color:#A9BDBA;font-size:17px">BASDAI du jour</div><div style="color:#22C17A;font-weight:700;font-size:52px;line-height:1">3,2</div><div style="color:#B7A8FF;font-size:17px">IMRALDI J-3</div>
-<div style="margin-top:10px;background:#0F9F9A;border-radius:30px;padding:12px 26px;font-weight:700;font-size:18px">Faire le BASDAI</div></div></body></html>`);
+<div style="color:#34D3C3;font-weight:700;font-size:20px">Health K'</div><div style="color:#9CC7C1;font-size:17px">BASDAI du jour</div><div style="color:#3DDC97;font-weight:700;font-size:52px;line-height:1">3,2</div><div style="color:#B3A4FF;font-size:17px">IMRALDI J-3</div>
+<div style="margin-top:10px;background:#34D3C3;color:#062A2E;border-radius:30px;padding:12px 26px;font-weight:700;font-size:18px">Faire le BASDAI</div></div></body></html>`);
 await p.screenshot({path:path.join(RES,'drawable','tile_preview.png'),omitBackground:true});
 await b.close();console.log('icônes montre OK');})();
